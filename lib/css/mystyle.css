@@ -1,0 +1,121 @@
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+h1 {
+	text-align: center;  
+	font-weight: 400;
+	font-size: 28px;
+	line-height: 46px;
+}
+
+h4 {
+	font-size: 17px;
+	font-weight: 600;
+}	
+
+td {
+	font-family: open sans;
+	font-size: 14px;
+	color: #53666d;
+	line-height: 21px;
+	border: none;
+	border-bottom: 1px solid #eaeef0;
+	padding: 15px 20px;
+	text-align: left;
+}
+
+caption, th, td {
+	font-weight: 400;
+	text-align: left;
+}
+
+
+#regForm {
+  background-color: #ffffff;
+  margin: 80px auto 0px auto;
+  font-family: sans-serif;
+  padding: 30px;
+  width: 80%;
+  min-width: 300px;
+}
+
+input {
+
+  width: 100%;
+  font-size: 16px;
+  font-family: sans-serif;
+  border: 1px solid #aaaaaa;
+}
+
+select {
+  width: 100%;
+  font-size: 16px;
+  font-family: sans-serif;
+  border: 1px solid #aaaaaa;
+	
+}
+
+/* Mark input boxes that gets an error on validation: */
+input.invalid {
+  background-color: #ffdddd;
+}
+
+/* Hide all steps by default: */
+.tab {
+  display: none;
+}
+
+button {
+  background-color: #4CAF50;
+  color: #ffffff;
+  border: none;
+  padding: 10px 20px;
+  font-size: 15px;
+  font-family: sans-serif;
+  cursor: pointer;
+}
+
+button:hover {
+  opacity: 0.8;
+}
+
+#prevBtn {
+  background-color: #bbbbbb;
+}
+
+/* Make circles that indicate the steps of the form: */
+.step {
+  height: 15px;
+  width: 15px;
+  margin: 0 2px;
+  background-color: #bbbbbb;
+  border: none;  
+  border-radius: 50%;
+  display: inline-block;
+  opacity: 0.5;
+}
+
+.step.active {
+  opacity: 1;
+}
+
+/* Mark the steps that are finished and valid: */
+.step.finish {
+  background-color: #4CAF50;
+}
+
+.infoform {
+  background-color: #ffffff;
+  margin: 80px auto 0px auto;
+  font-family: sans-serif;
+  padding: 30px;
+  width: 80%;
+  min-width: 300px;
+}
+.tableshadow {
+  border: 1px solid;
+  padding: 10px;
+  box-shadow:5px 2px 15px rgba(0,0,0,.2);
