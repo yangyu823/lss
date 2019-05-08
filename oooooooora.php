@@ -49,7 +49,7 @@ if ($connect->connect_error) {
         <link href="lib/bootstrap/css/datepicker.css" rel="stylesheet">
         <script type="text/javascript" src="lib/bootstrap/js/bootstrap-datepicker.js"></script>
 
-
+        <!--        ##### Style CSS-->
         <style type="text/css">
             body {
                 font-family: sans-serif;
@@ -277,14 +277,15 @@ if ($connect->connect_error) {
                     $("#addresour").css("display", "none");
                     $("#Requestres").css("display", "none");
                     $("#Managealloc").css("display", "none");
-                    $("#report").css("display", "none");
                     $("#searchr").css("display", "block");
+                    $("#Report").css("display", "none");
+
                     //left navigation pane Active link
                     $('#livestatlink').removeClass('active');
                     $('#addresourlink').removeClass('active');
                     $('#Managealloclink').removeClass('active');
+                    $('#Reportlink').removeClass('active');
                     $('#Requestreslink').removeClass('active');
-                    $('#reportlink').removeClass('active');
                     $('#searchrlink').addClass('active');
 
                 });
@@ -294,14 +295,15 @@ if ($connect->connect_error) {
                     $("#addresour").css("display", "none");
                     $("#Requestres").css("display", "none");
                     $("#Managealloc").css("display", "none");
-                    $("#report").css("display", "none");
                     $("#livestat").css("display", "block");
+                    $("#Report").css("display", "none");
+
                     //left navigation pane Active link
                     $('#searchrlink').removeClass('active');
                     $('#addresourlink').removeClass('active');
                     $('#Managealloclink').removeClass('active');
+                    $('#Reportlink').removeClass('active');
                     $('#Requestreslink').removeClass('active');
-                    $('#reportlink').removeClass('active');
                     $('#livestatlink').addClass('active');
                 });
 
@@ -311,14 +313,14 @@ if ($connect->connect_error) {
                     $("#searchr").css("display", "none");
                     $("#Requestres").css("display", "none");
                     $("#Managealloc").css("display", "none");
-                    $("#report").css("display", "none");
+                    $("#Report").css("display", "none");
                     $("#addresour").css("display", "block");
                     //left navigation pane Active link
                     $('#searchrlink').removeClass('active');
                     $('#livestatlink').removeClass('active');
                     $('#Managealloclink').removeClass('active');
+                    $('#Reportlink').removeClass('active');
                     $('#Requestreslink').removeClass('active');
-                    $('#reportlink').removeClass('active');
                     $('#addresourlink').addClass('active');
                 });
 
@@ -328,33 +330,34 @@ if ($connect->connect_error) {
                     $("#searchr").css("display", "none");
                     $("#Requestres").css("display", "none");
                     $("#addresour").css("display", "none");
-                    $("#report").css("display", "none");
+                    $("#Report").css("display", "none");
+                    $("#Managealloc").css("display", "block");
+                    //left navigation pane Active link
+                    $('#searchrlink').removeClass('active');
+                    $('#livestatlink').removeClass('active');
+                    $('#addresourlink').removeClass('active');
+                    $('#Reportlink').removeClass('active');
+                    $('#Requestreslink').removeClass('active');
+                    $('#Managealloclink').addClass('active');
+
+                });
+
+                // view Report
+                $("#Managealloclink").click(function () {
+                    $("#livestat").css("display", "none");
+                    $("#searchr").css("display", "none");
+                    $("#Requestres").css("display", "none");
+                    $("#addresour").css("display", "none");
+                    $("#Report").css("display", "none");
                     $("#Managealloc").css("display", "block");
                     //left navigation pane Active link
                     $('#searchrlink').removeClass('active');
                     $('#livestatlink').removeClass('active');
                     $('#addresourlink').removeClass('active');
                     $('#Requestreslink').removeClass('active');
-                    $('#reportlink').removeClass('active');
-                    $('#Managealloclink').addClass('active');
-
-                });
-
-                // view Report Page
-                $("#reportlink").click(function () {
-                    $("#livestat").css("display", "none");
-                    $("#searchr").css("display", "none");
-                    $("#Requestres").css("display", "none");
-                    $("#Managealloc").css("display", "none");
-                    $("#addresour").css("display", "none");
-                    $("#report").css("display", "block");
-                    //left navigation pane Active link
-                    $('#searchrlink').removeClass('active');
-                    $('#livestatlink').removeClass('active');
                     $('#Managealloclink').removeClass('active');
-                    $('#Requestreslink').removeClass('active');
-                    $('#addresourlink').removeClass('active');
-                    $('#reportlink').addClass('active');
+                    $('#Reportclink').addClass('active');
+
                 });
 
 
@@ -369,7 +372,8 @@ if ($connect->connect_error) {
                     $("#searchr").css("display", "none");
                     $("#addresour").css("display", "none");
                     $("#Managealloc").css("display", "none");
-                    $("#report").css("display", "none");
+                    $('#Report').css("display","none");
+
                     $("#Requestres").css("display", "block");
                     // View under the Resource management - right pane
                     $("#regFormaddresqallocres").css("display", "none");
@@ -380,7 +384,7 @@ if ($connect->connect_error) {
                     $('#livestatlink').removeClass('active');
                     $('#addresourlink').removeClass('active');
                     $('#Managealloclink').removeClass('active');
-                    $('#reportlink').removeClass('active');
+                    $('#Reportlink').removeClass('active');
                     $('#Requestreslink').addClass('active');
 
                 });
@@ -1290,10 +1294,7 @@ if ($connect->connect_error) {
 
 
         </script>
-
-
     </head>
-
     <body class="home">
     <header>
         <nav class="navbar navbar-expand-lg bgteam">
@@ -1325,8 +1326,6 @@ if ($connect->connect_error) {
             </div>
         </nav>
     </header>
-
-
     <table class="tncellspace"
            style=" width:100%; height:100%; background-color: transparent ; border: none !important; border-radius:10px; border-spacing: 0px; table-layout:fixed">
         <tbody>
@@ -1358,7 +1357,7 @@ if ($connect->connect_error) {
                             &nbsp;<span style='font-size: 1rem; padding-bottom:8px;'><a class='leftpanea' href="#"
                                                                                         id="Managealloclink"> &nbsp;&nbsp;Manage Allocations &nbsp;  </a></span></br>
                             &nbsp;<span style='font-size: 1rem; padding-bottom:8px;'><a class='leftpanea' href="#"
-                                                                                        id="reportlink"> &nbsp;&nbsp;Report Resource &nbsp; </a></span></br>
+                                                                                        id="Reportlink"> &nbsp;&nbsp;Report &nbsp;  </a></span></br>
 
                         </td>
                     </tr>
@@ -1366,128 +1365,130 @@ if ($connect->connect_error) {
                     </tbody>
                 </table>
             </td>
+
             <td style="text-align:center;  padding:0px ; border: none ;border-radius:40px !important ; width:80% ; overflow:hidden  "
                 valign="top">
 
-<!--                <div id="livestat" name="livestat" style='padding-top:60px'>-->
-<!--                                    <h4 style=" font-family: Akkurat;-->
-<!--                											font-size: 36px;-->
-<!--                											font-weight: bold;-->
-<!--                											font-style: normal;-->
-<!--                											font-stretch: normal;-->
-<!--                											line-height: normal;-->
-<!--                											letter-spacing: normal;-->
-<!--                											color: grey; "> Resource Status </h4>-->
-<!---->
-<!--                                    <hr style="margin:0"></hr>-->
-<!--                                    <table class="tcellspace" style="text-align:center; width:100%;">-->
-<!--                                        <tbody>-->
-<!--                                        <tr style="text-align:center; height:70%">-->
-<!--                                            <td style='text-align:center; color: white; padding:5px; border: none; border-radius:10px; height:20%; width:10%; font-size:100px;background:none;opacity:0.7;vertical-align:middle;'>-->
-<!--                                            </td>-->
-<!--                                            --><?php
-//
-//                                            date_default_timezone_set("Australia/Melbourne");
-//
-//                                            $connect = mysqli_connect($hostname, $uname, $pwd, $dbname);
-//                                            if ($connect->connect_error) {
-//                                                die("Connection failed: " . $connect->connect_error);
-//                                            }
-//
-//                                            if ($profile == 1) {
-//                                                //need to be updated for profile 1
-//                                                $tobjid = $profile + 9;
-//                                                $sql = "select dnumber from lss_employee_profile where practiceteam = (select value from lov where objid='" . $tobjid . "')";
-//                                            } else {
-//                                                $tobjid = $profile + 9;
-//                                                $sql = "select dnumber from lss_employee_profile where practiceteam = (select value from lov where objid='" . $tobjid . "')";
-//                                            }
-//
-//                                            $result = $connect->query($sql);
-//
-//                                            $crdate = date("Y-m-d");
-//                                            $scrdate = date('Y-m-d', strtotime($crdate . ' + 15 days'));
-//
-//                                            $total = 0;
-//                                            $allocated = 0;
-//                                            $sallocated = 0;
-//                                            $available = 0;
-//
-//                                            while ($row = $result->fetch_assoc()) {
-//                                                $dnum = $row['dnumber'];
-//                                                $sqlinp = "select enddate from res_allocation where dnumber='" . $dnum . "' and  enddate>='" . $crdate . "' order by enddate desc";
-//                                                $resultinp = $connect->query($sqlinp);
-//
-//                                                if ($resultinp->num_rows > 0) {
-//                                                    $rowinp = $resultinp->fetch_assoc();
-//                                                    $edt = $rowinp['enddate'];
-//
-//                                                    if ($edt > $scrdate) {
-//                                                        $allocated = $allocated + 1;
-//                                                        $total = $total + 1;
-//                                                    } else {
-//                                                        $sallocated = $sallocated + 1;
-//                                                        $total = $total + 1;
-//                                                    }
-//                                                } else {
-//                                                    $available = $available + 1;
-//                                                    $total = $total + 1;
-//                                                }
-//                                            }
-//                                            if ($total == 0) {
-//                                                $perallocated = 0;
-//                                            } else {
-//                                                $perallocated = ($allocated + $sallocated) / $total * 100;
-//                                                $perallocated = round($perallocated, 2);
-//                                            }
-//
-//                                            echo "<a href='#'>
-//                										<td style='text-align:center; color: white; padding:5px; border: none; border-radius:10px; height:20%; width:20%; font-size:100px;background:" . $team_color . "; opacity:1;vertical-align:middle;'>
-//                											<span style = 'color: white;'> " . $total . " </span></br>
-//                											<span style = 'font-size: 1rem; color: white;'> Total  </span>
-//                										</td>
-//                										</a>
-//                										<a href='#'>
-//                										<td style='text-align:center; color: white; padding:5px; border: none; border-radius:10px; height:20%; width:20%; font-size:100px;background:" . $team_color . "; opacity:0.9;vertical-align:middle;'>
-//                											<span style = 'color: white;'> " . $allocated . " </span></br>
-//                											<span style = 'font-size: 1rem; color: white;'> Allocated  </span>
-//                										</td>
-//                										</a>
-//                										<a href='#'>
-//                										<td style='text-align:center; color: white; padding:5px; border: none; border-radius:10px; height:20%; width:20%; font-size:100px;background:" . $team_color . "; opacity:0.9;vertical-align:middle;'>
-//                											<span style = 'color: white;'> " . $sallocated . " </span> </br>
-//                											<span style = 'font-size: 1rem; color: white;'> Soon to be Available  </span>
-//                										</td>
-//                										</a>
-//                										<a href='#'>
-//                										<td style='text-align:center; color: white; padding:5px; border: none; border-radius:10px; height:20%; width:20%; font-size:100px;background:" . $team_color . "; opacity:0.9;vertical-align:middle;'>
-//                											<span style = 'color: white;'> " . $available . " </span> </br>
-//                											<span style = 'font-size: 1rem; color: white;'> Available  </span>
-//                										</td>
-//                										</a>
-//                										<td style='text-align:center; color: white; padding:5px; border: none; border-radius:10px; height:20%; width:10%; font-size:100px;background:none;opacity:0.7;vertical-align:middle;'>
-//                										</td>
-//                									</tr>
-//                									<tr style='text-align:center; height:30%'>
-//                										<td></td>
-//                										<td style='text-align:center;  border: none; height:10%;' colspan='4'>
-//                											<span class='tids'> Resource Live status </span>
-//                											<div class='progress-outer'>
-//                												<div class='progress' style='width:100% ;  background-color: grey'>
-//                													<div class='progress-bar' style='width:" . $perallocated . "%; box-shadow:-10px 10px 10px rgba(255, 0, 0, 0.7); background:" . $team_color . "; !important;'>
-//                													<div class='progress-value'>" . $perallocated . "% Allocated</div></div>
-//                												</div>
-//                											</div>
-//                										</td>";
-//                                            ?>
-<!--                                        </tr>-->
-<!--                                        </tbody>-->
-<!--                                    </table>-->
-<!--                                    <hr style="margin:0"></hr>-->
-<!--                                    </br>-->
-<!--                                    <span> Active Projects </span>-->
-<!--                                </div>-->
+                <!--                ##### Live Status TAB-->-->
+                <div id="livestat" name="livestat" style='padding-top:60px'>
+                    <h4 style=" font-family: Akkurat;
+                											font-size: 36px;
+                											font-weight: bold;
+                											font-style: normal;
+                											font-stretch: normal;
+                											line-height: normal;
+                											letter-spacing: normal;
+                											color: grey; "> Resource Status </h4>
 
+                    <hr style="margin:0"></hr>
+                    <table class="tcellspace" style="text-align:center; width:100%;">
+                        <tbody>
+                        <tr style="text-align:center; height:70%">
+                            <td style='text-align:center; color: white; padding:5px; border: none; border-radius:10px; height:20%; width:10%; font-size:100px;background:none;opacity:0.7;vertical-align:middle;'>
+                            </td>
+                            <?php
+
+                            date_default_timezone_set("Australia/Melbourne");
+
+                            $connect = mysqli_connect($hostname, $uname, $pwd, $dbname);
+                            if ($connect->connect_error) {
+                                die("Connection failed: " . $connect->connect_error);
+                            }
+
+                            if ($profile == 1) {
+                                //need to be updated for profile 1
+                                $tobjid = $profile + 9;
+                                $sql = "select dnumber from lss_employee_profile where practiceteam = (select value from lov where objid='" . $tobjid . "')";
+                            } else {
+                                $tobjid = $profile + 9;
+                                $sql = "select dnumber from lss_employee_profile where practiceteam = (select value from lov where objid='" . $tobjid . "')";
+                            }
+
+                            $result = $connect->query($sql);
+
+                            $crdate = date("Y-m-d");
+                            $scrdate = date('Y-m-d', strtotime($crdate . ' + 15 days'));
+
+                            $total = 0;
+                            $allocated = 0;
+                            $sallocated = 0;
+                            $available = 0;
+
+                            while ($row = $result->fetch_assoc()) {
+                                $dnum = $row['dnumber'];
+                                $sqlinp = "select enddate from res_allocation where dnumber='" . $dnum . "' and  enddate>='" . $crdate . "' order by enddate desc";
+                                $resultinp = $connect->query($sqlinp);
+
+                                if ($resultinp->num_rows > 0) {
+                                    $rowinp = $resultinp->fetch_assoc();
+                                    $edt = $rowinp['enddate'];
+
+                                    if ($edt > $scrdate) {
+                                        $allocated = $allocated + 1;
+                                        $total = $total + 1;
+                                    } else {
+                                        $sallocated = $sallocated + 1;
+                                        $total = $total + 1;
+                                    }
+                                } else {
+                                    $available = $available + 1;
+                                    $total = $total + 1;
+                                }
+                            }
+                            if ($total == 0) {
+                                $perallocated = 0;
+                            } else {
+                                $perallocated = ($allocated + $sallocated) / $total * 100;
+                                $perallocated = round($perallocated, 2);
+                            }
+
+                            echo "<a href='#'>
+                										<td style='text-align:center; color: white; padding:5px; border: none; border-radius:10px; height:20%; width:20%; font-size:100px;background:" . $team_color . "; opacity:1;vertical-align:middle;'>
+                											<span style = 'color: white;'> " . $total . " </span></br>
+                											<span style = 'font-size: 1rem; color: white;'> Total  </span>
+                										</td>
+                										</a>
+                										<a href='#'>
+                										<td style='text-align:center; color: white; padding:5px; border: none; border-radius:10px; height:20%; width:20%; font-size:100px;background:" . $team_color . "; opacity:0.9;vertical-align:middle;'>
+                											<span style = 'color: white;'> " . $allocated . " </span></br>
+                											<span style = 'font-size: 1rem; color: white;'> Allocated  </span>
+                										</td>
+                										</a>
+                										<a href='#'>
+                										<td style='text-align:center; color: white; padding:5px; border: none; border-radius:10px; height:20%; width:20%; font-size:100px;background:" . $team_color . "; opacity:0.9;vertical-align:middle;'>
+                											<span style = 'color: white;'> " . $sallocated . " </span> </br>
+                											<span style = 'font-size: 1rem; color: white;'> Soon to be Available  </span>
+                										</td>
+                										</a>
+                										<a href='#'>
+                										<td style='text-align:center; color: white; padding:5px; border: none; border-radius:10px; height:20%; width:20%; font-size:100px;background:" . $team_color . "; opacity:0.9;vertical-align:middle;'>
+                											<span style = 'color: white;'> " . $available . " </span> </br>
+                											<span style = 'font-size: 1rem; color: white;'> Available  </span>
+                										</td>
+                										</a>
+                										<td style='text-align:center; color: white; padding:5px; border: none; border-radius:10px; height:20%; width:10%; font-size:100px;background:none;opacity:0.7;vertical-align:middle;'>
+                										</td>
+                									</tr>
+                									<tr style='text-align:center; height:30%'>
+                										<td></td>
+                										<td style='text-align:center;  border: none; height:10%;' colspan='4'>
+                											<span class='tids'> Resource Live status </span>
+                											<div class='progress-outer'>
+                												<div class='progress' style='width:100% ;  background-color: grey'>
+                													<div class='progress-bar' style='width:" . $perallocated . "%; box-shadow:-10px 10px 10px rgba(255, 0, 0, 0.7); background:" . $team_color . "; !important;'>
+                													<div class='progress-value'>" . $perallocated . "% Allocated</div></div>
+                												</div>
+                											</div>
+                										</td>";
+                            ?>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <hr style="margin:0"></hr>
+                    </br>
+                    <span> Active Projects </span>
+                </div>
+                <!--                ##### Search TAB-->
                 <div id="searchr" name="searchr" style='display:none;padding-top:60px'>
                     <h4 style=" font-family: Akkurat;
 											font-size: 36px;
@@ -1537,7 +1538,7 @@ if ($connect->connect_error) {
                         </tbody>
                     </table>
                 </div>
-
+                <!--                ##### Add New Resource TAB-->
                 <div id="addresour" name="addresour" style="display:none; padding-top:60px">
 
                     <form id="regFormaddresou" class="regForm">
@@ -1596,7 +1597,23 @@ if ($connect->connect_error) {
                                         <div class='field'>
                                             <select name="loc" id="loc" style="width: 100%;border:0px;outline:0px;">
                                                 <option value="" disabled="" selected="">Select Location</option>
+                                                <?php
 
+                                                $connect = mysqli_connect($hostname, $uname, $pwd, $dbname);
+                                                if ($connect->connect_error) {
+
+                                                    die("Connection failed: " . $connect->connect_error);
+                                                }
+
+                                                $sql = "SELECT value  FROM `lov` where type = 'location'";
+                                                $result = $connect->query($sql);
+                                                $tempcout = 0;
+                                                while ($row = $result->fetch_assoc()) {
+                                                    echo "<option value=" . $row["value"] . ">" . $row["value"] . "</option>";
+                                                    $tempcout = $tempcout + 1;
+                                                }
+                                                mysqli_close($connect);
+                                                ?>
                                             </select>
                                             <label for="loc">Select Location</label>
                                         </div>
@@ -1605,7 +1622,23 @@ if ($connect->connect_error) {
                                         <div class='field'>
                                             <select name="role" id="role" style="width: 100%;border:0px;outline:0px;">
                                                 <option disabled="" selected="">Select Role</option>
+                                                <?php
 
+                                                $connect = mysqli_connect($hostname, $uname, $pwd, $dbname);
+                                                if ($connect->connect_error) {
+
+                                                    die("Connection failed: " . $connect->connect_error);
+                                                }
+
+                                                $sql = "SELECT value  FROM `lov` where type = 'role'";
+                                                $result = $connect->query($sql);
+                                                $tempcout = 0;
+                                                while ($row = $result->fetch_assoc()) {
+                                                    echo "<option value=" . $row["value"] . ">" . $row["value"] . "</option>";
+                                                    $tempcout = $tempcout + 1;
+                                                }
+                                                mysqli_close($connect);
+                                                ?>
                                             </select>
                                             <label for="loc">Select Role</label>
                                         </div>
@@ -1621,7 +1654,23 @@ if ($connect->connect_error) {
                                             <select name="specialization" id="specialization"
                                                     style="width: 100%;border:0px;outline:0px;">
                                                 <option disabled="" selected="">Select Specialization</option>
+                                                <?php
 
+                                                $connect = mysqli_connect($hostname, $uname, $pwd, $dbname);
+                                                if ($connect->connect_error) {
+
+                                                    die("Connection failed: " . $connect->connect_error);
+                                                }
+
+                                                $sql = "SELECT value  FROM `lov` where type = 'spl'";
+                                                $result = $connect->query($sql);
+                                                $tempcout = 0;
+                                                while ($row = $result->fetch_assoc()) {
+                                                    echo "<option value=" . $row["value"] . ">" . $row["value"] . "</option>";
+                                                    $tempcout = $tempcout + 1;
+                                                }
+                                                mysqli_close($connect);
+                                                ?>
                                             </select>
                                             <label for="loc">Select Specialization</label>
                                         </div>
@@ -1637,13 +1686,45 @@ if ($connect->connect_error) {
                                     <td style="padding: 15px;" width="50%">
                                         <select name="team" id="team" style="width: 100%;border:0px;outline:0px;">
                                             <option selected>Select Team</option>
+                                            <?php
 
+                                            $connect = mysqli_connect($hostname, $uname, $pwd, $dbname);
+                                            if ($connect->connect_error) {
+
+                                                die("Connection failed: " . $connect->connect_error);
+                                            }
+
+                                            $sql = "SELECT value  FROM `lov` where type = 'team'";
+                                            $result = $connect->query($sql);
+                                            $tempcout = 0;
+                                            while ($row = $result->fetch_assoc()) {
+                                                echo "<option value=" . $row["value"] . ">" . $row["value"] . "</option>";
+                                                $tempcout = $tempcout + 1;
+                                            }
+                                            mysqli_close($connect);
+                                            ?>
                                         </select>
                                     </td>
                                     <td style="padding: 15px;" width="50%">
                                         <select name="stream" id="stream" style="width: 100%;border:0px;outline:0px;">
                                             <option selected>Select Sub Stream</option>
+                                            <?php
 
+                                            $connect = mysqli_connect($hostname, $uname, $pwd, $dbname);
+                                            if ($connect->connect_error) {
+
+                                                die("Connection failed: " . $connect->connect_error);
+                                            }
+
+                                            $sql = "SELECT value  FROM `lov` where type = 'stream'";
+                                            $result = $connect->query($sql);
+                                            $tempcout = 0;
+                                            while ($row = $result->fetch_assoc()) {
+                                                echo "<option value=" . $row["value"] . ">" . $row["value"] . "</option>";
+                                                $tempcout = $tempcout + 1;
+                                            }
+                                            mysqli_close($connect);
+                                            ?>
                                         </select>
                                     </td>
                                 </tr>
@@ -1655,14 +1736,46 @@ if ($connect->connect_error) {
                                         <select name="dirreport" id="dirreport"
                                                 style="width: 100%;border:0px;outline:0px;">
                                             <option selected>Select Reporting Manager</option>
+                                            <?php
 
+                                            $connect = mysqli_connect($hostname, $uname, $pwd, $dbname);
+                                            if ($connect->connect_error) {
+
+                                                die("Connection failed: " . $connect->connect_error);
+                                            }
+
+                                            $sql = "SELECT distinct directreport as value  FROM lss_employee_profile order by directreport";
+                                            $result = $connect->query($sql);
+                                            $tempcout = 0;
+                                            while ($row = $result->fetch_assoc()) {
+                                                echo "<option value=" . $row["value"] . ">" . $row["value"] . "</option>";
+                                                $tempcout = $tempcout + 1;
+                                            }
+                                            mysqli_close($connect);
+                                            ?>
                                         </select>
                                     </td>
                                     <td style="padding: 15px;" width="50%">
                                         <select name="pexmanager" id="pexmanager"
                                                 style="width: 100%;border:0px;outline:0px;">
                                             <option selected>Select PEX Manager</option>
+                                            <?php
 
+                                            $connect = mysqli_connect($hostname, $uname, $pwd, $dbname);
+                                            if ($connect->connect_error) {
+
+                                                die("Connection failed: " . $connect->connect_error);
+                                            }
+
+                                            $sql = "SELECT distinct pexmanager as value  FROM lss_employee_profile order by pexmanager";
+                                            $result = $connect->query($sql);
+                                            $tempcout = 0;
+                                            while ($row = $result->fetch_assoc()) {
+                                                echo "<option value=" . $row["value"] . ">" . $row["value"] . "</option>";
+                                                $tempcout = $tempcout + 1;
+                                            }
+                                            mysqli_close($connect);
+                                            ?>
                                         </select>
                                     </td>
                                 </tr>
@@ -1673,7 +1786,23 @@ if ($connect->connect_error) {
                                     <td style="padding: 15px; width: 50%;">
                                         <select name="org" id="org" style="width: 100%;border:0px;outline:0px;">
                                             <option selected>Select Organization</option>
+                                            <?php
 
+                                            $connect = mysqli_connect($hostname, $uname, $pwd, $dbname);
+                                            if ($connect->connect_error) {
+
+                                                die("Connection failed: " . $connect->connect_error);
+                                            }
+
+                                            $sql = "SELECT value  FROM `lov` where type = 'org'";
+                                            $result = $connect->query($sql);
+                                            $tempcout = 0;
+                                            while ($row = $result->fetch_assoc()) {
+                                                echo "<option value=" . $row["value"] . ">" . $row["value"] . "</option>";
+                                                $tempcout = $tempcout + 1;
+                                            }
+                                            mysqli_close($connect);
+                                            ?>
                                         </select>
                                     </td>
                                     <td style="padding: 15px; width: 50%;">
@@ -1740,7 +1869,7 @@ if ($connect->connect_error) {
                         </div>
                     </form>
                 </div>
-
+                <!--                ##### Request Management TAB-->
                 <div id="Requestres" name="Requestres"
                      style="display:none; padding-left:20px; padding-right:20px;padding-top:60px ">
 
@@ -1791,7 +1920,17 @@ if ($connect->connect_error) {
                                     <td><a href='#' id='clrfilter' name='clrfilter'><i
                                                     class='fa fa-eye-slash fa-fw'></i>Filters</a></td>
                                 </tr>
-                                <tr>
+                                <?php
+                                $connect = mysqli_connect($hostname, $uname, $pwd, $dbname);
+                                if ($connect->connect_error) {
+
+                                    die("Connection failed: " . $connect->connect_error);
+                                }
+
+                                $sql = "SELECT * from  req_allocation";
+                                $result = $connect->query($sql);
+                                while ($row = $result->fetch_assoc()) {
+                                    echo "<tr>
 														<td id='objid' style='display:none'>" . $row["objid"] . "</td>
 														<td>" . $row["featureteam"] . "</td>
 														<td>" . $row["engine"] . "</td>
@@ -1800,7 +1939,10 @@ if ($connect->connect_error) {
 														<td>" . $row["startdate"] . "</td>
 														<td>" . $row["enddate"] . "</td>
 														<td>" . $row["status"] . "</td>
-													</tr>
+													</tr>";
+                                }
+                                mysqli_close($connect);
+                                ?>
                                 </tbody>
                             </table>
                         </div>
@@ -2018,7 +2160,7 @@ if ($connect->connect_error) {
                         </form>
                     </div>
                 </div>
-
+                <!--                ##### Manage Allocations TAB-->
                 <div id="Managealloc" name="Managealloc" class="row"
                      style="display:none; padding-left:20px; padding-right:20px;padding-top:60px;  ">
                     <h4 style=" font-family: Akkurat;
@@ -2033,7 +2175,18 @@ if ($connect->connect_error) {
 
                         <table class="table" style=' width:95%; border-spacing: 2px !important;'>
                             <thead>
-                            <tr>
+                            <?php
+
+                            $crdate = date('Y-m-d');
+                            $temp1stday = date('Y-m-01', strtotime($crdate));
+                            $a1mon = date('M-Y', strtotime($temp1stday));
+                            $a2mon = date('M-Y', strtotime("+1 months", strtotime($temp1stday)));
+                            $a3mon = date('M-Y', strtotime("+2 months", strtotime($temp1stday)));
+                            $a4mon = date('M-Y', strtotime("+3 months", strtotime($temp1stday)));
+                            $a5mon = date('M-Y', strtotime("+4 months", strtotime($temp1stday)));
+                            $a6mon = date('M-Y', strtotime("+5 months", strtotime($temp1stday)));
+
+                            echo "<tr>
 											<th style='text-align: center !important; border-right:1px solid #dee2e6; !important; width: 28%'>Name</th>  
 											<th style='text-align: center !important; border-right:1px solid #dee2e6; !important; width: 12%'>$a1mon</th>
 											<th style='text-align: center !important; border-right:1px solid #dee2e6; !important; width: 12%'>$a2mon</th>
@@ -2042,21 +2195,126 @@ if ($connect->connect_error) {
 											<th style='text-align: center !important; border-right:1px solid #dee2e6; !important; width: 12%'>$a5mon</th>
 											<th style='text-align: center !important; border-right:1px solid #dee2e6; !important; width: 12%'>$a6mon</th>
 										</tr>
-									</thead><tbody>
-                            <tr>
-											<td style='text-align: center !important; border-bottom:1px solid #dee2e6 !important; padding:5px' align='center'><a href='#' id='resalloclinkind'><span style='display:none' id='resalloclinkinddnum'></span></a></td>
+									</thead><tbody>";
 
-                                <td style='background-color:green; border-radius: 30px;' align='center'><a href='#' style='color:green;width:100%'><div style='color:green'>1</div></a></td>
+                            $connect = mysqli_connect($hostname, $uname, $pwd, $dbname);
+                            if ($connect->connect_error) {
+                                die("Connection failed: " . $connect->connect_error);
+                            }
 
-                                       <td style='background-color:#da9645; border-radius: 30px;' align='center'><a href='#' style='color:#da9645;width:100%'><div style='color:#da9645'>1</div></a></td>
+                            $tempobjid = $profile + 9;
 
-                                       <td style='background-color:red; border-radius: 30px;' align='center'><a href='#' style='color:red;width:100%'><div style='color:red'>1</div></a></td>
+                            $sql = "Select distinct dnumber, fullname from lss_employee_profile where practiceteam = (select value from lov where objid = '" . $tempobjid . "' ) order by dnumber";
+                            $result = $connect->query($sql);
+                            while ($row = $result->fetch_assoc()) {
+                                $name = $row["fullname"];
+                                $dnumber = $row["dnumber"];
+                                echo "<tr>
+											<td style='text-align: center !important; border-bottom:1px solid #dee2e6 !important; padding:5px' align='center'><a href='#' id='resalloclinkind'><span style='display:none' id='resalloclinkinddnum'>" . $dnumber . "</span>" . $name . "</a></td>";
 
-                                        <td style='background-color:transparent' align='center'><a href='#' style='color:grey;width:100%'><div style='color:transparent'>1</div></a></td>
-                                    </td>
+                                //populating value for month data
+                                $i = 0;
+                                while ($i < 6) {
+                                    if ($i == 0) {
+                                        $my = $a1mon;
+                                    } else if ($i == 1) {
+                                        $my = $a2mon;
+                                    } else if ($i == 2) {
+                                        $my = $a3mon;
+                                    } else if ($i == 3) {
+                                        $my = $a4mon;
+                                    } else if ($i == 4) {
+                                        $my = $a5mon;
+                                    } else if ($i == 5) {
+                                        $my = $a6mon;
+                                    }
 
-                                </td></tr>
 
+                                    $fdate = date('Y-m-d', strtotime($my));
+                                    $ldate = date("Y-m-t", strtotime($my));
+
+                                    $totdays = 0;
+                                    $totaldays = 0;
+
+                                    //for full month allocation
+                                    $sqlfullm = "select * from res_allocation where dnumber = '" . $dnumber . "' and startdate<='" . $fdate . "' and enddate>='" . $ldate . "'";
+
+                                    $resulfullm = $connect->query($sqlfullm);
+                                    while ($rowfullm = $resulfullm->fetch_assoc()) {
+                                        $alloc = $rowfullm['allocation'];
+                                        $datediff = strtotime($ldate) - strtotime($fdate);
+                                        $nofdays = round($datediff / (60 * 60 * 24)) + 1;
+                                        $totdays = $totdays + ($nofdays * $alloc / 100);
+                                        $totaldays = $totaldays + ($nofdays * $alloc / 100);
+                                    }
+
+                                    //for end date in month of allocation
+                                    $sqlegm = "select * from res_allocation where dnumber = '" . $dnumber . "' and startdate<='" . $fdate . "' and enddate<'" . $ldate . "' and enddate>'" . $fdate . "'";
+                                    $resulegm = $connect->query($sqlegm);
+                                    while ($rowegm = $resulegm->fetch_assoc()) {
+                                        $alloc = $rowegm['allocation'];
+                                        $enddt = $rowegm['endadte'];
+                                        $datediff = strtotime($ldate) - strtotime($fdate);
+                                        $nofdays = round($datediff / (60 * 60 * 24)) + 1;
+
+                                        $actdatediff = strtotime($enddt) - strtotime($fdate);
+                                        $actnofdays = round($actdatediff / (60 * 60 * 24)) + 1;
+
+                                        $totdays = $totdays + ($nofdays * $alloc / 100);
+                                        $totaldays = $totaldays + ($actnofdays * $alloc / 100);
+                                    }
+
+                                    //for start date in month of allocation
+                                    $sqlsgm = "select * from res_allocation where dnumber = '" . $dnumber . "' and startdate>'" . $fdate . "' and enddate>='" . $ldate . "' and startdate<'" . $ldate . "'";
+                                    $resulsgm = $connect->query($sqlsgm);
+                                    while ($rowsgm = $resulsgm->fetch_assoc()) {
+                                        $alloc = $rowsgm['allocation'];
+                                        $startdt = $rowsgm['startdate'];
+                                        $datediff = strtotime($ldate) - strtotime($fdate);
+                                        $nofdays = round($datediff / (60 * 60 * 24)) + 1;
+
+                                        $actdatediff = strtotime($ldate) - strtotime($startdt);
+                                        $actnofdays = round($actdatediff / (60 * 60 * 24)) + 1;
+
+                                        $totdays = $totdays + ($nofdays * $alloc / 100);
+                                        $totaldays = $totaldays + ($actnofdays * $alloc / 100);
+                                    }
+
+                                    //for start date and end date in month of allocation
+                                    $sqlbgm = "select * from res_allocation where dnumber = '" . $dnumber . "' and startdate>'" . $fdate . "' and enddate<'" . $ldate . "'";
+                                    $resulbgm = $connect->query($sqlbgm);
+                                    while ($rowbgm = $resulbgm->fetch_assoc()) {
+                                        $alloc = $rowbgm['allocation'];
+                                        $startdt = $rowbgm['startdate'];
+                                        $enddt = $rowbgm['enddate'];
+                                        $datediff = strtotime($ldate) - strtotime($fdate);
+                                        $nofdays = round($datediff / (60 * 60 * 24)) + 1;
+
+                                        $actdatediff = strtotime($enddt) - strtotime($startdt);
+                                        $actnofdays = round($actdatediff / (60 * 60 * 24)) + 1;
+
+                                        $totdays = $totdays + ($nofdays * $alloc / 100);
+                                        $totaldays = $totaldays + ($actnofdays * $alloc / 100);
+                                    }
+
+                                    $workallocated = $totaldays / $totdays * 100;
+
+                                    if ($workallocated == 100) {
+                                        echo "<td style='background-color:green; border-radius: 30px;' align='center'><a href='#' style='color:green;width:100%'><div style='color:green'>1</div></a></td>";
+                                    } else if ($workallocated < 100 and $workallocated >= 50) {
+                                        echo "<td style='background-color:#da9645; border-radius: 30px;' align='center'><a href='#' style='color:#da9645;width:100%'><div style='color:#da9645'>1</div></a></td>";
+                                    } else if ($workallocated < 50 and $workallocated > 0) {
+                                        echo "<td style='background-color:red; border-radius: 30px;' align='center'><a href='#' style='color:red;width:100%'><div style='color:red'>1</div></a></td>";
+                                    } else {
+                                        echo "<td style='background-color:transparent' align='center'><a href='#' style='color:grey;width:100%'><div style='color:transparent'>1</div></a></td>";
+                                    }
+
+                                    echo "</td>";
+                                    $i = $i + 1;
+                                }
+                                echo "</td></tr>";
+                            }
+                            ?>
                             </tbody>
                         </table>
                     </div>
@@ -2079,10 +2337,55 @@ if ($connect->connect_error) {
                         </table>
                     </div>
                 </div>
-
-                <div id="report" name="report" style="display:none; padding-top:60px">
-                    <a>"HELLO WORLD!!!</a>
-
+                <!--                ##### Report TAB-->
+                <div id="Report" name="Report" style='display:none;padding-top:60px'>
+                    <h4 style=" font-family: Akkurat;
+											font-size: 36px;
+											font-weight: bold;
+											font-style: normal;
+											font-stretch: normal;
+											line-height: normal;
+											letter-spacing: normal;
+											color: grey; "> Search a resource </h4>
+                    <hr style="margin:0"></hr>
+                    <table style="text-align:center;width:100%">
+                        <tbody>
+                        <tr style="text-align:center; height:10%">
+                            <span style="text-align:center;font-size:26px"></span>
+                            </br></br>
+                        </tr>
+                        <tr style="text-align:center; height:20%" align="center">
+                            <td style='width:20%'></td>
+                            <td style='width:60%'>
+                                <div class="input-group" style='width:100%;'>
+                                    <input class="form-control my-0 py-1 red-border" type="text"
+                                           placeholder="Search by Name, UserId, Skills" aria-label="Search"
+                                           style='float:center' id='searchval' name='searchval'>
+                                    <div class="input-group-append">
+                                        <span class="input-group-text red lighten-3" id="basic-text1"><a href="#"
+                                                                                                         id="searchlnki"
+                                                                                                         name="searchlnki"
+                                                                                                         class="fa fa-search text-grey"
+                                                                                                         aria-hidden="true"></a></span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td style='width:20%'></td>
+                        </tr>
+                        <tr style="text-align:center; height:10%">
+                            <td style='width:20%'></td>
+                            <td style='width:60%'></td>
+                            <td style='width:20%'></td>
+                        </tr>
+                        <tr style="text-align:center; height:60%">
+                            <td style='width:20%'></td>
+                            <td style='width:60%'>
+                                <div id='appneddata' style='height:400px;overflow-y:auto'></div>
+                            </td>
+                            <td style='width:20%'></td>
+                        </tr>
+                        </tbody>
+                    </table>
                 </div>
 
             </td>
@@ -2096,6 +2399,8 @@ if ($connect->connect_error) {
     </body>
     </html>
 
+
+    <!--##### This is for LogOut Function-->
 <?php
 if (isset($_POST['logout'])) {
     // remove all session variables
