@@ -27,8 +27,8 @@ if ($connect->connect_error) {
     die("Connection failed: " . $connect->connect_error);
 }
 
-
 ?>
+
 
 
     <html lang="en-US">
@@ -1369,124 +1369,29 @@ if ($connect->connect_error) {
             <td style="text-align:center;  padding:0px ; border: none ;border-radius:40px !important ; width:80% ; overflow:hidden  "
                 valign="top">
 
-<!--                <div id="livestat" name="livestat" style='padding-top:60px'>-->
-<!--                                    <h4 style=" font-family: Akkurat;-->
-<!--                											font-size: 36px;-->
-<!--                											font-weight: bold;-->
-<!--                											font-style: normal;-->
-<!--                											font-stretch: normal;-->
-<!--                											line-height: normal;-->
-<!--                											letter-spacing: normal;-->
-<!--                											color: grey; "> Resource Status </h4>-->
-<!---->
-<!--                                    <hr style="margin:0"></hr>-->
-<!--                                    <table class="tcellspace" style="text-align:center; width:100%;">-->
-<!--                                        <tbody>-->
-<!--                                        <tr style="text-align:center; height:70%">-->
-<!--                                            <td style='text-align:center; color: white; padding:5px; border: none; border-radius:10px; height:20%; width:10%; font-size:100px;background:none;opacity:0.7;vertical-align:middle;'>-->
-<!--                                            </td>-->
-<!--                                            --><?php
-//
-//                                            date_default_timezone_set("Australia/Melbourne");
-//
-//                                            $connect = mysqli_connect($hostname, $uname, $pwd, $dbname);
-//                                            if ($connect->connect_error) {
-//                                                die("Connection failed: " . $connect->connect_error);
-//                                            }
-//
-//                                            if ($profile == 1) {
-//                                                //need to be updated for profile 1
-//                                                $tobjid = $profile + 9;
-//                                                $sql = "select dnumber from lss_employee_profile where practiceteam = (select value from lov where objid='" . $tobjid . "')";
-//                                            } else {
-//                                                $tobjid = $profile + 9;
-//                                                $sql = "select dnumber from lss_employee_profile where practiceteam = (select value from lov where objid='" . $tobjid . "')";
-//                                            }
-//
-//                                            $result = $connect->query($sql);
-//
-//                                            $crdate = date("Y-m-d");
-//                                            $scrdate = date('Y-m-d', strtotime($crdate . ' + 15 days'));
-//
-//                                            $total = 0;
-//                                            $allocated = 0;
-//                                            $sallocated = 0;
-//                                            $available = 0;
-//
-//                                            while ($row = $result->fetch_assoc()) {
-//                                                $dnum = $row['dnumber'];
-//                                                $sqlinp = "select enddate from res_allocation where dnumber='" . $dnum . "' and  enddate>='" . $crdate . "' order by enddate desc";
-//                                                $resultinp = $connect->query($sqlinp);
-//
-//                                                if ($resultinp->num_rows > 0) {
-//                                                    $rowinp = $resultinp->fetch_assoc();
-//                                                    $edt = $rowinp['enddate'];
-//
-//                                                    if ($edt > $scrdate) {
-//                                                        $allocated = $allocated + 1;
-//                                                        $total = $total + 1;
-//                                                    } else {
-//                                                        $sallocated = $sallocated + 1;
-//                                                        $total = $total + 1;
-//                                                    }
-//                                                } else {
-//                                                    $available = $available + 1;
-//                                                    $total = $total + 1;
-//                                                }
-//                                            }
-//                                            if ($total == 0) {
-//                                                $perallocated = 0;
-//                                            } else {
-//                                                $perallocated = ($allocated + $sallocated) / $total * 100;
-//                                                $perallocated = round($perallocated, 2);
-//                                            }
-//
-//                                            echo "<a href='#'>
-//                										<td style='text-align:center; color: white; padding:5px; border: none; border-radius:10px; height:20%; width:20%; font-size:100px;background:" . $team_color . "; opacity:1;vertical-align:middle;'>
-//                											<span style = 'color: white;'> " . $total . " </span></br>
-//                											<span style = 'font-size: 1rem; color: white;'> Total  </span>
-//                										</td>
-//                										</a>
-//                										<a href='#'>
-//                										<td style='text-align:center; color: white; padding:5px; border: none; border-radius:10px; height:20%; width:20%; font-size:100px;background:" . $team_color . "; opacity:0.9;vertical-align:middle;'>
-//                											<span style = 'color: white;'> " . $allocated . " </span></br>
-//                											<span style = 'font-size: 1rem; color: white;'> Allocated  </span>
-//                										</td>
-//                										</a>
-//                										<a href='#'>
-//                										<td style='text-align:center; color: white; padding:5px; border: none; border-radius:10px; height:20%; width:20%; font-size:100px;background:" . $team_color . "; opacity:0.9;vertical-align:middle;'>
-//                											<span style = 'color: white;'> " . $sallocated . " </span> </br>
-//                											<span style = 'font-size: 1rem; color: white;'> Soon to be Available  </span>
-//                										</td>
-//                										</a>
-//                										<a href='#'>
-//                										<td style='text-align:center; color: white; padding:5px; border: none; border-radius:10px; height:20%; width:20%; font-size:100px;background:" . $team_color . "; opacity:0.9;vertical-align:middle;'>
-//                											<span style = 'color: white;'> " . $available . " </span> </br>
-//                											<span style = 'font-size: 1rem; color: white;'> Available  </span>
-//                										</td>
-//                										</a>
-//                										<td style='text-align:center; color: white; padding:5px; border: none; border-radius:10px; height:20%; width:10%; font-size:100px;background:none;opacity:0.7;vertical-align:middle;'>
-//                										</td>
-//                									</tr>
-//                									<tr style='text-align:center; height:30%'>
-//                										<td></td>
-//                										<td style='text-align:center;  border: none; height:10%;' colspan='4'>
-//                											<span class='tids'> Resource Live status </span>
-//                											<div class='progress-outer'>
-//                												<div class='progress' style='width:100% ;  background-color: grey'>
-//                													<div class='progress-bar' style='width:" . $perallocated . "%; box-shadow:-10px 10px 10px rgba(255, 0, 0, 0.7); background:" . $team_color . "; !important;'>
-//                													<div class='progress-value'>" . $perallocated . "% Allocated</div></div>
-//                												</div>
-//                											</div>
-//                										</td>";
-//                                            ?>
-<!--                                        </tr>-->
-<!--                                        </tbody>-->
-<!--                                    </table>-->
-<!--                                    <hr style="margin:0"></hr>-->
-<!--                                    </br>-->
-<!--                                    <span> Active Projects </span>-->
-<!--                                </div>-->
+                <div id="livestat" name="livestat" style='padding-top:60px'>
+                                    <h4 style=" font-family: Akkurat;
+                											font-size: 36px;
+                											font-weight: bold;
+                											font-style: normal;
+                											font-stretch: normal;
+                											line-height: normal;
+                											letter-spacing: normal;
+                											color: grey; "> Resource Status </h4>
+
+                                    <hr style="margin:0"></hr>
+                                    <table class="tcellspace" style="text-align:center; width:100%;">
+                                        <tbody>
+                                        <tr style="text-align:center; height:70%">
+                                            <td style='text-align:center; color: white; padding:5px; border: none; border-radius:10px; height:20%; width:10%; font-size:100px;background:none;opacity:0.7;vertical-align:middle;'>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                    <hr style="margin:0"></hr>
+                                    </br>
+                                    <span> Active Projects </span>
+                                </div>
 
                 <div id="searchr" name="searchr" style='display:none;padding-top:60px'>
                     <h4 style=" font-family: Akkurat;
@@ -2082,6 +1987,17 @@ if ($connect->connect_error) {
 
                 <div id="report" name="report" style="display:none; padding-top:60px">
                     <a>"HELLO WORLD!!!</a>
+                    <?php
+                    $con = mysqli_connect("localhost","root","root","rp_db",8889);
+
+                    // Check connection
+                    if (mysqli_connect_errno())
+                    {
+                        echo "Failed to connect to MySQL: " . mysqli_connect_error();
+                    }else{
+                        echo "Success Connect to the DB";
+                    }
+                    ?>
 
                 </div>
 
