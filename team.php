@@ -3,7 +3,7 @@
 date_default_timezone_set("Australia/Melbourne");
 //error_reporting(0);
 
-$profile = 6;
+$profile = 3;
 
 
 if ($profile == 1) {
@@ -27,8 +27,49 @@ if ($connect->connect_error) {
     die("Connection failed: " . $connect->connect_error);
 }
 
-?>
 
+//Yu Script for DB connection
+// Create connection
+$conn = new mysqli("localhost", "root", "root", "rp_db", 8889);
+
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+echo "Connected successfully";
+
+$sql = "SELECT * FROM lss_employee_profile";
+//                    $NAcount = "SELECT COUNT(dnumber) FROM lss_employee_profile where peelService = 'NA'";
+$result = $conn->query($sql);
+
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        if ($row["peelService"] == "NA") {
+            $NAcount += 1;
+        } elseif ($row["peelService"] == "No") {
+            $Nocount += 1;
+        } elseif ($row["peelService"] == "Yes") {
+            $Yescount += 1;
+        }
+//                            echo "<br> D.ID: " . $row["dnumber"] .  " -Service " . $row["peelService"];
+//                            echo "<br>".$row['COUNT(dnumber)'];
+    }
+} else {
+    echo "No Data for this team";
+}
+$sum = $NAcount + $Nocount + $Yescount;
+
+$dataPoints = array(
+    array("label" => "NA", "y" => ($NAcount / $sum)),
+    array("label" => "No", "y" => ($Nocount / $sum)),
+    array("label" => "Yes", "y" => ($Yescount / $sum)),
+);
+
+// Close connection
+$conn->close();
+
+
+?>
 
 
     <html lang="en-US">
@@ -48,6 +89,11 @@ if ($connect->connect_error) {
 
         <link href="lib/bootstrap/css/datepicker.css" rel="stylesheet">
         <script type="text/javascript" src="lib/bootstrap/js/bootstrap-datepicker.js"></script>
+
+        <!--        ### Yu Script for cancasJs import-->
+        <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+
+        <!--        <script src="lib/canvasjs-2.3.1/canvasjs.min.js"></script>-->
 
 
         <style type="text/css">
@@ -256,6 +302,63 @@ if ($connect->connect_error) {
         </style>
 
         <script type="text/javascript">
+            //Yu Script for Report Chart Display
+            //Yu Script for canvasjs pie chart
+            window.onload = function () {
+                var pie = new CanvasJS.Chart("pieContainer", {
+                    theme: "light2",
+                    animationEnabled: true,
+                    title: {
+                        text: "PeelService Report"
+                    },
+                    data: [{
+                        type: "pie",
+                        indexLabel: "{y}",
+                        yValueFormatString: "#.#%",
+                        indexLabelPlacement: "inside",
+                        indexLabelFontColor: "#36454F",
+                        indexLabelFontSize: 18,
+                        indexLabelFontWeight: "bolder",
+                        showInLegend: true,
+                        legendText: "{label}",
+                        dataPoints: <?php echo json_encode($dataPoints, JSON_NUMERIC_CHECK); ?>
+                    }]
+                });
+                var bar = new CanvasJS.Chart("barContainer", {
+                    animationEnabled: true,
+                    theme: "light2",
+                    title: {
+                        text: "PeelService Report"
+                    },
+                    axisY: {
+                        title: "Percentage"
+                    },
+                    data: [{
+                        type: "column",
+                        yValueFormatString: "#.#%",
+                        dataPoints: <?php echo json_encode($dataPoints, JSON_NUMERIC_CHECK); ?>
+                    }]
+                });
+                pie.render();
+                bar.render();
+
+            }
+
+            function SwapChart() {
+                var d1 = document.getElementById("barContainer");
+                var d2 = document.getElementById("pieContainer");
+                if (d2.style.display === "none") {
+                    d1.style.display = "none";
+                    d2.style.display = "block";
+                } else {
+                    d1.style.display = "block";
+                    d2.style.display = "none";
+                }
+            }
+
+            //Yu Script finished
+
+
             $(function () {
 
                 $('.datepicker').datepicker({dateFormat: 'yy-mm-dd'}).val();
@@ -1291,7 +1394,6 @@ if ($connect->connect_error) {
 
         </script>
 
-
     </head>
 
     <body class="home">
@@ -1370,7 +1472,7 @@ if ($connect->connect_error) {
                 valign="top">
 
                 <div id="livestat" name="livestat" style='padding-top:60px'>
-                                    <h4 style=" font-family: Akkurat;
+                    <h4 style=" font-family: Akkurat;
                 											font-size: 36px;
                 											font-weight: bold;
                 											font-style: normal;
@@ -1379,19 +1481,19 @@ if ($connect->connect_error) {
                 											letter-spacing: normal;
                 											color: grey; "> Resource Status </h4>
 
-                                    <hr style="margin:0"></hr>
-                                    <table class="tcellspace" style="text-align:center; width:100%;">
-                                        <tbody>
-                                        <tr style="text-align:center; height:70%">
-                                            <td style='text-align:center; color: white; padding:5px; border: none; border-radius:10px; height:20%; width:10%; font-size:100px;background:none;opacity:0.7;vertical-align:middle;'>
-                                            </td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
-                                    <hr style="margin:0"></hr>
-                                    </br>
-                                    <span> Active Projects </span>
-                                </div>
+                    <hr style="margin:0"></hr>
+                    <table class="tcellspace" style="text-align:center; width:100%;">
+                        <tbody>
+                        <tr style="text-align:center; height:70%">
+                            <td style='text-align:center; color: white; padding:5px; border: none; border-radius:10px; height:20%; width:10%; font-size:100px;background:none;opacity:0.7;vertical-align:middle;'>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <hr style="margin:0"></hr>
+                    </br>
+                    <span> Active Projects </span>
+                </div>
 
                 <div id="searchr" name="searchr" style='display:none;padding-top:60px'>
                     <h4 style=" font-family: Akkurat;
@@ -1697,15 +1799,15 @@ if ($connect->connect_error) {
                                                     class='fa fa-eye-slash fa-fw'></i>Filters</a></td>
                                 </tr>
                                 <tr>
-														<td id='objid' style='display:none'>" . $row["objid"] . "</td>
-														<td>" . $row["featureteam"] . "</td>
-														<td>" . $row["engine"] . "</td>
-														<td>" . $row["projectname"] . "</td>
-														<td>" . $row["projectpoc"] . "</td>
-														<td>" . $row["startdate"] . "</td>
-														<td>" . $row["enddate"] . "</td>
-														<td>" . $row["status"] . "</td>
-													</tr>
+                                    <td id='objid' style='display:none'>" . $row["objid"] . "</td>
+                                    <td>" . $row["featureteam"] . "</td>
+                                    <td>" . $row["engine"] . "</td>
+                                    <td>" . $row["projectname"] . "</td>
+                                    <td>" . $row["projectpoc"] . "</td>
+                                    <td>" . $row["startdate"] . "</td>
+                                    <td>" . $row["enddate"] . "</td>
+                                    <td>" . $row["status"] . "</td>
+                                </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -1939,26 +2041,56 @@ if ($connect->connect_error) {
                         <table class="table" style=' width:95%; border-spacing: 2px !important;'>
                             <thead>
                             <tr>
-											<th style='text-align: center !important; border-right:1px solid #dee2e6; !important; width: 28%'>Name</th>  
-											<th style='text-align: center !important; border-right:1px solid #dee2e6; !important; width: 12%'>$a1mon</th>
-											<th style='text-align: center !important; border-right:1px solid #dee2e6; !important; width: 12%'>$a2mon</th>
-											<th style='text-align: center !important; border-right:1px solid #dee2e6; !important; width: 12%'>$a3mon</th>
-											<th style='text-align: center !important; border-right:1px solid #dee2e6; !important; width: 12%'>$a4mon</th>
-											<th style='text-align: center !important; border-right:1px solid #dee2e6; !important; width: 12%'>$a5mon</th>
-											<th style='text-align: center !important; border-right:1px solid #dee2e6; !important; width: 12%'>$a6mon</th>
-										</tr>
-									</thead><tbody>
+                                <th style='text-align: center !important; border-right:1px solid #dee2e6; !important; width: 28%'>
+                                    Name
+                                </th>
+                                <th style='text-align: center !important; border-right:1px solid #dee2e6; !important; width: 12%'>
+                                    $a1mon
+                                </th>
+                                <th style='text-align: center !important; border-right:1px solid #dee2e6; !important; width: 12%'>
+                                    $a2mon
+                                </th>
+                                <th style='text-align: center !important; border-right:1px solid #dee2e6; !important; width: 12%'>
+                                    $a3mon
+                                </th>
+                                <th style='text-align: center !important; border-right:1px solid #dee2e6; !important; width: 12%'>
+                                    $a4mon
+                                </th>
+                                <th style='text-align: center !important; border-right:1px solid #dee2e6; !important; width: 12%'>
+                                    $a5mon
+                                </th>
+                                <th style='text-align: center !important; border-right:1px solid #dee2e6; !important; width: 12%'>
+                                    $a6mon
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
                             <tr>
-											<td style='text-align: center !important; border-bottom:1px solid #dee2e6 !important; padding:5px' align='center'><a href='#' id='resalloclinkind'><span style='display:none' id='resalloclinkinddnum'></span></a></td>
+                                <td style='text-align: center !important; border-bottom:1px solid #dee2e6 !important; padding:5px'
+                                    align='center'><a href='#' id='resalloclinkind'><span style='display:none'
+                                                                                          id='resalloclinkinddnum'></span></a>
+                                </td>
 
-                                <td style='background-color:green; border-radius: 30px;' align='center'><a href='#' style='color:green;width:100%'><div style='color:green'>1</div></a></td>
+                                <td style='background-color:green; border-radius: 30px;' align='center'><a href='#'
+                                                                                                           style='color:green;width:100%'>
+                                        <div style='color:green'>1</div>
+                                    </a></td>
 
-                                       <td style='background-color:#da9645; border-radius: 30px;' align='center'><a href='#' style='color:#da9645;width:100%'><div style='color:#da9645'>1</div></a></td>
+                                <td style='background-color:#da9645; border-radius: 30px;' align='center'><a href='#'
+                                                                                                             style='color:#da9645;width:100%'>
+                                        <div style='color:#da9645'>1</div>
+                                    </a></td>
 
-                                       <td style='background-color:red; border-radius: 30px;' align='center'><a href='#' style='color:red;width:100%'><div style='color:red'>1</div></a></td>
+                                <td style='background-color:red; border-radius: 30px;' align='center'><a href='#'
+                                                                                                         style='color:red;width:100%'>
+                                        <div style='color:red'>1</div>
+                                    </a></td>
 
-                                        <td style='background-color:transparent' align='center'><a href='#' style='color:grey;width:100%'><div style='color:transparent'>1</div></a></td>
-                                    </td>
+                                <td style='background-color:transparent' align='center'><a href='#'
+                                                                                           style='color:grey;width:100%'>
+                                        <div style='color:transparent'>1</div>
+                                    </a></td>
+                                </td>
 
                                 </td></tr>
 
@@ -1987,19 +2119,22 @@ if ($connect->connect_error) {
 
                 <div id="report" name="report" style="display:none; padding-top:60px">
                     <a>"HELLO WORLD!!!</a>
-                    <?php
-                    $con = mysqli_connect("localhost","root","root","rp_db",8889);
+                    <br>
+                    <button onclick="SwapChart()">"Hello world"</button>
+                    <br><br><br><br>
+                    <div class="container">
+                        <div class="row">
+<!--                            <div class="col-sm"></div>-->
+                            <div class="col-lg" id="pieContainer" style="height: 570px; width: 400%; display: none"></div>
+                            <div class="col-lg" id="barContainer" style="height: 570px; width: 400%; display: none"></div>
+                            <div class="col-lg"></div>
 
-                    // Check connection
-                    if (mysqli_connect_errno())
-                    {
-                        echo "Failed to connect to MySQL: " . mysqli_connect_error();
-                    }else{
-                        echo "Success Connect to the DB";
-                    }
-                    ?>
+                        </div>
+
+                    </div>
 
                 </div>
+
 
             </td>
         </tr>
