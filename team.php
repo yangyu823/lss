@@ -3,7 +3,7 @@
 date_default_timezone_set("Australia/Melbourne");
 //error_reporting(0);
 
-$profile = 3;
+$profile = 6;
 
 
 if ($profile == 1) {
@@ -38,7 +38,48 @@ if ($conn->connect_error) {
 }
 echo "Connected successfully";
 
-$sql = "SELECT * FROM lss_employee_profile";
+switch ($profile) {
+    case "1":
+        $team_name = "L & SS";
+        break;
+    case "2":
+        $team_name = "C&SB";
+        break;
+    case "3":
+        $team_name = "Enterprise";
+        break;
+    case "4":
+        $team_name = "Infra co";
+        break;
+    case "5":
+        $team_name = "ALM";
+        break;
+    case "6":
+        $team_name = "Solutions";
+        break;
+    case "7":
+        $team_name = "Functional Practice";
+        break;
+    case "8":
+        $team_name = "Non Functional";
+        break;
+    case "9":
+        $team_name = "Release Orchestration";
+        break;
+    case "10":
+        $team_name = "OWOW";
+        break;
+    case "11":
+        $team_name = "Emer tech";
+        break;
+    case "12":
+        $team_name = "Bus Ops";
+        break;
+}
+
+
+$sql = "SELECT * FROM lss_employee_profile WHERE practiceTeam = '" . $team_name . "'";
+
 //                    $NAcount = "SELECT COUNT(dnumber) FROM lss_employee_profile where peelService = 'NA'";
 $result = $conn->query($sql);
 
@@ -60,9 +101,9 @@ if ($result->num_rows > 0) {
 $sum = $NAcount + $Nocount + $Yescount;
 
 $dataPoints = array(
-    array("label" => "NA", "y" => ($NAcount / $sum)),
-    array("label" => "No", "y" => ($Nocount / $sum)),
-    array("label" => "Yes", "y" => ($Yescount / $sum)),
+    array("label" => "NA", "y" => ($NAcount)),
+    array("label" => "No", "y" => ($Nocount)),
+    array("label" => "Yes", "y" => ($Yescount)),
 );
 
 // Close connection
@@ -91,9 +132,11 @@ $conn->close();
         <script type="text/javascript" src="lib/bootstrap/js/bootstrap-datepicker.js"></script>
 
         <!--        ### Yu Script for cancasJs import-->
-        <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
-
-        <!--        <script src="lib/canvasjs-2.3.1/canvasjs.min.js"></script>-->
+        <!--        <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>-->
+<!--        <link href="lib/yu/yu.css" rel="stylesheet">-->
+<!--        <script src="lib/yu/yu.js"></script>-->
+        <script src="lib/yu/canvasjs-2.3.1/canvasjs.min.js"></script>
+<!--        <script src="https://d3js.org/d3.v5.min.js"></script>-->
 
 
         <style type="text/css">
@@ -222,11 +265,11 @@ $conn->close();
             }
 
             /**
-			* Add a transition to the label and input.
-			* I'm not even sure that touch-action: manipulation works on
-			* inputs, but hey, it's new and cool and could remove the
-			* pesky delay.
-			*/
+            * Add a transition to the label and input.
+            * I'm not even sure that touch-action: manipulation works on
+            * inputs, but hey, it's new and cool and could remove the
+            * pesky delay.
+            */
             label, input, select {
                 transition: all 0.2s;
                 touch-action: manipulation;
@@ -256,11 +299,11 @@ $conn->close();
             }
 
             /**
-			* Translate down and scale the label up to cover the placeholder,
-			* when following an input (with placeholder-shown support).
-			* Also make sure the label is only on one row, at max 2/3rds of the
-			* field—to make sure it scales properly and doesn't wrap.
-			*/
+            * Translate down and scale the label up to cover the placeholder,
+            * when following an input (with placeholder-shown support).
+            * Also make sure the label is only on one row, at max 2/3rds of the
+            * field—to make sure it scales properly and doesn't wrap.
+            */
             input:placeholder-shown + label, select > label {
                 cursor: text;
                 max-width: 66.66%;
@@ -272,26 +315,26 @@ $conn->close();
             }
 
             /**
-			* By default, the placeholder should be transparent. Also, it should
-			* inherit the transition.
-			*/
+            * By default, the placeholder should be transparent. Also, it should
+            * inherit the transition.
+            */
             ::-webkit-input-placeholder {
                 opacity: 0;
                 transition: inherit;
             }
 
             /**
-			* Show the placeholder when the input is focused.
-			*/
+            * Show the placeholder when the input is focused.
+            */
             input:focus::-webkit-input-placeholder {
                 opacity: 0.7;
             }
 
             /**
-			* When the element is focused, remove the label transform.
-			* Also, do this when the placeholder is _not_ shown, i.e. when
-			* there's something in the input at all.
-			*/
+            * When the element is focused, remove the label transform.
+            * Also, do this when the placeholder is _not_ shown, i.e. when
+            * there's something in the input at all.
+            */
             input:not(:placeholder-shown) + label,
             input:focus + label, select:focus + label {
                 transform: translate(0, 0) scale(1);
@@ -311,10 +354,12 @@ $conn->close();
                     title: {
                         text: "PeelService Report"
                     },
+                    width: 900,
+                    height: 700,
                     data: [{
                         type: "pie",
                         indexLabel: "{y}",
-                        yValueFormatString: "#.#%",
+                        yValueFormatString: "#.#",
                         indexLabelPlacement: "inside",
                         indexLabelFontColor: "#36454F",
                         indexLabelFontSize: 18,
@@ -330,19 +375,21 @@ $conn->close();
                     title: {
                         text: "PeelService Report"
                     },
-                    axisY: {
-                        title: "Percentage"
-                    },
+                    width: 900,
+                    height: 700,
+                    // axisY: {
+                    //     title: "Percentage"
+                    // },
                     data: [{
                         type: "column",
-                        yValueFormatString: "#.#%",
+                        yValueFormatString: "#.#",
                         dataPoints: <?php echo json_encode($dataPoints, JSON_NUMERIC_CHECK); ?>
                     }]
                 });
                 pie.render();
                 bar.render();
 
-            }
+            };
 
             function SwapChart() {
                 var d1 = document.getElementById("barContainer");
@@ -1610,7 +1657,8 @@ $conn->close();
                                     </td>
                                     <td style=" width: 50%;">
                                         <div class='field'>
-                                            <select name="role" id="role" style="width: 100%;border:0px;outline:0px;">
+                                            <select name="role" id="role"
+                                                    style="width: 100%;border:0px;outline:0px;">
                                                 <option disabled="" selected="">Select Role</option>
 
                                             </select>
@@ -1648,7 +1696,8 @@ $conn->close();
                                         </select>
                                     </td>
                                     <td style="padding: 15px;" width="50%">
-                                        <select name="stream" id="stream" style="width: 100%;border:0px;outline:0px;">
+                                        <select name="stream" id="stream"
+                                                style="width: 100%;border:0px;outline:0px;">
                                             <option selected>Select Sub Stream</option>
 
                                         </select>
@@ -1697,7 +1746,8 @@ $conn->close();
                                 <tr>
                                     <td style="padding:0 !important;"><input id='reldate' name='reldate'
                                                                              class='datepicker' type='text'
-                                                                             placeholder='Release Date'></input></td>
+                                                                             placeholder='Release Date'></input>
+                                    </td>
                                 </tr>
                             </table>
                         </div>
@@ -1725,7 +1775,8 @@ $conn->close();
                         <div class="row">
                             <div class="col"></div>
                             <div class="col-8" align="center">
-                                <a><i class="fa fa-check-circle" style='color:green;font-size:25px'></i> User has been
+                                <a><i class="fa fa-check-circle" style='color:green;font-size:25px'></i> User has
+                                    been
                                     added successfully in L&SS Portal and mail has been sent to user with
                                     credentials</a><br>
                             </div>
@@ -1781,7 +1832,8 @@ $conn->close();
                                     <th style='width:10%'>Start Date</th>
                                     <th style='width:10%'>End Date</th>
                                     <th style='width:10%'>Status</th>
-                                    <th style='width:10%'><a href='#' id='regFormaddresqlink' name='regFormaddresqlink'
+                                    <th style='width:10%'><a href='#' id='regFormaddresqlink'
+                                                             name='regFormaddresqlink'
                                                              style='color:green'><i class='fa fa-plus fa-fw'></i>Request</a>
                                     </th>
                                 </tr>
@@ -1830,7 +1882,8 @@ $conn->close();
                             <hr style="margin:0"></hr>
                             <div class="tab" name="basinfo" id="basinfo" align="center" style="display:block">
                                 <table style="table-layout:auto;width:75%;">
-                                    <tr><h5 style="color:grey;padding: 15px;"> Enter Request information</br></h5></tr>
+                                    <tr><h5 style="color:grey;padding: 15px;"> Enter Request information</br></h5>
+                                    </tr>
                                     <tr style="padding: 15px !important;">
                                         <td>
                                             <div class="field">
@@ -1902,12 +1955,14 @@ $conn->close();
                             <div style="overflow:auto;">
                                 <div style="float:right;">
                                     <a href='#' id="Requestreqsdetailslinkcancel">
-                                        <button type="button" style="background-color:#f7a438 !important; color:white;">
+                                        <button type="button"
+                                                style="background-color:#f7a438 !important; color:white;">
                                             Cancel
                                         </button>
                                     </a>&nbsp; &nbsp;
                                     <a href='#' id="Requestreqsdetailslink">
-                                        <button type="button" style="background-color:green;color:white;"> Save</button>&nbsp;
+                                        <button type="button" style="background-color:green;color:white;"> Save
+                                        </button>&nbsp;
                                         &nbsp; </a>
                                     <a href='#' id="regFormaddresqallocreslink">
                                         <button type="button" style="background-color:green;color:white"> Save &
@@ -1969,7 +2024,8 @@ $conn->close();
                                         <td style="padding: 5px; width: 15% !important;">
                                             <div class="field">
                                                 <input class='datepicker' type='text' id='resallocatesdin'
-                                                       name='resallocatesdin[]' size="15" placeholder='Start Date...'>
+                                                       name='resallocatesdin[]' size="15"
+                                                       placeholder='Start Date...'>
                                                 <label for="resallocatesdin">Start Date...</label>
                                             </div>
 
@@ -1992,7 +2048,8 @@ $conn->close();
                                         </td>
                                         <td style="padding: 5px; width: 30% !important;">
                                             <div class="field">
-                                                <input type='text' size="5" placeholder="Message..." id='resalloccomin'
+                                                <input type='text' size="5" placeholder="Message..."
+                                                       id='resalloccomin'
                                                        name='resalloccomin[]'>
                                                 <label for="resalloccomin">Message...</label>
                                             </div>
@@ -2010,12 +2067,14 @@ $conn->close();
                             <div style="overflow:auto;">
                                 <div style="float:right;">
                                     <a href='#' id="reqallocresourcecancel">
-                                        <button type="button" style="background-color:#f7a438 !important; color:white;">
+                                        <button type="button"
+                                                style="background-color:#f7a438 !important; color:white;">
                                             Cancel
                                         </button>
                                     </a>&nbsp; &nbsp;
                                     <a href='#' id='Requestreqsdetailslinks'>
-                                        <button type="button" style="background-color:green;color:white">Allocate and
+                                        <button type="button" style="background-color:green;color:white">Allocate
+                                            and
                                             Submit
                                         </button>
                                     </a>
@@ -2076,8 +2135,9 @@ $conn->close();
                                         <div style='color:green'>1</div>
                                     </a></td>
 
-                                <td style='background-color:#da9645; border-radius: 30px;' align='center'><a href='#'
-                                                                                                             style='color:#da9645;width:100%'>
+                                <td style='background-color:#da9645; border-radius: 30px;' align='center'><a
+                                            href='#'
+                                            style='color:#da9645;width:100%'>
                                         <div style='color:#da9645'>1</div>
                                     </a></td>
 
@@ -2107,7 +2167,8 @@ $conn->close();
                                     align='center'><a style='color:black;width:0%'>0% Available</a></td>
                                 <td style='background-color:red' align='center'><a style='color:black;width:100%'>Allocated
                                         less than 50%</a></td>
-                                <td style='background-color:#da9645' align='center'><a style='color:black;width:100%'>Allocated
+                                <td style='background-color:#da9645' align='center'><a
+                                            style='color:black;width:100%'>Allocated
                                         between 50% to 99%</a></td>
                                 <td style='background-color:Green;border-top-right-radius:10px !important;border-bottom-right-radius:10px !important'
                                     align='center'><a style='color:black;width:100%'>100% Allocated</a></td>
@@ -2118,21 +2179,19 @@ $conn->close();
                 </div>
 
                 <div id="report" name="report" style="display:none; padding-top:60px">
-                    <a>"HELLO WORLD!!!</a>
                     <br>
-                    <button onclick="SwapChart()">"Hello world"</button>
+                    <button onclick="SwapChart()">Switch Chart</button>
                     <br><br><br><br>
                     <div class="container">
                         <div class="row">
-<!--                            <div class="col-sm"></div>-->
-                            <div class="col-lg" id="pieContainer" style="height: 570px; width: 400%; display: none"></div>
-                            <div class="col-lg" id="barContainer" style="height: 570px; width: 400%; display: none"></div>
-                            <div class="col-lg"></div>
-
+                            <div class="col"></div>
+                            <div class="col-10" id="pieContainer"
+                                 style="height: 400px; width: 100px; display: block"></div>
+                            <div class="col-10" id="barContainer"
+                                 style="height: 400px; width: 100px; display: none"></div>
+                            <div class="col"></div>
                         </div>
-
                     </div>
-
                 </div>
 
 
@@ -2158,7 +2217,7 @@ if (isset($_POST['logout'])) {
     echo '<script type="text/javascript">window.location = "login.php"</script>';
 }
 /*if(isset($_POST['irsubmit']))
-	{
-		header('Location: irpage.php');
-	}*/
+    {
+        header('Location: irpage.php');
+    }*/
 ?>
