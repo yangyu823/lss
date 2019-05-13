@@ -1,0 +1,16 @@
+language: php
+php:
+  - 5.6
+  - 7.0
+before_script:
+  - composer self-update
+  - composer install --prefer-source --no-interaction --dev
+
+deploy:
+  provider: heroku
+  skip_cleanup: true
+  api_key:
+    secure: "a1zCuujK87lvITNNGifUxD6gF6RJTNbTsxFlGX39TdbsFLG2tAY0PW8yJ6nmoaKyiYcnfGxEnCDqH96Q8FJQHsuusMfiXTNz4Ctaoro4wUHtEzZr61HXgnDF4On5uVU+370+zPEhcf7SMImVYcOufVX2lSa4rdwE7BdUi+YPFQvYoomkxBxF0jqQueLqQKCCJ/4+b9SM6/aaC+hIWXBrlAxN/sHsaJD2c0H11uwltP6HLSmoaiDCBXcOzbLhDXZVL/BDGNAcNHqjk4fBB5SlKgqkWCTZQ1BciVQNkqU2MFYNcU3zd5IlvQ1ERVaL6FtWgqRR3cffv2wfBRLoLfeVlwnx2Wyft7mFxs8sqxDqUaDdt+wPTqau5/dRHp2KxeeNAu4eb/popo736tZgnwzqELlFLvJ5GGUBj3NNkcehPz1kVKrEZnQuDCholIL7a1sfO66AN4WSsLecxOJ1neBapJVs6dZqd2dCSCHXfxLg0DMvNpvOjShnz1K4X4JZWPITUN01ZLda4k2JnPydYNGgcTa9nXIdznUToAoKvVtWEwFBc/ZlGGuHW1MSC8OuS7fNaYTcGw+eLtp2Yr9b7mKJ6OXxnV2P0tU6lMiM0HdLdoYEOF/hWU5eLdFoPkZj66TkWO2Dkmc8QYxq6AnMqVhzkPFEnjZ2xortsFpKeQHSmEQ="
+  app: yyan
+  on:
+    repo: yangyu823/lss
