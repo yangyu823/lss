@@ -75,17 +75,10 @@ if ($result->num_rows > 0) {
 } else {
     echo "No Data for this team";
 }
-$sum = $NAcount + $Nocount + $Yescount;
 
 $pie = array(
     array("Yes", "No", "NA"),
     array($Yescount, $Nocount, $NAcount),
-);
-
-$dataPoints = array(
-    array("label" => "NA", "value" => ($NAcount), "color" => "#3366CC"),
-    array("label" => "No", "value" => ($Nocount), "color" => "#DC3912"),
-    array("label" => "Yes", "value" => ($Yescount), "color" => "#FF9900"),
 );
 
 // Close connection
@@ -99,8 +92,10 @@ $conn->close();
 <meta charset="utf-8">
 <body>
 <button class="randomize">randomize</button>
-<div>
-    <pie/>
+<div class="container">
+    <div class="row">
+        <pie/>
+    </div>
 </div>
 <button class="randomize">randomize</button>
 
@@ -109,21 +104,32 @@ $conn->close();
 <link href="yu.css" rel="stylesheet">
 <script>
 
-
-    var svg = d3.select("pie")
-        .append("svg")
-        .append("g")
-
-    svg.append("g")
-        .attr("class", "slices");
-    svg.append("g")
-        .attr("class", "labels");
-    svg.append("g")
-        .attr("class", "lines");
-
     var width = 960,
         height = 450,
         radius = Math.min(width, height) / 2;
+
+    var svg = d3.select("pie")
+        .append("svg")
+        .append("g");
+
+    svg.append("g")
+        .attr("transform", "translate(" + (width / 2 - 600) + "," + -200 + ")")
+        .append("text")
+        .text("Browser use statistics - Jan 2017")
+        .attr("class", "title");
+
+    svg.append("g")
+        .attr("class", "slices");
+
+    svg.append("g")
+        .attr("class", "labels");
+
+    svg.append("g")
+        .attr("class", "counts");
+
+    svg.append("g")
+        .attr("class", "lines");
+
 
     var pie = d3.layout.pie()
         .sort(null)
@@ -139,6 +145,10 @@ $conn->close();
         .innerRadius(radius * 0.9)
         .outerRadius(radius * 0.9);
 
+    var index = d3.svg.arc()
+        .innerRadius(radius * 0.8)
+        .outerRadius(radius * 0.8);
+
     svg.attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
 
     var key = function (d) {
@@ -147,11 +157,16 @@ $conn->close();
 
     var color = d3.scale.category10()
         .domain(<?php echo json_encode($pie[0], JSON_NUMERIC_CHECK); ?>)
+    var num = (<?php echo json_encode($pie, JSON_NUMERIC_CHECK); ?>);
 
     function changeData() {
+        // var labels = color.domain();
         var labels = color.domain();
-        return labels.map(function (label) {
-            return {label: label, value: Math.random()}
+
+        return color.domain().map(function (label) {
+            var i = 0;
+            return {label: label, value: num[1][i]}
+            i += 1;
         });
     }
 
@@ -212,6 +227,14 @@ $conn->close();
             .text(function (d) {
                 return d.data.label;
             });
+
+        // var arcs = g.selectAll(".arc")
+        //     .data(pie(num[1]))
+        //     .enter().append("g")
+        //     .attr("class", "arc");
+        // arcs.append("text")
+        //     .attr("d", arc)
+        //     .attr("fill", "e41a1c" });
 
         function midAngle(d) {
             return d.startAngle + (d.endAngle - d.startAngle) / 2;

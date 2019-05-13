@@ -87,7 +87,6 @@ $pie = array(
 
 //echo json_encode($dataPoints);
 echo json_encode($pie[0]);
-
 // Close connection
 $conn->close();
 

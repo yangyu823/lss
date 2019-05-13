@@ -20,3 +20,7 @@ polyline{
     stroke-width: 2px;
     fill: none;
 }
+.title {
+    fill: teal;
+    font-weight: bold;
+}
