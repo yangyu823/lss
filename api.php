@@ -2134,7 +2134,7 @@ $conn->close();
                         <div class="row">
                             <div class="col-3"></div>
                             <div class="col-6" id="pie_chart" style="display: none"></div>
-                            <div class="col-6" id="nice"><a>"Hello world"</a></div>
+                            <div class="col-6" id="bar_chart"><a>"Hello world"</a></div>
                             <!--                            <div class="col-10" id="pieContainer"-->
                             <!--                                 style="height: 400px; width: 100px; display: block"></div>-->
                             <!--                            <div class="col-10" id="barContainer"-->
@@ -2156,86 +2156,92 @@ $conn->close();
 
     <script>
         //Pie Chart - Yu
-        var data_yu = (<?php echo json_encode($dataPoints, JSON_NUMERIC_CHECK); ?>)
-        var svg = d3.select("#pie_chart")
-                .append('svg')
-                .attr("width", 580)
-                .attr("height", 580),
-            width = svg.attr("width") - 20,
-            height = svg.attr("height") - 20,
-            radius = Math.min(width, height) / 2;
+        {
+            var data_yu = (<?php echo json_encode($dataPoints, JSON_NUMERIC_CHECK); ?>)
+            var svg = d3.select("#pie_chart")
+                    .append('svg')
+                    .attr("width", 580)
+                    .attr("height", 580),
+                width = svg.attr("width") - 20,
+                height = svg.attr("height") - 20,
+                radius = Math.min(width, height) / 2;
 
-        var g = svg.append("g")
-            .attr("transform", "translate(" + (width / 2) + "," + (height / 2 + 30) + ")");
-        var color = d3.scaleOrdinal(['#4daf4a', '#377eb8', '#ff7f00', '#984ea3', '#e41a1c']);
-        var pie = d3.pie().value(function (d) {
-            return d.y;
-        });
-        var path = d3.arc().outerRadius(radius - 10).innerRadius(100);
-        var index = d3.arc().outerRadius(radius).innerRadius(radius - 120);
-        var arc = g.selectAll(".arc").data(pie(data_yu)).enter().append("g").attr("class", "arc");
-
-        arc.append("path")
-            .transition()
-            .duration(1000)
-            .attr("d", path)
-            .attr("fill", function (d) {
-                return color(d.data.label);
-            })
-            .delay(function (d, i) {
-                console.log(i);
-                return (i * 200)
+            var g = svg.append("g")
+                .attr("transform", "translate(" + (width / 2) + "," + (height / 2 + 30) + ")");
+            var color = d3.scaleOrdinal(['#4daf4a', '#377eb8', '#ff7f00', '#984ea3', '#e41a1c']);
+            var pie = d3.pie().value(function (d) {
+                return d.y;
             });
+            var path = d3.arc().outerRadius(radius - 10).innerRadius(100);
+            var index = d3.arc().outerRadius(radius).innerRadius(radius - 120);
+            var arc = g.selectAll(".arc").data(pie(data_yu)).enter().append("g").attr("class", "arc");
 
-        arc.append("text")
-            .attr("transform", function (d) {
-                return "translate(" + index.centroid(d) + ")";
-            })
-            .text(function (d) {
-                return d.data.label + "(" + d.data.y + ")";
-            });
+            arc.append("path")
+                .transition()
+                .duration(1000)
+                .attr("d", path)
+                .attr("fill", function (d) {
+                    return color(d.data.label);
+                })
+                .delay(function (d, i) {
+                    console.log(i);
+                    return (i * 200)
+                });
 
-        svg.append("g")
-            .attr("transform", "translate(" + (width / 2 - 75) + "," + 20 + ")")
-            .append("text")
-            .text("PeelService Report")
-            .attr("class", "title")
+            arc.append("text")
+                .attr("transform", function (d) {
+                    return "translate(" + index.centroid(d) + ")";
+                })
+                .text(function (d) {
+                    return d.data.label + "(" + d.data.y + ")";
+                });
 
-        //legend index for Pie Chart
-        var legend = svg.selectAll('.legend')
-            .data(color.domain())
-            .enter()
-            .append('g')
-            .attr('class', 'legend')
-            .attr('transform', function (d, i) {
-                var offset = 22 * color.domain().length / 2;
-                var vert = i * 22 - offset;
-                return 'translate(' + 260 + ',' + (vert + 310) + ')';
-            });
+            svg.append("g")
+                .attr("transform", "translate(" + (width / 2 - 75) + "," + 20 + ")")
+                .append("text")
+                .text("PeelService Report")
+                .attr("class", "title")
 
-        legend.append('rect')
-            .attr('width', 20)
-            .attr('height', 20)
-            .style('fill', color)
-            .style('stroke', color);
+            //legend index for Pie Chart
+            var legend = svg.selectAll('.legend')
+                .data(color.domain())
+                .enter()
+                .append('g')
+                .attr('class', 'legend')
+                .attr('transform', function (d, i) {
+                    var offset = 22 * color.domain().length / 2;
+                    var vert = i * 22 - offset;
+                    return 'translate(' + 260 + ',' + (vert + 310) + ')';
+                });
 
-        legend.append('text')
-            .attr('x', 25)
-            .attr('y', 15)
-            .text(function (d) {
-                return d;
-            });
+            legend.append('rect')
+                .attr('width', 20)
+                .attr('height', 20)
+                .style('fill', color)
+                .style('stroke', color);
 
-        //Switch function button
-        function SwapChart() {
-            var d1 = document.getElementById("pie_chart");
-            var d2 = document.getElementById("nice");
-            if (d2.style.display === "none") {
-                d1.style.display = "none";
-                d2.style.display = "block";
-            } else {
-                d1.style.display = "block";
-                d2.style.display = "none";
+            legend.append('text')
+                .attr('x', 25)
+                .attr('y', 15)
+                .text(function (d) {
+                    return d;
+                });
+        }
+        //Bar Chart - Yu
+        {
+        }
+        //Switch Button Function - Yu
+        {
+            function SwapChart() {
+                var d1 = document.getElementById("pie_chart");
+                var d2 = document.getElementById("bar_chart");
+                if (d2.style.display === "none") {
+                    d1.style.display = "none";
+                    d2.style.display = "block";
+                } else {
+                    d1.style.display = "block";
+                    d2.style.display = "none";
+                }
             }
         }
 
