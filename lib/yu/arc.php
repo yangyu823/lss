@@ -96,7 +96,7 @@ $conn->close();
 <head>
     <style>
         .arc text {
-            font: 10px sans-serif;
+            font: 15px sans-serif;
             text-anchor: middle;
         }
 
@@ -119,7 +119,7 @@ $conn->close();
 <script>
     var data = (<?php echo json_encode($dataPoints, JSON_NUMERIC_CHECK); ?>)
     var pie = d3.pie()
-    // console.log(pie(data))
+    console.log(pie(data))
 
 
     var svg = d3.select("svg"),
@@ -138,11 +138,11 @@ $conn->close();
 
     var path = d3.arc()
         .outerRadius(radius - 10)
-        .innerRadius(0);
+        .innerRadius(100);
 
     var label = d3.arc()
         .outerRadius(radius)
-        .innerRadius(radius - 80);
+        .innerRadius(radius - 150);
 
     var arc = g.selectAll(".arc")
         .data(pie(data))
@@ -155,7 +155,6 @@ $conn->close();
             return color(d.data.label);
         });
 
-    console.log(arc)
 
     arc.append("text")
         .attr("transform", function (d) {
@@ -164,13 +163,41 @@ $conn->close();
         .text(function (d) {
             return d.data.label + "(" + d.data.y + ")";
         });
-    ;
+
 
     svg.append("g")
-        .attr("transform", "translate(" + (width / 2 - 50) + "," + 40 + ")")
+        .attr("transform", "translate(" + (width / 2 + 30) + "," + 40 + ")")
         .append("text")
-        .text("Browser use statistics - Jan 2017")
+        .text("PeelService Report")
         .attr("class", "title")
+
+    //legend
+    var legend = svg.selectAll('.legend')
+        .data(color.domain())
+        .enter()                                                
+        .append('g')
+        .attr('class', 'legend')                                
+        .attr('transform', function(d, i) {
+            var heightz = 22;
+            var offset =  heightz * color.domain().length / 2;
+            var horz = -2 * 18;
+            var vert = i * heightz - offset;
+            return 'translate(' + (horz+370) + ',' + (vert+300) + ')';
+        })
+
+    legend.append('rect')
+        .attr('width', 20)
+        .attr('height', 20)
+        .style('fill', color)
+        .style('stroke', color);
+
+    legend.append('text')
+        .attr('x', 25)
+        .attr('y', 15)
+        .text(function(d) { return d; });
+
+
+
 </script>
 </body>
 </html>
