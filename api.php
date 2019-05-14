@@ -133,12 +133,12 @@ $conn->close();
         <link href="lib/bootstrap/css/datepicker.css" rel="stylesheet">
         <script type="text/javascript" src="lib/bootstrap/js/bootstrap-datepicker.js"></script>
 
-        <!--        ### Yu Script for cancasJs import-->
-        <!--        <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>-->
+        <!--        ### Yu Source Script for cancasJs import-->
         <link href="lib/yu/yu.css" rel="stylesheet">
-        <!--        <script src="lib/yu/yu.js"></script>-->
-        <!--        <script src="lib/yu/canvasjs-2.3.1/canvasjs.min.js"></script>-->
-        <script src="http://d3js.org/d3.v5.min.js"></script>
+        <script src="lib/yu/d3/d3.min.js"></script>
+        <script src="lib/yu/d3/d3.v4.js"></script>
+
+
 
 
         <style type="text/css">
