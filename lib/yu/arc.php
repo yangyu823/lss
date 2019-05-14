@@ -117,9 +117,9 @@ $conn->close();
 <body>
 <svg width="500" height="400"></svg>
 <script>
-    var data = (<?php echo json_encode($dataPoints, JSON_NUMERIC_CHECK); ?>)
-    var pie = d3.pie()
-    console.log(pie(data))
+    var data_yu = (<?php echo json_encode($dataPoints, JSON_NUMERIC_CHECK); ?>)
+    // var pie = d3.pie()
+    // console.log(pie(data_yu))
 
 
     var svg = d3.select("svg"),
@@ -140,25 +140,31 @@ $conn->close();
         .outerRadius(radius - 10)
         .innerRadius(100);
 
-    var label = d3.arc()
+    var index = d3.arc()
         .outerRadius(radius)
-        .innerRadius(radius - 150);
+        .innerRadius(radius - 120);
 
     var arc = g.selectAll(".arc")
-        .data(pie(data))
+        .data(pie(data_yu))
         .enter().append("g")
         .attr("class", "arc");
 
     arc.append("path")
+        .transition()
+        .duration(1000)
         .attr("d", path)
         .attr("fill", function (d) {
             return color(d.data.label);
+        })
+        .delay(function (d, i) {
+            console.log(i);
+            return (i * 200)
         });
 
 
     arc.append("text")
         .attr("transform", function (d) {
-            return "translate(" + label.centroid(d) + ")";
+            return "translate(" + index.centroid(d) + ")";
         })
         .text(function (d) {
             return d.data.label + "(" + d.data.y + ")";
@@ -174,15 +180,15 @@ $conn->close();
     //legend
     var legend = svg.selectAll('.legend')
         .data(color.domain())
-        .enter()                                                
+        .enter()
         .append('g')
-        .attr('class', 'legend')                                
-        .attr('transform', function(d, i) {
+        .attr('class', 'legend')
+        .attr('transform', function (d, i) {
             var heightz = 22;
-            var offset =  heightz * color.domain().length / 2;
+            var offset = heightz * color.domain().length / 2;
             var horz = -2 * 18;
             var vert = i * heightz - offset;
-            return 'translate(' + (horz+370) + ',' + (vert+300) + ')';
+            return 'translate(' + (horz + 370) + ',' + (vert + 300) + ')';
         })
 
     legend.append('rect')
@@ -194,8 +200,9 @@ $conn->close();
     legend.append('text')
         .attr('x', 25)
         .attr('y', 15)
-        .text(function(d) { return d; });
-
+        .text(function (d) {
+            return d;
+        });
 
 
 </script>
