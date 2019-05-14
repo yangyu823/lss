@@ -2133,10 +2133,8 @@ $conn->close();
                     <div class="container">
                         <div class="row">
                             <div class="col-3"></div>
-                            <div class="col-6">
-                                <svg id="pie_chart" width="580" height="580" style="display: none"></svg>
-                                <div id="nice"><a>"Hello world"</a></div>
-                            </div>
+                            <div class="col-6" id="pie_chart" style="display: none"></div>
+                            <div class="col-6" id="nice"><a>"Hello world"</a></div>
                             <!--                            <div class="col-10" id="pieContainer"-->
                             <!--                                 style="height: 400px; width: 100px; display: block"></div>-->
                             <!--                            <div class="col-10" id="barContainer"-->
@@ -2159,32 +2157,23 @@ $conn->close();
     <script>
         //Pie Chart - Yu
         var data_yu = (<?php echo json_encode($dataPoints, JSON_NUMERIC_CHECK); ?>)
-        var svg = d3.select("svg"),
+        var svg = d3.select("#pie_chart")
+                .append('svg')
+                .attr("width", 580)
+                .attr("height", 580),
             width = svg.attr("width") - 20,
             height = svg.attr("height") - 20,
             radius = Math.min(width, height) / 2;
 
         var g = svg.append("g")
             .attr("transform", "translate(" + (width / 2) + "," + (height / 2 + 30) + ")");
-
         var color = d3.scaleOrdinal(['#4daf4a', '#377eb8', '#ff7f00', '#984ea3', '#e41a1c']);
-
         var pie = d3.pie().value(function (d) {
             return d.y;
         });
-
-        var path = d3.arc()
-            .outerRadius(radius - 10)
-            .innerRadius(100);
-
-        var index = d3.arc()
-            .outerRadius(radius)
-            .innerRadius(radius - 120);
-
-        var arc = g.selectAll(".arc")
-            .data(pie(data_yu))
-            .enter().append("g")
-            .attr("class", "arc");
+        var path = d3.arc().outerRadius(radius - 10).innerRadius(100);
+        var index = d3.arc().outerRadius(radius).innerRadius(radius - 120);
+        var arc = g.selectAll(".arc").data(pie(data_yu)).enter().append("g").attr("class", "arc");
 
         arc.append("path")
             .transition()
@@ -2198,7 +2187,6 @@ $conn->close();
                 return (i * 200)
             });
 
-
         arc.append("text")
             .attr("transform", function (d) {
                 return "translate(" + index.centroid(d) + ")";
@@ -2207,14 +2195,13 @@ $conn->close();
                 return d.data.label + "(" + d.data.y + ")";
             });
 
-
         svg.append("g")
             .attr("transform", "translate(" + (width / 2 - 75) + "," + 20 + ")")
             .append("text")
             .text("PeelService Report")
             .attr("class", "title")
 
-        //legend
+        //legend index for Pie Chart
         var legend = svg.selectAll('.legend')
             .data(color.domain())
             .enter()
@@ -2224,7 +2211,7 @@ $conn->close();
                 var offset = 22 * color.domain().length / 2;
                 var vert = i * 22 - offset;
                 return 'translate(' + 260 + ',' + (vert + 310) + ')';
-            })
+            });
 
         legend.append('rect')
             .attr('width', 20)
@@ -2252,9 +2239,7 @@ $conn->close();
             }
         }
 
-
     </script>
-
     </body>
     </html>
 
