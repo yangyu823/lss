@@ -1,12 +1,12 @@
 
-.arc text {
-    font: 20px sans-serif;
-    text-anchor: middle;
-}
+/*.arc text {*/
+/*    font: 20px sans-serif;*/
+/*    text-anchor: middle;*/
+/*}*/
 
-.arc path {
-    stroke: #fff;
-}
+/*.arc path {*/
+/*    stroke: #fff;*/
+/*}*/
 
 .title {
     fill: teal;

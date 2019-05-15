@@ -37,52 +37,18 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 echo "Connected successfully";
-
-switch ($profile) {
-    case "1":
-        $team_name = "L & SS";
-        break;
-    case "2":
-        $team_name = "C&SB";
-        break;
-    case "3":
-        $team_name = "Enterprise";
-        break;
-    case "4":
-        $team_name = "Infra co";
-        break;
-    case "5":
-        $team_name = "ALM";
-        break;
-    case "6":
-        $team_name = "Solutions";
-        break;
-    case "7":
-        $team_name = "Functional Practice";
-        break;
-    case "8":
-        $team_name = "Non Functional";
-        break;
-    case "9":
-        $team_name = "Release Orchestration";
-        break;
-    case "10":
-        $team_name = "OWOW";
-        break;
-    case "11":
-        $team_name = "Emer tech";
-        break;
-    case "12":
-        $team_name = "Bus Ops";
-        break;
+//  Query DB to get team name
+$objid = $profile + 9;
+$team = "SELECT * FROM lov WHERE objid = '" . $objid . "'";
+$team_conn = $conn->query($team);
+if ($team_conn->num_rows > 0) {
+    while ($row = $team_conn->fetch_assoc()) {
+        $team_name = $row["value"];
+    }
 }
-
-
+//  Query DB to get PeelService Count
 $sql = "SELECT * FROM lss_employee_profile WHERE practiceTeam = '" . $team_name . "'";
-
-//                    $NAcount = "SELECT COUNT(dnumber) FROM lss_employee_profile where peelService = 'NA'";
 $result = $conn->query($sql);
-
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
         if ($row["peelService"] == "NA") {
@@ -92,8 +58,6 @@ if ($result->num_rows > 0) {
         } elseif ($row["peelService"] == "Yes") {
             $Yescount += 1;
         }
-//                            echo "<br> D.ID: " . $row["dnumber"] .  " -Service " . $row["peelService"];
-//                            echo "<br>".$row['COUNT(dnumber)'];
     }
 } else {
     echo "No Data for this team";
@@ -102,7 +66,6 @@ $pie = array(
     array("label" => ["Yes", "No", "NA"]),
     array("value" => [$Yescount, $Nocount, $NAcount]),
 );
-
 $dataPoints = array(
     array("label" => "NA", "value" => ($NAcount)),
     array("label" => "No", "value" => ($Nocount)),
@@ -2128,13 +2091,15 @@ $conn->close();
 
                 <div id="report" name="report" style="display:none; padding-top:60px">
                     <br>
-                    <button onclick="SwapChart()">Switch Chart</button>
+                    <button onclick="bar_chart()">Bar Chart</button>
+                    <button onclick="pie_chart()">Pie Chart</button>
+
                     <br><br><br><br>
                     <div class="container">
                         <div class="row">
                             <div class="col-3"></div>
                             <div class="col-6" id="pie_chart" style="display: none"></div>
-                            <div class="col-6" id="bar_chart" style="display: block"></div>
+                            <div class="col-6" id="bar_chart" style="display: none"></div>
                             <!--                            <div class="col-10" id="pieContainer"-->
                             <!--                                 style="height: 400px; width: 100px; display: block"></div>-->
                             <!--                            <div class="col-10" id="barContainer"-->
@@ -2156,7 +2121,7 @@ $conn->close();
 
     <script>
         //Pie Chart - Yu
-        {
+        function update_pie() {
             var sum = (<?php echo json_encode($sum, JSON_NUMERIC_CHECK); ?>);
             var data_yu = (<?php echo json_encode($dataPoints, JSON_NUMERIC_CHECK); ?>)
             var svg = d3.select("#pie_chart")
@@ -2174,19 +2139,21 @@ $conn->close();
                 return d.value;
             });
             var path = d3.arc().outerRadius(radius - 10).innerRadius(100);
-            var index = d3.arc().outerRadius(radius).innerRadius(radius - 120);
+            var index = d3.arc().outerRadius(radius).innerRadius(radius - 150);
             var arc = g.selectAll(".arc").data(pie(data_yu)).enter().append("g").attr("class", "arc");
 
             arc.append("path")
                 .transition()
                 .duration(1000)
+                .attr("stroke", "white")
+                .style("stroke-width", "2px")
                 .attr("d", path)
                 .attr("fill", function (d) {
                     return color(d.data.label);
                 })
+                .style("opacity", 1)
                 .delay(function (d, i) {
-                    console.log(i);
-                    return (i * 200)
+                    return (i * 500)
                 });
 
             arc.append("text")
@@ -2228,8 +2195,12 @@ $conn->close();
                     return d;
                 });
         }
+
         //Bar Chart - Yu
-        {
+        function update_bar() {
+            var sum = (<?php echo json_encode($sum, JSON_NUMERIC_CHECK); ?>);
+            var data_yu = (<?php echo json_encode($dataPoints, JSON_NUMERIC_CHECK); ?>)
+            var color = d3.scaleOrdinal(['#4daf4a', '#377eb8', '#ff7f00', '#984ea3', '#e41a1c']);
             // set the dimensions and margins of the graph
             var margin = {top: 10, right: 30, bottom: 90, left: 40},
                 width = 600 - margin.left - margin.right,
@@ -2243,8 +2214,6 @@ $conn->close();
                 .style("opacity", 0)
                 .attr("class", "tooltip")
                 .attr("id", "tooltip");
-
-
             // append the svg object to the body of the page
 
             var svg = d3.select("#bar_chart")
@@ -2269,7 +2238,7 @@ $conn->close();
                 .selectAll("text")
                 .attr("transform", "translate(-10,0)rotate(-45)")
                 .style("text-anchor", "end");
-                // .style("font", "15px");
+            // .style("font", "15px");
 
 
             // Add Y axis
@@ -2317,28 +2286,31 @@ $conn->close();
                 });
 
             // Animation
-            svg.selectAll("rect")
-                .transition()
-                .duration(800)
-                .attr("y", function (d) {
-                    return y(d.value);
-                })
-                .attr("height", function (d) {
-                    return height - y(d.value);
-                })
-                .delay(function (d, i) {
-                    console.log(i);
-                    return (i * 100)
-                });
+
+            {
+                svg.selectAll("rect")
+                    .transition()
+                    .duration(800)
+                    .attr("y", function (d) {
+                        return y(d.value);
+                    })
+                    .attr("height", function (d) {
+                        return height - y(d.value);
+                    })
+                    .delay(function (d, i) {
+                        return (i * 100)
+                    });
+            }
 
 
             svg.append("g")
-                .attr("transform", "translate(" + (width / 3) + "," + 0 + ")")
+                .attr("transform", "translate(" + (width / 3 - 37) + "," + (-40) + ")")
                 .append("text")
-                .text("PeelService Report!!")
+                .text("PeelService Report")
                 .attr("id", "chart_title")
 
         }
+
         //Switch Button Function - Yu
         {
             function SwapChart() {
@@ -2351,6 +2323,29 @@ $conn->close();
                     d1.style.display = "block";
                     d2.style.display = "none";
                 }
+
+            }
+
+            function bar_chart() {
+                d3.select("svg").remove();
+                var d1 = document.getElementById("pie_chart");
+                var d2 = document.getElementById("bar_chart");
+                if (d2.style.display === "none") {
+                    d1.style.display = "none";
+                    d2.style.display = "block";
+                }
+                update_bar()
+            }
+
+            function pie_chart() {
+                d3.select("svg").remove();
+                var d1 = document.getElementById("pie_chart");
+                var d2 = document.getElementById("bar_chart");
+                if (d1.style.display === "none") {
+                    d1.style.display = "block";
+                    d2.style.display = "none";
+                }
+                update_pie()
             }
         }
 

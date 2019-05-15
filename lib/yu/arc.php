@@ -3,7 +3,30 @@
 date_default_timezone_set("Australia/Melbourne");
 //error_reporting(0);
 
-$profile = 6;
+$profile = 1;
+
+
+if ($profile == 1) {
+    $team_color = "linear-gradient(50deg, #008fb3, rgba(101, 47, 142, 0.88))"; #Capability //need to change for L&SS
+} else if ($profile == 2 or $profile == 3 or $profile == 4 or $profile == 5) {
+    $team_color = "linear-gradient(50deg, #008fb3, rgba(101, 47, 142, 0.88))"; #Capability
+} else if ($profile == 6) {
+    $team_color = "linear-gradient(90deg,#009792 0%,#23B8D6 35%,#C6D86b 70%)"; #solutions
+} else if ($profile == 7 or $profile == 8 or $profile == 9) {
+    $team_color = "linear-gradient(50deg, #ff8533 , #cc0066)"; #Functional
+} else if ($profile == 10) {
+    $team_color = "linear-gradient(50deg, #ff66ff , #660066)"; #NWoW
+} else if ($profile == 11) {
+    $team_color = "linear-gradient(50deg, #ff6600  ,#00ffbf)"; #Emerg tech
+} else {
+    $team_color = "linear-gradient(50deg, #3366ff ,#00ffbf)"; #Bus Ops
+}
+
+$connect = mysqli_connect($hostname, $uname, $pwd, $dbname);
+if ($connect->connect_error) {
+    die("Connection failed: " . $connect->connect_error);
+}
+
 
 //Yu Script for DB connection
 // Create connection
@@ -14,50 +37,18 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 echo "Connected successfully";
-
-switch ($profile) {
-    case "1":
-        $team_name = "L & SS";
-        break;
-    case "2":
-        $team_name = "C&SB";
-        break;
-    case "3":
-        $team_name = "Enterprise";
-        break;
-    case "4":
-        $team_name = "Infra co";
-        break;
-    case "5":
-        $team_name = "ALM";
-        break;
-    case "6":
-        $team_name = "Solutions";
-        break;
-    case "7":
-        $team_name = "Functional Practice";
-        break;
-    case "8":
-        $team_name = "Non Functional";
-        break;
-    case "9":
-        $team_name = "Release Orchestration";
-        break;
-    case "10":
-        $team_name = "OWOW";
-        break;
-    case "11":
-        $team_name = "Emer tech";
-        break;
-    case "12":
-        $team_name = "Bus Ops";
-        break;
+//  Query DB to get team name
+$objid = $profile + 9;
+$team = "SELECT * FROM lov WHERE objid = '" . $objid . "'";
+$team_conn = $conn->query($team);
+if ($team_conn->num_rows > 0) {
+    while ($row = $team_conn->fetch_assoc()) {
+        $team_name = $row["value"];
+    }
 }
+//  Query DB to get PeelService Count
 $sql = "SELECT * FROM lss_employee_profile WHERE practiceTeam = '" . $team_name . "'";
-
-//                    $NAcount = "SELECT COUNT(dnumber) FROM lss_employee_profile where peelService = 'NA'";
 $result = $conn->query($sql);
-
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
         if ($row["peelService"] == "NA") {
@@ -67,36 +58,34 @@ if ($result->num_rows > 0) {
         } elseif ($row["peelService"] == "Yes") {
             $Yescount += 1;
         }
-//                            echo "<br> D.ID: " . $row["dnumber"] .  " -Service " . $row["peelService"];
-//                            echo "<br>".$row['COUNT(dnumber)'];
     }
 } else {
     echo "No Data for this team";
 }
-
 $pie = array(
     array("label" => ["Yes", "No", "NA"]),
     array("value" => [$Yescount, $Nocount, $NAcount]),
 );
-
 $dataPoints = array(
     array("label" => "NA", "value" => ($NAcount)),
     array("label" => "No", "value" => ($Nocount)),
     array("label" => "Yes", "value" => ($Yescount)),
 );
+$sum = ($NAcount + $Nocount + $Yescount);
+
+echo "<br><br><br><br><br><br>";
+echo $team_name;
 
 // Close connection
 $conn->close();
 
 ?>
-
-
 <!DOCTYPE html>
 <html>
 <head>
     <style>
         .arc text {
-            font: 15px sans-serif;
+            font: 10px sans-serif;
             text-anchor: middle;
         }
 
@@ -109,18 +98,14 @@ $conn->close();
             font-weight: bold;
         }
     </style>
-    <script src="http://d3js.org/d3.v5.min.js"></script>
-</head>
-<script src="yu.js"></script>
-<link href="yu.css" rel="stylesheet">
+    <script src="https://d3js.org/d3.v4.min.js"></script>
 </head>
 <body>
 <svg width="500" height="400"></svg>
 <script>
-    var data_yu = (<?php echo json_encode($dataPoints, JSON_NUMERIC_CHECK); ?>)
-    // var pie = d3.pie()
-    // console.log(pie(data_yu))
 
+    var data_yu = (<?php echo json_encode($dataPoints, JSON_NUMERIC_CHECK); ?>);
+    var sum = (<?php echo json_encode($sum, JSON_NUMERIC_CHECK); ?>);
 
     var svg = d3.select("svg"),
         width = svg.attr("width"),
@@ -128,83 +113,54 @@ $conn->close();
         radius = Math.min(width, height) / 2;
 
     var g = svg.append("g")
-        .attr("transform", "translate(" + (width / 2 + 100) + "," + (height / 2 + 100) + ")");
+        .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
 
-    var color = d3.scaleOrdinal(['#4daf4a', '#377eb8', '#ff7f00', '#984ea3', '#e41a1c']);
+    var color = d3.scaleOrdinal(['#4daf4a','#377eb8','#ff7f00','#984ea3','#e41a1c']);
 
-    var pie = d3.pie().value(function (d) {
+    var pie = d3.pie().value(function(d) {
         return d.value;
     });
 
     var path = d3.arc()
         .outerRadius(radius - 10)
-        .innerRadius(100);
+        .innerRadius(50);
 
-    var index = d3.arc()
+    var label = d3.arc()
         .outerRadius(radius)
-        .innerRadius(radius - 120);
-
-    var arc = g.selectAll(".arc")
-        .data(pie(data_yu))
-        .enter().append("g")
-        .attr("class", "arc");
-
-    arc.append("path")
-        .transition()
-        .duration(1000)
-        .attr("d", path)
-        .attr("fill", function (d) {
-            return color(d.data.label);
-        })
-        .delay(function (d, i) {
-            console.log(i);
-            return (i * 200)
-        });
+        .innerRadius(radius - 80);
 
 
-    arc.append("text")
-        .attr("transform", function (d) {
-            return "translate(" + index.centroid(d) + ")";
-        })
-        .text(function (d) {
-            return d.data.label + "(" + d.data.value + ")";
-        });
+        var arc = g.selectAll(".arc")
+            .data(pie(data_yu))
+            .enter().append("g")
+            .attr("class", "arc");
 
+        arc.append("path")
+            .attr("d", path)
+            .attr("fill", function(d) { return color(d.data.label); })
+
+        console.log(arc)
+
+        arc.append("text")
+            .attr("transform", function(d) {
+                return "translate(" + label.centroid(d) + ")";
+            })
+            .text(function(d) { return d.data.label; });
 
     svg.append("g")
-        .attr("transform", "translate(" + (width / 2 + 30) + "," + 40 + ")")
+        .attr("transform", "translate(" + (width / 2 - 120) + "," + 20 + ")")
         .append("text")
-        .text("PeelService Report")
+        .text("Browser use statistics - Jan 2017")
         .attr("class", "title")
 
-    //legend
-    var legend = svg.selectAll('.legend')
-        .data(color.domain())
-        .enter()
-        .append('g')
-        .attr('class', 'legend')
-        .attr('transform', function (d, i) {
-            var heightz = 22;
-            var offset = heightz * color.domain().length / 2;
-            var horz = -2 * 18;
-            var vert = i * heightz - offset;
-            return 'translate(' + (horz + 370) + ',' + (vert + 300) + ')';
-        })
 
-    legend.append('rect')
-        .attr('width', 20)
-        .attr('height', 20)
-        .style('fill', color)
-        .style('stroke', color);
-
-    legend.append('text')
-        .attr('x', 25)
-        .attr('y', 15)
-        .text(function (d) {
-            return d;
-        });
 
 
 </script>
 </body>
 </html>
+
+
+
+
+

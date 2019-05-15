@@ -3,7 +3,7 @@
 date_default_timezone_set("Australia/Melbourne");
 //error_reporting(0);
 
-$profile = 1;
+$profile = 6;
 
 
 if ($profile == 1) {
@@ -1507,13 +1507,13 @@ $conn->close();
 
                     <form id="regFormaddresou" class="regForm">
                         <h4 style=" font-family: Akkurat;
-                            font-size: 36px;
-                            font-weight: bold;
-                            font-style: normal;
-                            font-stretch: normal;
-                            line-height: normal;
-                            letter-spacing: normal;
-                            color: white; background : <?php echo $team_color; ?>; opacity:.5 ;border-radius: 2px;">
+                                font-size: 36px;
+                                font-weight: bold;
+                                font-style: normal;
+                                font-stretch: normal;
+                                line-height: normal;
+                                letter-spacing: normal;
+                                color: white; background : <?php echo $team_color; ?>; opacity:.5 ;border-radius: 2px;">
                             Add new resource </h4>
 
                         <!-- One "tab" for each step in the form: -->
@@ -1730,7 +1730,7 @@ $conn->close();
                                     </td>
                                     <td>
                                         <a href='#' id='sfilter' name='sfilter'><i
-                                                class='fa fa-eye fa-fw'></i>Filters</a>
+                                                    class='fa fa-eye fa-fw'></i>Filters</a>
                                     </td>
                                 </tr>
                                 </thead>
@@ -1759,7 +1759,7 @@ $conn->close();
                                     <td><input style='text-align: center !important; width:100%'/></td>
                                     <td><input style='text-align: center !important; width:100%'/></td>
                                     <td><a href='#' id='clrfilter' name='clrfilter'><i
-                                                class='fa fa-eye-slash fa-fw'></i>Filters</a></td>
+                                                    class='fa fa-eye-slash fa-fw'></i>Filters</a></td>
                                 </tr>
                                 <tr>
                                     <td id='objid' style='display:none'>" . $row["objid"] . "</td>
@@ -1782,13 +1782,13 @@ $conn->close();
                         <!-- One "tab" for each step in the form: -->
                         <form class="regForm">
                             <h4 style=" font-family: Akkurat;
-                                font-size: 36px;
-                                font-weight: bold;
-                                font-style: normal;
-                                font-stretch: normal;
-                                line-height: normal;
-                                letter-spacing: normal;
-                                color: white; background : <?php echo $team_color; ?>; opacity:.5 ;border-radius: 2px; ">
+                                    font-size: 36px;
+                                    font-weight: bold;
+                                    font-style: normal;
+                                    font-stretch: normal;
+                                    line-height: normal;
+                                    letter-spacing: normal;
+                                    color: white; background : <?php echo $team_color; ?>; opacity:.5 ;border-radius: 2px; ">
                                 Create request </h4>
                             <hr style="margin:0"></hr>
                             <div class="tab" name="basinfo" id="basinfo" align="center" style="display:block">
@@ -1893,13 +1893,13 @@ $conn->close();
 
                         <form class="regForm" style=" width: 100% !important;">
                             <h4 style=" font-family: Akkurat;
-                                font-size: 36px;
-                                font-weight: bold;
-                                font-style: normal;
-                                font-stretch: normal;
-                                line-height: normal;
-                                letter-spacing: normal;
-                                color: white; background : <?php echo $team_color; ?>; opacity:.5 ;border-radius: 2px; ">
+                                    font-size: 36px;
+                                    font-weight: bold;
+                                    font-style: normal;
+                                    font-stretch: normal;
+                                    line-height: normal;
+                                    letter-spacing: normal;
+                                    color: white; background : <?php echo $team_color; ?>; opacity:.5 ;border-radius: 2px; ">
                                 Resource Allocation </h4>
                             <hr style="margin:0"></hr>
 
@@ -1912,11 +1912,11 @@ $conn->close();
                                         <th colspan='6'>
                                             <br>
                                             <h5 class='w3-text-grey' style="color:grey;"><i
-                                                    class='fa fa-info fa-fw w3-margin-right w3-text-teal'></i><b>Request
+                                                        class='fa fa-info fa-fw w3-margin-right w3-text-teal'></i><b>Request
                                                     Details </b> &nbsp;&nbsp;Project Name&nbsp;:&nbsp;<span
-                                                    id='pnamespan'></span> &nbsp;&nbsp;<i
-                                                    class='fa fa-calendar fa-fw w3-margin-right'></i>Duration&nbsp;:&nbsp;<span
-                                                    id='startdatespan'></span></h5>
+                                                        id='pnamespan'></span> &nbsp;&nbsp;<i
+                                                        class='fa fa-calendar fa-fw w3-margin-right'></i>Duration&nbsp;:&nbsp;<span
+                                                        id='startdatespan'></span></h5>
 
                                             <br>
                                         </th>
@@ -1968,7 +1968,7 @@ $conn->close();
                                         <td style="width: 10% !important;" id='addresourceplustd'><a href="#"
                                                                                                      style='color:green'
                                                                                                      id='resallocate'><i
-                                                    class='fa fa-plus fa-fw'></i></a></td>
+                                                        class='fa fa-plus fa-fw'></i></a></td>
                                     </tr>
                                     <tbody>
                                 </table>
@@ -2047,8 +2047,8 @@ $conn->close();
                                     </a></td>
 
                                 <td style='background-color:#da9645; border-radius: 30px;' align='center'><a
-                                        href='#'
-                                        style='color:#da9645;width:100%'>
+                                            href='#'
+                                            style='color:#da9645;width:100%'>
                                         <div style='color:#da9645'>1</div>
                                     </a></td>
 
@@ -2079,7 +2079,7 @@ $conn->close();
                                 <td style='background-color:red' align='center'><a style='color:black;width:100%'>Allocated
                                         less than 50%</a></td>
                                 <td style='background-color:#da9645' align='center'><a
-                                        style='color:black;width:100%'>Allocated
+                                            style='color:black;width:100%'>Allocated
                                         between 50% to 99%</a></td>
                                 <td style='background-color:Green;border-top-right-radius:10px !important;border-bottom-right-radius:10px !important'
                                     align='center'><a style='color:black;width:100%'>100% Allocated</a></td>
@@ -2091,13 +2091,15 @@ $conn->close();
 
                 <div id="report" name="report" style="display:none; padding-top:60px">
                     <br>
-                    <button onclick="SwapChart()">Switch Chart</button>
+                    <button onclick="bar_chart()">Bar Chart</button>
+                    <button onclick="pie_chart()">Pie Chart</button>
+
                     <br><br><br><br>
                     <div class="container">
                         <div class="row">
                             <div class="col-3"></div>
                             <div class="col-6" id="pie_chart" style="display: none"></div>
-                            <div class="col-6" id="bar_chart" style="display: block"></div>
+                            <div class="col-6" id="bar_chart" style="display: none"></div>
                             <!--                            <div class="col-10" id="pieContainer"-->
                             <!--                                 style="height: 400px; width: 100px; display: block"></div>-->
                             <!--                            <div class="col-10" id="barContainer"-->
@@ -2119,7 +2121,7 @@ $conn->close();
 
     <script>
         //Pie Chart - Yu
-        {
+        function update_pie() {
             var sum = (<?php echo json_encode($sum, JSON_NUMERIC_CHECK); ?>);
             var data_yu = (<?php echo json_encode($dataPoints, JSON_NUMERIC_CHECK); ?>)
             var svg = d3.select("#pie_chart")
@@ -2137,62 +2139,69 @@ $conn->close();
                 return d.value;
             });
             var path = d3.arc().outerRadius(radius - 10).innerRadius(100);
-            var index = d3.arc().outerRadius(radius).innerRadius(radius - 120);
+            var index = d3.arc().outerRadius(radius).innerRadius(radius - 150);
             var arc = g.selectAll(".arc").data(pie(data_yu)).enter().append("g").attr("class", "arc");
+
 
             arc.append("path")
                 .transition()
-                .duration(1000)
+                // .duration(1000)
+                .attr("stroke", "white")
+                .style("stroke-width", "2px")
                 .attr("d", path)
                 .attr("fill", function (d) {
                     return color(d.data.label);
                 })
+                .style("opacity", 1)
                 .delay(function (d, i) {
-                    console.log(i);
-                    return (i * 200)
+                    return (i * 500)
                 });
 
-            arc.append("text")
-                .attr("transform", function (d) {
-                    return "translate(" + index.centroid(d) + ")";
-                })
-                .text(function (d) {
-                    return d.data.label + "  (" + d.data.value + ")";
-                });
+            // arc.append("text")
+            //     .attr("transform", function (d) {
+            //         return "translate(" + index.centroid(d) + ")";
+            //     })
+            //     .text(function (d) {
+            //         return d.data.label + "  (" + d.data.value + ")";
+            //     });
 
-            svg.append("g")
-                .attr("transform", "translate(" + (width / 2 - 100) + "," + 20 + ")")
-                .append("text")
-                .text("PeelService Report")
-                .attr("id", "chart_title")
-
-            //legend index for Pie Chart
-            var legend = svg.selectAll('.legend')
-                .data(color.domain())
-                .enter()
-                .append('g')
-                .attr('class', 'legend')
-                .attr('transform', function (d, i) {
-                    var offset = 22 * color.domain().length / 2;
-                    var vert = i * 22 - offset;
-                    return 'translate(' + 260 + ',' + (vert + 310) + ')';
-                });
-
-            legend.append('rect')
-                .attr('width', 20)
-                .attr('height', 20)
-                .style('fill', color)
-                .style('stroke', color);
-
-            legend.append('text')
-                .attr('x', 25)
-                .attr('y', 15)
-                .text(function (d) {
-                    return d;
-                });
+            // svg.append("g")
+            //     .attr("transform", "translate(" + (width / 2 - 100) + "," + 20 + ")")
+            //     .append("text")
+            //     .text("PeelService Report")
+            //     .attr("id", "chart_title")
+            //
+            // //legend index for Pie Chart
+            // var legend = svg.selectAll('.legend')
+            //     .data(color.domain())
+            //     .enter()
+            //     .append('g')
+            //     .attr('class', 'legend')
+            //     .attr('transform', function (d, i) {
+            //         var offset = 22 * color.domain().length / 2;
+            //         var vert = i * 22 - offset;
+            //         return 'translate(' + 260 + ',' + (vert + 310) + ')';
+            //     });
+            //
+            // legend.append('rect')
+            //     .attr('width', 20)
+            //     .attr('height', 20)
+            //     .style('fill', color)
+            //     .style('stroke', color);
+            //
+            // legend.append('text')
+            //     .attr('x', 25)
+            //     .attr('y', 15)
+            //     .text(function (d) {
+            //         return d;
+            //     });
         }
+
         //Bar Chart - Yu
-        {
+        function update_bar() {
+            var sum = (<?php echo json_encode($sum, JSON_NUMERIC_CHECK); ?>);
+            var data_yu = (<?php echo json_encode($dataPoints, JSON_NUMERIC_CHECK); ?>)
+            var color = d3.scaleOrdinal(['#4daf4a', '#377eb8', '#ff7f00', '#984ea3', '#e41a1c']);
             // set the dimensions and margins of the graph
             var margin = {top: 10, right: 30, bottom: 90, left: 40},
                 width = 600 - margin.left - margin.right,
@@ -2206,8 +2215,6 @@ $conn->close();
                 .style("opacity", 0)
                 .attr("class", "tooltip")
                 .attr("id", "tooltip");
-
-
             // append the svg object to the body of the page
 
             var svg = d3.select("#bar_chart")
@@ -2280,28 +2287,31 @@ $conn->close();
                 });
 
             // Animation
-            svg.selectAll("rect")
-                .transition()
-                .duration(800)
-                .attr("y", function (d) {
-                    return y(d.value);
-                })
-                .attr("height", function (d) {
-                    return height - y(d.value);
-                })
-                .delay(function (d, i) {
-                    console.log(i);
-                    return (i * 100)
-                });
+
+            {
+                svg.selectAll("rect")
+                    .transition()
+                    .duration(800)
+                    .attr("y", function (d) {
+                        return y(d.value);
+                    })
+                    .attr("height", function (d) {
+                        return height - y(d.value);
+                    })
+                    .delay(function (d, i) {
+                        return (i * 100)
+                    });
+            }
 
 
             svg.append("g")
-                .attr("transform", "translate(" + (width / 3) + "," + 0 + ")")
+                .attr("transform", "translate(" + (width / 3 - 37) + "," + (-40) + ")")
                 .append("text")
-                .text("PeelService Report!!")
+                .text("PeelService Report")
                 .attr("id", "chart_title")
 
         }
+
         //Switch Button Function - Yu
         {
             function SwapChart() {
@@ -2314,6 +2324,29 @@ $conn->close();
                     d1.style.display = "block";
                     d2.style.display = "none";
                 }
+
+            }
+
+            function bar_chart() {
+                d3.select("svg").remove();
+                var d1 = document.getElementById("pie_chart");
+                var d2 = document.getElementById("bar_chart");
+                if (d2.style.display === "none") {
+                    d1.style.display = "none";
+                    d2.style.display = "block";
+                }
+                update_bar()
+            }
+
+            function pie_chart() {
+                d3.select("svg").remove();
+                var d1 = document.getElementById("pie_chart");
+                var d2 = document.getElementById("bar_chart");
+                if (d1.style.display === "none") {
+                    d1.style.display = "block";
+                    d2.style.display = "none";
+                }
+                update_pie()
             }
         }
 

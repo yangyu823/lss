@@ -96,17 +96,13 @@ $conn->close();
 <meta charset="utf-8">
 <html>
 <head>
-    <style>
-
-
-    </style>
+<title>"Hello world"</title>
     <link href="/lss/lib/yu/yu.css" rel="stylesheet">
 
     <script src="http://d3js.org/d3.v5.min.js"></script>
     <script type="text/javascript" src="/lss/lib/yu/d3/d3.v4.js"></script>
 
 
-</head>
 </head>
 <body>
 <!-- Add 2 buttons -->
