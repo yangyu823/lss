@@ -118,15 +118,10 @@ $conn->close();
     var sum = (<?php echo json_encode($sum, JSON_NUMERIC_CHECK); ?>);
     var color = d3.scaleOrdinal(['#4daf4a', '#377eb8', '#ff7f00', '#984ea3', '#e41a1c']);
 
-    // var pie = d3.pie()
-    // console.log(pie(data_yu))
-
-
     // set the dimensions and margins of the graph
     var margin = {top: 10, right: 30, bottom: 90, left: 40},
         width = 460 - margin.left - margin.right,
         height = 450 - margin.top - margin.bottom;
-
 
     // ----------------
     // Create a tooltip
@@ -146,11 +141,7 @@ $conn->close();
             .append("g")
             .attr("transform",
                 "translate(" + margin.left + "," + margin.top + ")")
-        // .on("mouseover", mouseover)
-        // .on("mousemove", mousemove)
-        // .on("mouseleave", mouseleave)
     ;
-
     // X axis
     var x = d3.scaleBand()
         .range([0, width])
@@ -171,7 +162,6 @@ $conn->close();
         .range([height, 0]);
     svg.append("g")
         .call(d3.axisLeft(y));
-
 
     // Bars
     svg.selectAll("mybar")
@@ -206,11 +196,7 @@ $conn->close();
             tooltip.style("display", "none");
         });
 
-
-    ;
-
     // Animation
-
     svg.selectAll("rect")
         .transition()
         .duration(800)

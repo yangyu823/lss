@@ -16,17 +16,24 @@
 .tooltip {
     position: absolute;
     text-align: center;
-    min-width: 20px;
-    max-height: 30px;
+    max-width: 150px;
+    max-height: 40px;
     padding: 8px;
     border: 2px solid #6F257F;
     border-radius: 8px;
     /*border-width: 10px;*/
     margin-top: 30px;
-    font: 18px sans-serif bold;
-    background: none repeat scroll 0 0 #ffffff;
+    font: 20px bold;
+    background: none repeat scroll 0 0 #feffdb;
     color: black;
     pointer-events: none;
+}
+
+#chart_title {
+    fill: teal;
+    font: 20pt bold;
+    font-weight: bold;
+
 }
 
 

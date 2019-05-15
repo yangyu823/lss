@@ -80,9 +80,9 @@ $pie = array(
 );
 
 $dataPoints = array(
-    array("label" => "NA", "y" => ($NAcount)),
-    array("label" => "No", "y" => ($Nocount)),
-    array("label" => "Yes", "y" => ($Yescount)),
+    array("label" => "NA", "value" => ($NAcount)),
+    array("label" => "No", "value" => ($Nocount)),
+    array("label" => "Yes", "value" => ($Yescount)),
 );
 
 // Close connection
@@ -133,7 +133,7 @@ $conn->close();
     var color = d3.scaleOrdinal(['#4daf4a', '#377eb8', '#ff7f00', '#984ea3', '#e41a1c']);
 
     var pie = d3.pie().value(function (d) {
-        return d.y;
+        return d.value;
     });
 
     var path = d3.arc()
@@ -167,7 +167,7 @@ $conn->close();
             return "translate(" + index.centroid(d) + ")";
         })
         .text(function (d) {
-            return d.data.label + "(" + d.data.y + ")";
+            return d.data.label + "(" + d.data.value + ")";
         });
 
 

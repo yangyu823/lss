@@ -104,10 +104,12 @@ $pie = array(
 );
 
 $dataPoints = array(
-    array("label" => "NA", "y" => ($NAcount)),
-    array("label" => "No", "y" => ($Nocount)),
-    array("label" => "Yes", "y" => ($Yescount)),
+    array("label" => "NA", "value" => ($NAcount)),
+    array("label" => "No", "value" => ($Nocount)),
+    array("label" => "Yes", "value" => ($Yescount)),
 );
+$sum = ($NAcount + $Nocount + $Yescount);
+
 
 // Close connection
 $conn->close();
@@ -137,8 +139,6 @@ $conn->close();
         <link href="lib/yu/yu.css" rel="stylesheet">
         <script src="lib/yu/d3/d3.min.js"></script>
         <script src="lib/yu/d3/d3.v4.js"></script>
-
-
 
 
         <style type="text/css">
@@ -2134,7 +2134,7 @@ $conn->close();
                         <div class="row">
                             <div class="col-3"></div>
                             <div class="col-6" id="pie_chart" style="display: none"></div>
-                            <div class="col-6" id="bar_chart"><a>"Hello world"</a></div>
+                            <div class="col-6" id="bar_chart" style="display: block"></div>
                             <!--                            <div class="col-10" id="pieContainer"-->
                             <!--                                 style="height: 400px; width: 100px; display: block"></div>-->
                             <!--                            <div class="col-10" id="barContainer"-->
@@ -2157,6 +2157,7 @@ $conn->close();
     <script>
         //Pie Chart - Yu
         {
+            var sum = (<?php echo json_encode($sum, JSON_NUMERIC_CHECK); ?>);
             var data_yu = (<?php echo json_encode($dataPoints, JSON_NUMERIC_CHECK); ?>)
             var svg = d3.select("#pie_chart")
                     .append('svg')
@@ -2170,7 +2171,7 @@ $conn->close();
                 .attr("transform", "translate(" + (width / 2) + "," + (height / 2 + 30) + ")");
             var color = d3.scaleOrdinal(['#4daf4a', '#377eb8', '#ff7f00', '#984ea3', '#e41a1c']);
             var pie = d3.pie().value(function (d) {
-                return d.y;
+                return d.value;
             });
             var path = d3.arc().outerRadius(radius - 10).innerRadius(100);
             var index = d3.arc().outerRadius(radius).innerRadius(radius - 120);
@@ -2193,14 +2194,14 @@ $conn->close();
                     return "translate(" + index.centroid(d) + ")";
                 })
                 .text(function (d) {
-                    return d.data.label + "(" + d.data.y + ")";
+                    return d.data.label + "  (" + d.data.value + ")";
                 });
 
             svg.append("g")
-                .attr("transform", "translate(" + (width / 2 - 75) + "," + 20 + ")")
+                .attr("transform", "translate(" + (width / 2 - 100) + "," + 20 + ")")
                 .append("text")
                 .text("PeelService Report")
-                .attr("class", "title")
+                .attr("id", "chart_title")
 
             //legend index for Pie Chart
             var legend = svg.selectAll('.legend')
@@ -2229,6 +2230,114 @@ $conn->close();
         }
         //Bar Chart - Yu
         {
+            // set the dimensions and margins of the graph
+            var margin = {top: 10, right: 30, bottom: 90, left: 40},
+                width = 600 - margin.left - margin.right,
+                height = 580 - margin.top - margin.bottom;
+
+            // ----------------
+            // Create a tooltip
+            // ----------------
+            var tooltip = d3.select("#bar_chart")
+                .append("div")
+                .style("opacity", 0)
+                .attr("class", "tooltip")
+                .attr("id", "tooltip");
+
+
+            // append the svg object to the body of the page
+
+            var svg = d3.select("#bar_chart")
+                .append("svg")
+                .attr("width", width + margin.left + margin.right)
+                .attr("height", height + margin.top + margin.bottom)
+                .attr("id", "svg_bar")
+                .append("g")
+                .attr("transform",
+                    "translate(" + margin.left + "," + (margin.top * 6) + ")")
+            ;
+            // X axis
+            var x = d3.scaleBand()
+                .range([0, width])
+                .domain(data_yu.map(function (d) {
+                    return d.label;
+                }))
+                .padding(0.2);
+            svg.append("g")
+                .attr("transform", "translate(0," + height + ")")
+                .call(d3.axisBottom(x))
+                .selectAll("text")
+                .attr("transform", "translate(-10,0)rotate(-45)")
+                .style("text-anchor", "end");
+                // .style("font", "15px");
+
+
+            // Add Y axis
+            var y = d3.scaleLinear()
+                .domain([0, sum])
+                .range([height, 0]);
+            svg.append("g")
+                .call(d3.axisLeft(y));
+
+            // Bars
+            svg.selectAll("mybar")
+                .data(data_yu)
+                .enter()
+
+                .append("rect")
+                .attr("x", function (d) {
+                    return x(d.label);
+                })
+                .attr("width", x.bandwidth())
+                .style("fill", function (d) {
+                    return color(d.label);
+                })
+                // no bar at the beginning thus:
+                .attr("height", function (d) {
+                    return height - y(0);
+                }) // always equal to 0
+                .attr("y", function (d) {
+                    return y(0);
+                })
+                .on("mousemove", function (d) {
+                    var abs_x = d3.event.pageX - document.getElementById("svg_bar").getBoundingClientRect().x + 10;
+                    var abs_y = d3.event.pageY - document.getElementById("svg_bar").getBoundingClientRect().y - 80;
+                    tooltip
+                        .style("left", abs_x + "px")
+                        .style("top", abs_y + "px")
+
+                        .style("display", "inline-block")
+                        .style("opacity", 1)
+                        .html(d.value);
+                    console.log(d.value)
+
+                })
+                .on("mouseout", function (d) {
+                    tooltip.style("display", "none");
+                });
+
+            // Animation
+            svg.selectAll("rect")
+                .transition()
+                .duration(800)
+                .attr("y", function (d) {
+                    return y(d.value);
+                })
+                .attr("height", function (d) {
+                    return height - y(d.value);
+                })
+                .delay(function (d, i) {
+                    console.log(i);
+                    return (i * 100)
+                });
+
+
+            svg.append("g")
+                .attr("transform", "translate(" + (width / 3) + "," + 0 + ")")
+                .append("text")
+                .text("PeelService Report!!")
+                .attr("id", "chart_title")
+
         }
         //Switch Button Function - Yu
         {
