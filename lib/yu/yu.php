@@ -42,7 +42,5 @@ $dataPoints = array(
     array("label" => "Yes", "value" => ($Yescount), "color" => "#ff7f00"),
 );
 $sum = ($NAcount + $Nocount + $Yescount);
-
-
 // Close connection
 $conn->close();
