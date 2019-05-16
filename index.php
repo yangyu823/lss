@@ -2066,12 +2066,11 @@ $conn->close();
                 <!--                ### Yu Report tab  start-->
 
                 <div id="report" name="report" style="display:none; padding-top:60px">
-                    <br>
                     <button onclick="bar_chart()">Bar Chart</button>
                     <button onclick="pie_chart()">Pie Chart</button>
 
                     <br><br>
-                    <h1>PeelService Report</h1>
+                    <h1 style="font-size:2vw;">PeelService Report</h1>
                     <div class="container">
                         <div class="row">
                             <div class="col-2"></div>
