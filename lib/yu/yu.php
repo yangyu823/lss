@@ -1,11 +1,4 @@
 <?php
-
-//  Setup DB variable
-$yu_hostname = "localhost";
-$yu_username = "root";
-$yu_password = "root";
-$yu_dbname = "rp_db";
-$yu_port = "8889";
 //  Create connection
 $conn = new mysqli($yu_hostname, $yu_username, $yu_password, $yu_dbname, $yu_port);
 

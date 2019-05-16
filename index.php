@@ -31,58 +31,13 @@ if ($connect->connect_error) {
 //Yu Script for DB connection
 //  Setup DB variable
 include "lib/yu/db.php";
-echo $yu_dbname;
-
-//  Create connection
-$conn = new mysqli($yu_hostname, $yu_username, $yu_password, $yu_dbname, $yu_port);
-
-//  Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-//echo "Connected successfully";
-//  Query DB to get team name
-$objid = $profile + 9;
-$team = "SELECT * FROM lov WHERE objid = '" . $objid . "'";
-$team_conn = $conn->query($team);
-if ($team_conn->num_rows > 0) {
-    while ($row = $team_conn->fetch_assoc()) {
-        $team_name = $row["value"];
-    }
-}
-//  Query DB to get PeelService Count
-$sql = "SELECT * FROM lss_employee_profile WHERE practiceTeam = '" . $team_name . "'";
-$result = $conn->query($sql);
-if ($result->num_rows > 0) {
-    while ($row = $result->fetch_assoc()) {
-        if ($row["peelService"] == "NA") {
-            $NAcount += 1;
-        } elseif ($row["peelService"] == "No") {
-            $Nocount += 1;
-        } elseif ($row["peelService"] == "Yes") {
-            $Yescount += 1;
-        }
-    }
-} else {
-    echo "No Data for this team";
-}
-$pie = array(
-    array("label" => ["Yes", "No", "NA"]),
-    array("value" => [$Yescount, $Nocount, $NAcount]),
-);
-$dataPoints = array(
-    array("label" => "NA", "value" => ($NAcount), "color" => "#4daf4a"),
-    array("label" => "No", "value" => ($Nocount), "color" => "#377eb8"),
-    array("label" => "Yes", "value" => ($Yescount), "color" => "#ff7f00"),
-);
-$sum = ($NAcount + $Nocount + $Yescount);
+include "lib/yu/yu.php";
 
 
 // Close connection
 $conn->close();
 
 ?>
-
 
     <html lang="en-US">
     <head>
@@ -102,11 +57,24 @@ $conn->close();
         <link href="lib/bootstrap/css/datepicker.css" rel="stylesheet">
         <script type="text/javascript" src="lib/bootstrap/js/bootstrap-datepicker.js"></script>
 
-        <!--        ### Yu Source Script for cancasJs import-->
+        <!--        ##########################################-->
+        <!--        ### Yu Source Script report function start   -->
+
         <link href="lib/yu/yu.css" rel="stylesheet">
         <script src="lib/yu/d3/d3.min.js"></script>
-        <!--        <script src="lib/yu/d3/d3.v4.js"></script>-->
+        <script src="lib/yu/d3/d3.v4.js"></script>
         <script src="lib/yu/d3pie.min.js"></script>
+        <script src="lib/yu/yu.js"></script>
+        <script>
+            //  Global Variable
+            var sum = (<?php echo json_encode($sum, JSON_NUMERIC_CHECK); ?>);
+            var data_yu = (<?php echo json_encode($dataPoints, JSON_NUMERIC_CHECK); ?>);
+            var color = d3.scaleOrdinal(['#4daf4a', '#377eb8', '#ff7f00']);
+        </script>
+
+        <!--        ### Yu Source Script report function finished-->
+        <!--        #############################################-->
+
 
 
         <style type="text/css">
@@ -2094,6 +2062,9 @@ $conn->close();
                     </div>
                 </div>
 
+                <!--                ########################-->
+                <!--                ### Yu Report tab  start-->
+
                 <div id="report" name="report" style="display:none; padding-top:60px">
                     <br>
                     <button onclick="bar_chart()">Bar Chart</button>
@@ -2106,14 +2077,13 @@ $conn->close();
                             <div class="col-2"></div>
                             <div class="col-8" id="pie_chart" style="display: block"></div>
                             <div class="col-8" id="bar_chart" style="display: none"></div>
-                            <!--                            <div class="col-10" id="pieContainer"-->
-                            <!--                                 style="height: 400px; width: 100px; display: block"></div>-->
-                            <!--                            <div class="col-10" id="barContainer"-->
-                            <!--                                 style="height: 400px; width: 100px; display: none"></div>-->
                             <div class="col-2"></div>
                         </div>
                     </div>
                 </div>
+
+                <!--                ########################-->
+                <!--                ### Yu Report tab  start-->
 
 
             </td>
@@ -2124,220 +2094,6 @@ $conn->close();
     </div>
     <a href='#' data-target='#addresourcemod' data-toggle='modal' id='dummylnk' name='dummylnk'
        style='display:none'></a>
-
-    <script>
-        //  Global Variable
-        var sum = (<?php echo json_encode($sum, JSON_NUMERIC_CHECK); ?>);
-        var data_yu = (<?php echo json_encode($dataPoints, JSON_NUMERIC_CHECK); ?>);
-        var color = d3.scaleOrdinal(['#4daf4a', '#377eb8', '#ff7f00']);
-
-        //  Pie Chart - Yu
-        function pie() {
-            var pie = new d3pie("pie_chart", {
-                "size": {
-                    "canvasHeight": 580,
-                    "canvasWidth": 600,
-                    "pieInnerRadius": "50%",
-                    "pieOuterRadius": "90%"
-                },
-                "data": {
-                    "content": data_yu,
-                },
-                "labels": {
-                    "outer": {
-                        "pieDistance": 32
-                    },
-                    "inner": {
-                        "format": "value"
-                    },
-                    "mainLabel": {
-                        "font": "verdana",
-                        "fontSize": 14
-                    },
-                    "percentage": {
-                        "color": "#e1e1e1",
-                        "font": "verdana",
-                        "decimalPlaces": 0
-                    },
-                    "value": {
-                        "color": "#e1e1e1",
-                        "font": "verdana",
-                        "fontSize": 20
-                    },
-                    "lines": {
-                        "enabled": true,
-                        "color": "#cccccc"
-                    },
-                    "truncation": {
-                        "enabled": true
-                    }
-                },
-                "tooltips": {
-                    "enabled": true,
-                    "type": "placeholder",
-                    "string": "{label}: {value}",
-                    "styles": {
-                        "fadeInSpeed": 300,
-                        "borderRadius": 3,
-                        "fontSize": 20
-                    }
-                },
-                "effects": {
-                    "pullOutSegmentOnClick": {
-                        "effect": "linear",
-                        "speed": 400,
-                        "size": 20
-                    }
-                }
-            })
-        }
-
-        //  Bar Chart - Yu
-        function bar() {
-            // set the dimensions and margins of the graph
-            var margin = {top: 10, right: 30, bottom: 90, left: 40},
-                width = 600 - margin.left - margin.right,
-                height = 580 - margin.top - margin.bottom;
-
-            // ----------------
-            // Create a tooltip
-            // ----------------
-            var tooltip = d3.select("#bar_chart")
-                .append("div")
-                .style("opacity", 0)
-                .attr("class", "tooltip")
-                .attr("id", "tooltip");
-            // append the svg object to the body of the page
-
-            var svg = d3.select("#bar_chart")
-                .append("svg")
-                .attr("width", width + margin.left + margin.right)
-                .attr("height", height + margin.top + margin.bottom)
-                .attr("id", "svg_bar")
-                .append("g")
-                .attr("transform",
-                    "translate(" + margin.left + "," + (margin.top * 6) + ")")
-            ;
-            // X axis
-            var x = d3.scaleBand()
-                .range([0, width])
-                .domain(data_yu.map(function (d) {
-                    return d.label;
-                }))
-                .padding(0.2);
-            svg.append("g")
-                .attr("transform", "translate(0," + height + ")")
-                .call(d3.axisBottom(x))
-                .selectAll("text")
-                .attr("transform", "translate(-10,0)rotate(-45)")
-                .style("text-anchor", "end");
-            // .style("font", "15px");
-
-
-            // Add Y axis
-            var y = d3.scaleLinear()
-                .domain([0, sum])
-                .range([height, 0]);
-            svg.append("g")
-                .call(d3.axisLeft(y));
-
-            // Bars
-            svg.selectAll("bar")
-                .data(data_yu)
-                .enter()
-
-                .append("rect")
-                .attr("x", function (d) {
-                    return x(d.label);
-                })
-                .attr("width", x.bandwidth())
-                .style("fill", function (d) {
-                    return color(d.label);
-                })
-                // no bar at the beginning thus:
-                .attr("height", function (d) {
-                    return height - y(0);
-                }) // always equal to 0
-                .attr("y", function (d) {
-                    return y(0);
-                })
-                .on("mousemove", function (d) {
-                    var abs_x = d3.event.pageX - document.getElementById("svg_bar").getBoundingClientRect().x + 10;
-                    var abs_y = d3.event.pageY - document.getElementById("svg_bar").getBoundingClientRect().y - 80;
-                    tooltip
-                        .style("left", abs_x + "px")
-                        .style("top", abs_y + "px")
-
-                        .style("display", "inline-block")
-                        .style("opacity", 1)
-                        .html(d.value);
-                    // console.log(d.value)
-                })
-                .on("mouseout", function (d) {
-                    tooltip.style("display", "none");
-                });
-
-            // Animation
-            {
-                svg.selectAll("rect")
-                    .transition()
-                    .duration(800)
-                    .attr("y", function (d) {
-                        return y(d.value);
-                    })
-                    .attr("height", function (d) {
-                        return height - y(d.value);
-                    })
-                    .delay(function (d, i) {
-                        return (i * 100)
-                    });
-            }
-            //  Title for Bar Chart (Redundant)
-            // svg.append("g")
-            //     .attr("transform", "translate(" + (width / 3 - 37) + "," + (-40) + ")")
-            //     .append("text")
-            //     .text("PeelService Report")
-            //     .attr("id", "chart_title")
-
-        }
-
-        //Switch Button Function - Yu
-        {
-            function SwapChart() {
-                var d1 = document.getElementById("pie_chart");
-                var d2 = document.getElementById("bar_chart");
-                if (d2.style.display === "none") {
-                    d1.style.display = "none";
-                    d2.style.display = "block";
-                } else {
-                    d1.style.display = "block";
-                    d2.style.display = "none";
-                }
-            }
-
-            function bar_chart() {
-                d3.select("svg").remove();
-                var d1 = document.getElementById("pie_chart");
-                var d2 = document.getElementById("bar_chart");
-                if (d2.style.display === "none") {
-                    d1.style.display = "none";
-                    d2.style.display = "block";
-                }
-                bar()
-            }
-
-            function pie_chart() {
-                d3.select("svg").remove();
-                var d1 = document.getElementById("pie_chart");
-                var d2 = document.getElementById("bar_chart");
-                if (d1.style.display === "none") {
-                    d1.style.display = "block";
-                    d2.style.display = "none";
-                }
-                pie()
-            }
-        }
-    </script>
     </body>
     </html>
 
