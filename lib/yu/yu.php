@@ -67,9 +67,9 @@ $pie = array(
     array("value" => [$Yescount, $Nocount, $NAcount]),
 );
 $dataPoints = array(
-    array("label" => "NA", "value" => ($NAcount)),
-    array("label" => "No", "value" => ($Nocount)),
-    array("label" => "Yes", "value" => ($Yescount)),
+    array("label" => "NA", "value" => ($NAcount), "color" => "#4daf4a"),
+    array("label" => "No", "value" => ($Nocount), "color" => "#377eb8"),
+    array("label" => "Yes", "value" => ($Yescount), "color" => "#ff7f00"),
 );
 $sum = ($NAcount + $Nocount + $Yescount);
 
@@ -80,3 +80,98 @@ echo $team_name;
 $conn->close();
 
 ?>
+
+
+<html>
+<head></head>
+<body>
+
+<div id="pie_Chart"></div>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/d3/4.7.2/d3.min.js"></script>
+<script src="d3pie.min.js"></script>
+<script>
+    var data_yu = (<?php echo json_encode($dataPoints, JSON_NUMERIC_CHECK); ?>);
+
+    function pie() {
+        var pie = new d3pie("pie_Chart", {
+            "header": {
+                "title": {
+                    "text": "PeelService Report",
+                    "fontSize": 22,
+                    "font": "verdana",
+                    "color": "teal"
+                },
+                "subtitle": {
+                    "text": "PeelService",
+                    "color": "#ffffff",
+                    "fontSize": 22,
+                    "font": "verdana"
+                },
+                "titleSubtitlePadding": 12
+            },
+
+            "size": {
+                "canvasHeight": 600,
+                "canvasWidth": 700,
+                "pieInnerRadius": "50%",
+                "pieOuterRadius": "100%"
+            },
+            "data": {
+                "content": data_yu
+            },
+            "labels": {
+                "outer": {
+                    "pieDistance": 32
+                },
+                "inner": {
+                    "format": "value"
+                },
+                "mainLabel": {
+                    "font": "verdana",
+                    "fontSize": 14
+                },
+                "percentage": {
+                    "color": "#e1e1e1",
+                    "font": "verdana",
+                    "decimalPlaces": 0
+                },
+                "value": {
+                    "color": "#e1e1e1",
+                    "font": "verdana",
+                    "fontSize": 20
+                },
+                "lines": {
+                    "enabled": true,
+                    "color": "#cccccc"
+                },
+                "truncation": {
+                    "enabled": true
+                }
+            },
+            "tooltips": {
+                "enabled": true,
+                "type": "placeholder",
+                "string": "{label}: {value}",
+                "styles": {
+                    "fadeInSpeed": 300,
+                    "borderRadius": 3,
+                    "fontSize": 20
+                }
+            },
+            "effects": {
+                "pullOutSegmentOnClick": {
+                    "effect": "linear",
+                    "speed": 400,
+                    "size": 20
+                }
+            }
+        })
+    };
+
+    pie()
+
+</script>
+
+</body>
+</html>

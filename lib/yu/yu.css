@@ -1,4 +1,3 @@
-
 /*.arc text {*/
 /*    font: 20px sans-serif;*/
 /*    text-anchor: middle;*/
@@ -10,7 +9,8 @@
 
 .title {
     fill: teal;
-    font-weight: bold;
+    /*font-weight: bold;*/
+    fontSize: 22;
 }
 
 .tooltip {

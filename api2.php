@@ -101,7 +101,8 @@ $conn->close();
         <!--        ### Yu Source Script for cancasJs import-->
         <link href="lib/yu/yu.css" rel="stylesheet">
         <script src="lib/yu/d3/d3.min.js"></script>
-        <script src="lib/yu/d3/d3.v4.js"></script>
+        <!--        <script src="lib/yu/d3/d3.v4.js"></script>-->
+        <script src="lib/yu/d3pie.min.js"></script>
 
 
         <style type="text/css">
@@ -2098,7 +2099,7 @@ $conn->close();
                     <div class="container">
                         <div class="row">
                             <div class="col-3"></div>
-                            <div class="col-6" id="pie_chart" style="display: none"></div>
+                            <div class="col-6" id="pie_chart" style="display: block"></div>
                             <div class="col-6" id="bar_chart" style="display: none"></div>
                             <!--                            <div class="col-10" id="pieContainer"-->
                             <!--                                 style="height: 400px; width: 100px; display: block"></div>-->
@@ -2120,88 +2121,91 @@ $conn->close();
        style='display:none'></a>
 
     <script>
-        //Pie Chart - Yu
-        function update_pie() {
-            var sum = (<?php echo json_encode($sum, JSON_NUMERIC_CHECK); ?>);
-            var data_yu = (<?php echo json_encode($dataPoints, JSON_NUMERIC_CHECK); ?>)
-            var svg = d3.select("#pie_chart")
-                    .append('svg')
-                    .attr("width", 580)
-                    .attr("height", 580),
-                width = svg.attr("width") - 20,
-                height = svg.attr("height") - 20,
-                radius = Math.min(width, height) / 2;
+        //  Global Variable
+        var sum = (<?php echo json_encode($sum, JSON_NUMERIC_CHECK); ?>);
+        var data_yu = (<?php echo json_encode($dataPoints, JSON_NUMERIC_CHECK); ?>);
+        var color = d3.scaleOrdinal(['#4daf4a', '#377eb8', '#ff7f00', '#984ea3', '#e41a1c']);
 
-            var g = svg.append("g")
-                .attr("transform", "translate(" + (width / 2) + "," + (height / 2 + 30) + ")");
-            var color = d3.scaleOrdinal(['#4daf4a', '#377eb8', '#ff7f00', '#984ea3', '#e41a1c']);
-            var pie = d3.pie().value(function (d) {
-                return d.value;
-            });
-            var path = d3.arc().outerRadius(radius - 10).innerRadius(100);
-            var index = d3.arc().outerRadius(radius).innerRadius(radius - 150);
-            var arc = g.selectAll(".arc").data(pie(data_yu)).enter().append("g").attr("class", "arc");
+        //  Pie Chart - Yu
+        function pie() {
+            var pie = new d3pie("pie_chart", {
+                "header": {
+                    "title": {
+                        "text": "PeelService Report",
+                        "fontSize": 22,
+                        "font": "verdana",
+                        "color": "teal",
 
+                    },
+                    "subtitle": {
+                        "text": "PeelService",
+                        "color": "#ffffff",
+                        "fontSize": 22,
+                        "font": "verdana"
+                    },
+                    "titleSubtitlePadding": 12
+                },
 
-            arc.append("path")
-                .transition()
-                // .duration(1000)
-                .attr("stroke", "white")
-                .style("stroke-width", "2px")
-                .attr("d", path)
-                .attr("fill", function (d) {
-                    return color(d.data.label);
-                })
-                .style("opacity", 1)
-                .delay(function (d, i) {
-                    return (i * 500)
-                });
-
-            // arc.append("text")
-            //     .attr("transform", function (d) {
-            //         return "translate(" + index.centroid(d) + ")";
-            //     })
-            //     .text(function (d) {
-            //         return d.data.label + "  (" + d.data.value + ")";
-            //     });
-
-            // svg.append("g")
-            //     .attr("transform", "translate(" + (width / 2 - 100) + "," + 20 + ")")
-            //     .append("text")
-            //     .text("PeelService Report")
-            //     .attr("id", "chart_title")
-            //
-            // //legend index for Pie Chart
-            // var legend = svg.selectAll('.legend')
-            //     .data(color.domain())
-            //     .enter()
-            //     .append('g')
-            //     .attr('class', 'legend')
-            //     .attr('transform', function (d, i) {
-            //         var offset = 22 * color.domain().length / 2;
-            //         var vert = i * 22 - offset;
-            //         return 'translate(' + 260 + ',' + (vert + 310) + ')';
-            //     });
-            //
-            // legend.append('rect')
-            //     .attr('width', 20)
-            //     .attr('height', 20)
-            //     .style('fill', color)
-            //     .style('stroke', color);
-            //
-            // legend.append('text')
-            //     .attr('x', 25)
-            //     .attr('y', 15)
-            //     .text(function (d) {
-            //         return d;
-            //     });
+                "size": {
+                    "canvasHeight": 580,
+                    "canvasWidth": 600,
+                    "pieInnerRadius": "50%",
+                    "pieOuterRadius": "100%"
+                },
+                "data": {
+                    "content": data_yu,
+                },
+                "labels": {
+                    "outer": {
+                        "pieDistance": 32
+                    },
+                    "inner": {
+                        "format": "value"
+                    },
+                    "mainLabel": {
+                        "font": "verdana",
+                        "fontSize": 14
+                    },
+                    "percentage": {
+                        "color": "#e1e1e1",
+                        "font": "verdana",
+                        "decimalPlaces": 0
+                    },
+                    "value": {
+                        "color": "#e1e1e1",
+                        "font": "verdana",
+                        "fontSize": 20
+                    },
+                    "lines": {
+                        "enabled": true,
+                        "color": "#cccccc"
+                    },
+                    "truncation": {
+                        "enabled": true
+                    }
+                },
+                "tooltips": {
+                    "enabled": true,
+                    "type": "placeholder",
+                    "string": "{label}: {value}",
+                    "styles": {
+                        "fadeInSpeed": 300,
+                        "borderRadius": 3,
+                        "fontSize": 20
+                    }
+                },
+                "effects": {
+                    "pullOutSegmentOnClick": {
+                        "effect": "linear",
+                        "speed": 400,
+                        "size": 20
+                    }
+                }
+            })
         }
 
-        //Bar Chart - Yu
-        function update_bar() {
-            var sum = (<?php echo json_encode($sum, JSON_NUMERIC_CHECK); ?>);
-            var data_yu = (<?php echo json_encode($dataPoints, JSON_NUMERIC_CHECK); ?>)
-            var color = d3.scaleOrdinal(['#4daf4a', '#377eb8', '#ff7f00', '#984ea3', '#e41a1c']);
+        //  Bar Chart - Yu
+        function bar() {
             // set the dimensions and margins of the graph
             var margin = {top: 10, right: 30, bottom: 90, left: 40},
                 width = 600 - margin.left - margin.right,
@@ -2250,7 +2254,7 @@ $conn->close();
                 .call(d3.axisLeft(y));
 
             // Bars
-            svg.selectAll("mybar")
+            svg.selectAll("bar")
                 .data(data_yu)
                 .enter()
 
@@ -2279,15 +2283,13 @@ $conn->close();
                         .style("display", "inline-block")
                         .style("opacity", 1)
                         .html(d.value);
-                    console.log(d.value)
-
+                    // console.log(d.value)
                 })
                 .on("mouseout", function (d) {
                     tooltip.style("display", "none");
                 });
 
             // Animation
-
             {
                 svg.selectAll("rect")
                     .transition()
@@ -2302,8 +2304,6 @@ $conn->close();
                         return (i * 100)
                     });
             }
-
-
             svg.append("g")
                 .attr("transform", "translate(" + (width / 3 - 37) + "," + (-40) + ")")
                 .append("text")
@@ -2324,7 +2324,6 @@ $conn->close();
                     d1.style.display = "block";
                     d2.style.display = "none";
                 }
-
             }
 
             function bar_chart() {
@@ -2335,7 +2334,7 @@ $conn->close();
                     d1.style.display = "none";
                     d2.style.display = "block";
                 }
-                update_bar()
+                bar()
             }
 
             function pie_chart() {
@@ -2346,10 +2345,9 @@ $conn->close();
                     d1.style.display = "block";
                     d2.style.display = "none";
                 }
-                update_pie()
+                pie()
             }
         }
-
     </script>
     </body>
     </html>
