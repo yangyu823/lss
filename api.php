@@ -67,9 +67,9 @@ $pie = array(
     array("value" => [$Yescount, $Nocount, $NAcount]),
 );
 $dataPoints = array(
-    array("label" => "NA", "value" => ($NAcount)),
-    array("label" => "No", "value" => ($Nocount)),
-    array("label" => "Yes", "value" => ($Yescount)),
+    array("label" => "NA", "value" => ($NAcount), "color" => "#4daf4a"),
+    array("label" => "No", "value" => ($Nocount), "color" => "#377eb8"),
+    array("label" => "Yes", "value" => ($Yescount), "color" => "#ff7f00"),
 );
 $sum = ($NAcount + $Nocount + $Yescount);
 
@@ -2095,17 +2095,18 @@ $conn->close();
                     <button onclick="bar_chart()">Bar Chart</button>
                     <button onclick="pie_chart()">Pie Chart</button>
 
-                    <br><br><br><br>
+                    <br><br>
+                    <h1>PeelService Report</h1>
                     <div class="container">
                         <div class="row">
-                            <div class="col-3"></div>
-                            <div class="col-6" id="pie_chart" style="display: block"></div>
-                            <div class="col-6" id="bar_chart" style="display: none"></div>
+                            <div class="col-2"></div>
+                            <div class="col-8" id="pie_chart" style="display: block"></div>
+                            <div class="col-8" id="bar_chart" style="display: none"></div>
                             <!--                            <div class="col-10" id="pieContainer"-->
                             <!--                                 style="height: 400px; width: 100px; display: block"></div>-->
                             <!--                            <div class="col-10" id="barContainer"-->
                             <!--                                 style="height: 400px; width: 100px; display: none"></div>-->
-                            <div class="col-3"></div>
+                            <div class="col-2"></div>
                         </div>
                     </div>
                 </div>
@@ -2124,33 +2125,16 @@ $conn->close();
         //  Global Variable
         var sum = (<?php echo json_encode($sum, JSON_NUMERIC_CHECK); ?>);
         var data_yu = (<?php echo json_encode($dataPoints, JSON_NUMERIC_CHECK); ?>);
-        var color = d3.scaleOrdinal(['#4daf4a', '#377eb8', '#ff7f00', '#984ea3', '#e41a1c']);
+        var color = d3.scaleOrdinal(['#4daf4a', '#377eb8', '#ff7f00']);
 
         //  Pie Chart - Yu
         function pie() {
             var pie = new d3pie("pie_chart", {
-                "header": {
-                    "title": {
-                        "text": "PeelService Report",
-                        "fontSize": 22,
-                        "font": "verdana",
-                        "color": "teal",
-
-                    },
-                    "subtitle": {
-                        "text": "PeelService",
-                        "color": "#ffffff",
-                        "fontSize": 22,
-                        "font": "verdana"
-                    },
-                    "titleSubtitlePadding": 12
-                },
-
                 "size": {
                     "canvasHeight": 580,
                     "canvasWidth": 600,
                     "pieInnerRadius": "50%",
-                    "pieOuterRadius": "100%"
+                    "pieOuterRadius": "90%"
                 },
                 "data": {
                     "content": data_yu,
@@ -2304,11 +2288,12 @@ $conn->close();
                         return (i * 100)
                     });
             }
-            svg.append("g")
-                .attr("transform", "translate(" + (width / 3 - 37) + "," + (-40) + ")")
-                .append("text")
-                .text("PeelService Report")
-                .attr("id", "chart_title")
+            //  Title for Bar Chart (Redundant)
+            // svg.append("g")
+            //     .attr("transform", "translate(" + (width / 3 - 37) + "," + (-40) + ")")
+            //     .append("text")
+            //     .text("PeelService Report")
+            //     .attr("id", "chart_title")
 
         }
 
