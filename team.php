@@ -29,89 +29,14 @@ if ($connect->connect_error) {
 
 
 //Yu Script for DB connection
-// Create connection
-$conn = new mysqli("localhost", "root", "root", "rp_db", 8889);
+//  Setup DB variable
+include "lib/yu/yu.php";
 
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-echo "Connected successfully";
-
-switch ($profile) {
-    case "1":
-        $team_name = "L & SS";
-        break;
-    case "2":
-        $team_name = "C&SB";
-        break;
-    case "3":
-        $team_name = "Enterprise";
-        break;
-    case "4":
-        $team_name = "Infra co";
-        break;
-    case "5":
-        $team_name = "ALM";
-        break;
-    case "6":
-        $team_name = "Solutions";
-        break;
-    case "7":
-        $team_name = "Functional Practice";
-        break;
-    case "8":
-        $team_name = "Non Functional";
-        break;
-    case "9":
-        $team_name = "Release Orchestration";
-        break;
-    case "10":
-        $team_name = "OWOW";
-        break;
-    case "11":
-        $team_name = "Emer tech";
-        break;
-    case "12":
-        $team_name = "Bus Ops";
-        break;
-}
-
-
-$sql = "SELECT * FROM lss_employee_profile WHERE practiceTeam = '" . $team_name . "'";
-
-//                    $NAcount = "SELECT COUNT(dnumber) FROM lss_employee_profile where peelService = 'NA'";
-$result = $conn->query($sql);
-
-if ($result->num_rows > 0) {
-    while ($row = $result->fetch_assoc()) {
-        if ($row["peelService"] == "NA") {
-            $NAcount += 1;
-        } elseif ($row["peelService"] == "No") {
-            $Nocount += 1;
-        } elseif ($row["peelService"] == "Yes") {
-            $Yescount += 1;
-        }
-//                            echo "<br> D.ID: " . $row["dnumber"] .  " -Service " . $row["peelService"];
-//                            echo "<br>".$row['COUNT(dnumber)'];
-    }
-} else {
-    echo "No Data for this team";
-}
-$sum = $NAcount + $Nocount + $Yescount;
-
-$dataPoints = array(
-    array("label" => "NA", "y" => ($NAcount)),
-    array("label" => "No", "y" => ($Nocount)),
-    array("label" => "Yes", "y" => ($Yescount)),
-);
 
 // Close connection
 $conn->close();
 
-
 ?>
-
 
     <html lang="en-US">
     <head>
@@ -131,12 +56,24 @@ $conn->close();
         <link href="lib/bootstrap/css/datepicker.css" rel="stylesheet">
         <script type="text/javascript" src="lib/bootstrap/js/bootstrap-datepicker.js"></script>
 
-        <!--        ### Yu Script for cancasJs import-->
-        <!--        <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>-->
-<!--        <link href="lib/yu/yu.css" rel="stylesheet">-->
-<!--        <script src="lib/yu/yu.js"></script>-->
-        <script src="lib/yu/canvasjs-2.3.1/canvasjs.min.js"></script>
-<!--        <script src="https://d3js.org/d3.v5.min.js"></script>-->
+        <!--        ##########################################-->
+        <!--        ### Yu Source Script report function start   -->
+
+        <link href="lib/yu/yu.css" rel="stylesheet">
+        <script src="lib/yu/d3/d3.min.js"></script>
+        <script src="lib/yu/d3/d3.v4.js"></script>
+        <script src="lib/yu/d3pie.min.js"></script>
+        <script src="lib/yu/yu.js"></script>
+        <script>
+            //  Global Variable
+            var sum = (<?php echo json_encode($sum, JSON_NUMERIC_CHECK); ?>);
+            var data_yu = (<?php echo json_encode($dataPoints, JSON_NUMERIC_CHECK); ?>);
+            var color = d3.scaleOrdinal(['#4daf4a', '#377eb8', '#ff7f00']);
+        </script>
+
+        <!--        ### Yu Source Script report function finished-->
+        <!--        #############################################-->
+
 
 
         <style type="text/css">
@@ -347,61 +284,7 @@ $conn->close();
         <script type="text/javascript">
             //Yu Script for Report Chart Display
             //Yu Script for canvasjs pie chart
-            window.onload = function () {
-                var pie = new CanvasJS.Chart("pieContainer", {
-                    theme: "light2",
-                    animationEnabled: true,
-                    title: {
-                        text: "PeelService Report"
-                    },
-                    width: 900,
-                    height: 700,
-                    data: [{
-                        type: "pie",
-                        indexLabel: "{y}",
-                        yValueFormatString: "#.#",
-                        indexLabelPlacement: "inside",
-                        indexLabelFontColor: "#36454F",
-                        indexLabelFontSize: 18,
-                        indexLabelFontWeight: "bolder",
-                        showInLegend: true,
-                        legendText: "{label}",
-                        dataPoints: <?php echo json_encode($dataPoints, JSON_NUMERIC_CHECK); ?>
-                    }]
-                });
-                var bar = new CanvasJS.Chart("barContainer", {
-                    animationEnabled: true,
-                    theme: "light2",
-                    title: {
-                        text: "PeelService Report"
-                    },
-                    width: 900,
-                    height: 700,
-                    // axisY: {
-                    //     title: "Percentage"
-                    // },
-                    data: [{
-                        type: "column",
-                        yValueFormatString: "#.#",
-                        dataPoints: <?php echo json_encode($dataPoints, JSON_NUMERIC_CHECK); ?>
-                    }]
-                });
-                pie.render();
-                bar.render();
 
-            };
-
-            function SwapChart() {
-                var d1 = document.getElementById("barContainer");
-                var d2 = document.getElementById("pieContainer");
-                if (d2.style.display === "none") {
-                    d1.style.display = "none";
-                    d2.style.display = "block";
-                } else {
-                    d1.style.display = "block";
-                    d2.style.display = "none";
-                }
-            }
 
             //Yu Script finished
 
@@ -2178,21 +2061,28 @@ $conn->close();
                     </div>
                 </div>
 
+                <!--                ########################-->
+                <!--                ### Yu Report tab  start-->
+
                 <div id="report" name="report" style="display:none; padding-top:60px">
                     <br>
-                    <button onclick="SwapChart()">Switch Chart</button>
-                    <br><br><br><br>
+                    <button onclick="bar_chart()">Bar Chart</button>
+                    <button onclick="pie_chart()">Pie Chart</button>
+
+                    <br><br>
+                    <h1>PeelService Report</h1>
                     <div class="container">
                         <div class="row">
-                            <div class="col"></div>
-                            <div class="col-10" id="pieContainer"
-                                 style="height: 400px; width: 100px; display: block"></div>
-                            <div class="col-10" id="barContainer"
-                                 style="height: 400px; width: 100px; display: none"></div>
-                            <div class="col"></div>
+                            <div class="col-2"></div>
+                            <div class="col-8" id="pie_chart" style="display: block"></div>
+                            <div class="col-8" id="bar_chart" style="display: none"></div>
+                            <div class="col-2"></div>
                         </div>
                     </div>
                 </div>
+
+                <!--                ########################-->
+                <!--                ### Yu Report tab  start-->
 
 
             </td>

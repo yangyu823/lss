@@ -29,14 +29,18 @@ if ($connect->connect_error) {
 
 
 //Yu Script for DB connection
-// Create connection
-$conn = new mysqli("localhost", "root", "root", "rp_db", 8889);
+//  Setup DB variable
+include "lib/yu/db.php";
+echo $yu_dbname;
 
-// Check connection
+//  Create connection
+$conn = new mysqli($yu_hostname, $yu_username, $yu_password, $yu_dbname, $yu_port);
+
+//  Check connection
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
-echo "Connected successfully";
+//echo "Connected successfully";
 //  Query DB to get team name
 $objid = $profile + 9;
 $team = "SELECT * FROM lov WHERE objid = '" . $objid . "'";
