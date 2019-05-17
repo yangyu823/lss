@@ -286,7 +286,6 @@ $conn->close();
             //Yu Script for Report Chart Display
             //Yu Script for canvasjs pie chart
 
-
             //Yu Script finished
 
 
@@ -2069,13 +2068,12 @@ $conn->close();
                     <button onclick="bar_chart()">Bar Chart</button>
                     <button onclick="pie_chart()">Pie Chart</button>
 
-                    <br><br>
                     <h1 style="font-size:2vw;">PeelService Report</h1>
                     <div class="container">
                         <div class="row">
                             <div class="col-2"></div>
-                            <div class="col-8" id="pie_chart" style="display: block"></div>
-                            <div class="col-8" id="bar_chart" style="display: none"></div>
+                            <div class="col-8" id="pie_chart" style="display: none" ></div>
+                            <div class="col-8" id="bar_chart" style="display: block" ><script>bar_chart()</script></div>
                             <div class="col-2"></div>
                         </div>
                     </div>
