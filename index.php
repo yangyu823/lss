@@ -2073,7 +2073,7 @@ $conn->close();
                         <div class="row">
                             <div class="col-2"></div>
                             <div class="col-8" id="pie_chart" style="display: none" ></div>
-                            <div class="col-8" id="bar_chart" style="display: block" ><script>bar_chart()</script></div>
+                            <div class="col-8" id="bar_chart" style="display: block" ></div>
                             <div class="col-2"></div>
                         </div>
                     </div>
