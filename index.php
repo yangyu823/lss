@@ -3,10 +3,10 @@
 date_default_timezone_set("Australia/Melbourne");
 //error_reporting(0);
 
-$profile = 6;
+$profile = 8;
 
 
-if ($profile == 1) {
+if ($profile == 100) {
     $team_color = "linear-gradient(50deg, #008fb3, rgba(101, 47, 142, 0.88))"; #Capability //need to change for L&SS
 } else if ($profile == 2 or $profile == 3 or $profile == 4 or $profile == 5) {
     $team_color = "linear-gradient(50deg, #008fb3, rgba(101, 47, 142, 0.88))"; #Capability

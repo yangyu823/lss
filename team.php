@@ -30,6 +30,7 @@ if ($connect->connect_error) {
 
 //Yu Script for DB connection
 //  Setup DB variable
+include "lib/yu/db.php";
 include "lib/yu/yu.php";
 
 
@@ -284,7 +285,6 @@ $conn->close();
         <script type="text/javascript">
             //Yu Script for Report Chart Display
             //Yu Script for canvasjs pie chart
-
 
             //Yu Script finished
 
@@ -2065,17 +2065,15 @@ $conn->close();
                 <!--                ### Yu Report tab  start-->
 
                 <div id="report" name="report" style="display:none; padding-top:60px">
-                    <br>
                     <button onclick="bar_chart()">Bar Chart</button>
                     <button onclick="pie_chart()">Pie Chart</button>
 
-                    <br><br>
-                    <h1>PeelService Report</h1>
+                    <h1 style="font-size:2vw;">PeelService Report</h1>
                     <div class="container">
                         <div class="row">
                             <div class="col-2"></div>
-                            <div class="col-8" id="pie_chart" style="display: block"></div>
-                            <div class="col-8" id="bar_chart" style="display: none"></div>
+                            <div class="col-8" id="pie_chart" style="display: none" ></div>
+                            <div class="col-8" id="bar_chart" style="display: block" ></div>
                             <div class="col-2"></div>
                         </div>
                     </div>
