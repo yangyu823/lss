@@ -1,3 +1,11 @@
+<?php
+//$sql = "SELECT * FROM lss_employee_profile where releaseDate <" .date("Ymd")." "; // add date condition
+$sql = "SELECT * FROM lss_employee_profile where practiceTeam = (select value from lov WHERE splvalue = '" . $objid . "' and type='team') AND releaseDate <" . date("Ymd") . " "; // add date condition
+
+echo $sql
+
+?>
+
 <!DOCTYPE html>
 <meta charset="utf-8">
 <style>
