@@ -6,7 +6,7 @@ date_default_timezone_set("Australia/Melbourne");
 $profile = 6;
 
 
-if ($profile == 1) {
+if ($profile == 100) {
     $team_color = "linear-gradient(50deg, #008fb3, rgba(101, 47, 142, 0.88))"; #Capability //need to change for L&SS
 } else if ($profile == 2 or $profile == 3 or $profile == 4 or $profile == 5) {
     $team_color = "linear-gradient(50deg, #008fb3, rgba(101, 47, 142, 0.88))"; #Capability
@@ -30,6 +30,7 @@ if ($connect->connect_error) {
 
 //Yu Script for DB connection
 //  Setup DB variable
+include "lib/yu/db.php";
 include "lib/yu/yu.php";
 
 
@@ -56,8 +57,8 @@ $conn->close();
         <link href="lib/bootstrap/css/datepicker.css" rel="stylesheet">
         <script type="text/javascript" src="lib/bootstrap/js/bootstrap-datepicker.js"></script>
 
-<!--        ##########################################-->
-<!--        ### Yu Source Script report function start   -->
+        <!--        ##########################################-->
+        <!--        ### Yu Source Script report function start   -->
 
         <link href="lib/yu/yu.css" rel="stylesheet">
         <script src="lib/yu/d3/d3.min.js"></script>
@@ -71,9 +72,8 @@ $conn->close();
             var color = d3.scaleOrdinal(['#4daf4a', '#377eb8', '#ff7f00']);
         </script>
 
-<!--        ### Yu Source Script report function finished-->
-<!--        #############################################-->
-
+        <!--        ### Yu Source Script report function finished-->
+        <!--        #############################################-->
 
 
         <style type="text/css">
@@ -217,7 +217,7 @@ $conn->close();
                 border: 0;
                 border-bottom: 1px solid #ccc;
                 font-family: inherit;
-                -webkit-appearance: none;
+                /*-webkit-appearance: none;*/
                 border-radius: 0;
                 padding: 0;
                 cursor: text;
@@ -231,7 +231,7 @@ $conn->close();
             label {
                 display: inline-block;
                 margin: 0 !important;
-                color: grey;
+                /*color: grey;*/
 
             }
 
@@ -284,7 +284,6 @@ $conn->close();
         <script type="text/javascript">
             //Yu Script for Report Chart Display
             //Yu Script for canvasjs pie chart
-
 
             //Yu Script finished
 
@@ -2061,28 +2060,70 @@ $conn->close();
                     </div>
                 </div>
 
-<!--                ########################-->
-<!--                ### Yu Report tab  start-->
+                <!--                ########################-->
+                <!--                ### Yu Report tab  start-->
 
                 <div id="report" name="report" style="display:none; padding-top:60px">
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1"
+                               value="option1">
+                        <label class="form-check-label" for="inlineRadio1">PeelService</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2"
+                               value="option2">
+                        <label class="form-check-label" for="inlineRadio2">Location</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3"
+                               value="option3"
+                               disabled>
+                        <label class="form-check-label" for="inlineRadio3">3rd (disabled)</label>
+                    </div>
                     <br>
-                    <button onclick="bar_chart()">Bar Chart</button>
+                    <button onclick="checkbox(),bar_chart()">Bar Chart</button>
                     <button onclick="pie_chart()">Pie Chart</button>
 
-                    <br><br>
-                    <h1>PeelService Report</h1>
+
+                    <!--                    new feature-->
+                    <script>
+                        function checkbox() {
+                            let x = document.getElementById("inlineRadio1");
+                            y = document.getElementById("inlineRadio2");
+                            z = document.getElementById("inlineRadio3");
+
+                            if (x.checked === true) {
+                                console.log("PeelService")
+                            } else if (y.checked === true) {
+                                console.log("Location")
+                            } else if (z.checked === true) {
+                                console.log("Disable")
+                            } else {
+                                console.log("Please selection one")
+                            }
+
+                            console.log(x.checked)
+
+                        }
+
+
+                    </script>
+
+
+                    <br>
+                    <h1 style="font-size:2vw;">PeelService Report</h1>
                     <div class="container">
                         <div class="row">
                             <div class="col-2"></div>
-                            <div class="col-8" id="pie_chart" style="display: block"></div>
-                            <div class="col-8" id="bar_chart" style="display: none"></div>
+                            <div class="col-8" id="pie_chart" style="display: none"></div>
+                            <div class="col-8" id="bar_chart" style="display: block"></div>
                             <div class="col-2"></div>
                         </div>
                     </div>
                 </div>
 
-<!--                ########################-->
-<!--                ### Yu Report tab  start-->
+                <!--                ########################-->
+                <!--                ### Yu Report tab  start-->
 
 
             </td>

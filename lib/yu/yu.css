@@ -1,16 +1,7 @@
-/*.arc text {*/
-/*    font: 20px sans-serif;*/
-/*    text-anchor: middle;*/
+/*.title {*/
+/*    fill: teal;*/
+/*    fontSize: 22;*/
 /*}*/
-
-/*.arc path {*/
-/*    stroke: #fff;*/
-/*}*/
-
-.title {
-    fill: teal;
-    fontSize: 22;
-}
 
 .tooltip {
     position: absolute;
