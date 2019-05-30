@@ -42,5 +42,21 @@ $dataPoints = array(
     array("label" => "Yes", "value" => ($Yescount), "color" => "#ff7f00"),
 );
 $sum = ($NAcount + $Nocount + $Yescount);
+
+//  Query DB to get Location Count (2019-05-30 new feature)
+$location_result = $conn->query($sql);
+if ($location_result->num_rows > 0) {
+    while ($row = $location_result->fetch_assoc()) {
+        if (strcasecmp($row["location"], "sydney") == 0) {
+            $ON_shore += 1;
+        } elseif (strcasecmp($row["location"], "melbourne") == 0) {
+            $ON_shore += 1;
+        } else {
+            $OFF_shore += 1;
+        }
+    }
+}
+$sum_location = ($OFF_shore + $ON_shore);
+
 // Close connection
 $conn->close();
