@@ -2154,8 +2154,8 @@ $conn->close();
                     <input id="toggle-event" type="checkbox" data-on="Bar Chart" data-off="Pie Chart"
                            checked data-toggle="toggle" data-onstyle="success" data-offstyle="danger" data-width="150"
                            data-height="40">
-                    <div id="console-event"></div>
                     <br>
+                    <div id="console-event"></div>
 <!--                    <h1 style="font-size:2vw;">PeelService Report</h1>-->
                     <div class="container">
                         <div class="row">
