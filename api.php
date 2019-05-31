@@ -59,17 +59,20 @@ $conn->close();
 
         <!--        ##########################################-->
         <!--        ### Yu Source Script report function start   -->
-
+        <link href="lib/yu/bootstrap-toggle.min.css" rel="stylesheet">
+        <link href="lib/yu/w3.css" rel="stylesheet">
         <link href="lib/yu/yu.css" rel="stylesheet">
+        <script src="lib/yu/bootstrap-toggle.min.js"></script>
         <script src="lib/yu/d3/d3.min.js"></script>
         <script src="lib/yu/d3/d3.v4.js"></script>
         <script src="lib/yu/d3pie.min.js"></script>
         <script src="lib/yu/yu.js"></script>
         <script>
             //  Global Variable
-            var sum = (<?php echo json_encode($sum, JSON_NUMERIC_CHECK); ?>);
-            var data_yu = (<?php echo json_encode($dataPoints, JSON_NUMERIC_CHECK); ?>);
-            var color = d3.scaleOrdinal(['#4daf4a', '#377eb8', '#ff7f00']);
+            var sum_peel = (<?php echo json_encode($sum_peel, JSON_NUMERIC_CHECK); ?>);
+            var sum_loca = (<?php echo json_encode($sum_location, JSON_NUMERIC_CHECK); ?>);
+            var data_peel = (<?php echo json_encode($dataPeel, JSON_NUMERIC_CHECK); ?>);
+            var data_loca = (<?php echo json_encode($dataLocation, JSON_NUMERIC_CHECK); ?>);
         </script>
 
         <!--        ### Yu Source Script report function finished-->
@@ -195,87 +198,149 @@ $conn->close();
             }
 
 
-            .field {
-                display: flex;
-                flex-flow: column-reverse;
-                margin-bottom: 1em;
+            /****  floating-Lable style start ****/
+            .floating-label {
+                position: relative;
+                margin-bottom: 20px;
             }
 
-            /**
-            * Add a transition to the label and input.
-            * I'm not even sure that touch-action: manipulation works on
-            * inputs, but hey, it's new and cool and could remove the
-            * pesky delay.
-            */
-            label, input, select {
-                transition: all 0.2s;
-                touch-action: manipulation;
+            .floating-input, .floating-select {
+                font-size: 14px;
+                padding: 4px 4px;
+                display: block;
+                width: 100%;
+                height: 30px;
+                background-color: transparent;
+                border: none;
+                border-bottom: 1px solid #757575;
             }
 
-            input, select {
-                font-size: 1em;
-                border: 0;
-                border-bottom: 1px solid #ccc;
-                font-family: inherit;
-                /*-webkit-appearance: none;*/
-                border-radius: 0;
-                padding: 0;
-                cursor: text;
+            .floating-input:focus, .floating-select:focus {
+                outline: none;
+                border-bottom: 2px solid #5264AE;
             }
 
-            input:focus, select:focus {
-                outline: 0;
-                border-bottom: 1px solid green;
+            /*label {*/
+            /*    color: #999;*/
+            /*    font-size: 14px;*/
+            /*    font-weight: normal;*/
+            /*    position: absolute;*/
+            /*    pointer-events: none;*/
+            /*    left: 5px;*/
+            /*    top: 5px;*/
+            /*    transition: 0.2s ease all;*/
+            /*    -moz-transition: 0.2s ease all;*/
+            /*    -webkit-transition: 0.2s ease all;*/
+            /*}*/
+
+            .floating-input:focus ~ label, .floating-input:not(:placeholder-shown) ~ label {
+                top: -18px;
+                font-size: 14px;
+                color: #5264AE;
             }
 
-            label {
-                display: inline-block;
-                margin: 0 !important;
-                /*color: grey;*/
-
+            .floating-select:focus ~ label, .floating-select:not([value=""]):valid ~ label {
+                top: -18px;
+                font-size: 14px;
+                color: #5264AE;
             }
 
-            /**
-            * Translate down and scale the label up to cover the placeholder,
-            * when following an input (with placeholder-shown support).
-            * Also make sure the label is only on one row, at max 2/3rds of the
-            * field—to make sure it scales properly and doesn't wrap.
-            */
-            input:placeholder-shown + label, select > label {
-                cursor: text;
-                max-width: 66.66%;
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                transform-origin: left bottom;
-                transform: translate(0, 1rem) scale(1.25);
+            /* active state */
+            .floating-input:focus ~ .bar:before, .floating-input:focus ~ .bar:after, .floating-select:focus ~ .bar:before, .floating-select:focus ~ .bar:after {
+                width: 50%;
             }
 
-            /**
-            * By default, the placeholder should be transparent. Also, it should
-            * inherit the transition.
-            */
-            ::-webkit-input-placeholder {
-                opacity: 0;
-                transition: inherit;
+            *, *:before, *:after {
+                -webkit-box-sizing: border-box;
+                -moz-box-sizing: border-box;
+                box-sizing: border-box;
             }
 
-            /**
-            * Show the placeholder when the input is focused.
-            */
-            input:focus::-webkit-input-placeholder {
-                opacity: 0.7;
+
+            /* highlighter */
+            .highlight {
+                position: absolute;
+                height: 50%;
+                width: 100%;
+                top: 15%;
+                left: 0;
+                pointer-events: none;
+                opacity: 0.5;
             }
 
-            /**
-            * When the element is focused, remove the label transform.
-            * Also, do this when the placeholder is _not_ shown, i.e. when
-            * there's something in the input at all.
-            */
-            input:not(:placeholder-shown) + label,
-            input:focus + label, select:focus + label {
-                transform: translate(0, 0) scale(1);
-                cursor: pointer;
+            /* active state */
+            .floating-input:focus ~ .highlight, .floating-select:focus ~ .highlight {
+                -webkit-animation: inputHighlighter 0.3s ease;
+                -moz-animation: inputHighlighter 0.3s ease;
+                animation: inputHighlighter 0.3s ease;
+            }
+
+            /* animation */
+            @-webkit-keyframes inputHighlighter {
+                from {
+                    background: #5264AE;
+                }
+                to {
+                    width: 0;
+                    background: transparent;
+                }
+            }
+
+            @-moz-keyframes inputHighlighter {
+                from {
+                    background: #5264AE;
+                }
+                to {
+                    width: 0;
+                    background: transparent;
+                }
+            }
+
+            @keyframes inputHighlighter {
+                from {
+                    background: #5264AE;
+                }
+                to {
+                    width: 0;
+                    background: transparent;
+                }
+            }
+
+            /****  floating-Lable style end ****/
+
+
+            .ui-autocomplete {
+                position: absolute;
+                cursor: default;
+                z-index: 4000 !important
+            }
+
+            .rotate-center {
+                -webkit-animation: rotate-center 0.6s ease-in-out both;
+                animation: rotate-center 0.6s ease-in-out both;
+            }
+
+
+            @-webkit-keyframes rotate-center {
+                0% {
+                    -webkit-transform: rotate(0);
+                    transform: rotate(0);
+                }
+                100% {
+                    -webkit-transform: rotate(360deg);
+                    transform: rotate(360deg);
+                }
+            }
+
+            @keyframes rotate-center {
+                0% {
+                    -webkit-transform: rotate(0);
+                    transform: rotate(0);
+                }
+                100% {
+                    -webkit-transform: rotate(360deg);
+                    transform: rotate(360deg);
+                }
             }
 
 
@@ -2055,6 +2120,7 @@ $conn->close();
                                 <td style='background-color:Green;border-top-right-radius:10px !important;border-bottom-right-radius:10px !important'
                                     align='center'><a style='color:black;width:100%'>100% Allocated</a></td>
                             </tr>
+
                             </tbody>
                         </table>
                     </div>
@@ -2064,52 +2130,30 @@ $conn->close();
                 <!--                ### Yu Report tab  start-->
 
                 <div id="report" name="report" style="display:none; padding-top:60px">
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1"
-                               value="option1">
-                        <label class="form-check-label" for="inlineRadio1">PeelService</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2"
-                               value="option2">
-                        <label class="form-check-label" for="inlineRadio2">Location</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3"
-                               value="option3"
-                               disabled>
-                        <label class="form-check-label" for="inlineRadio3">3rd (disabled)</label>
+                    <div class="w3-container">
+                        <div class="w3-row row">
+                            <div class="col-3"></div>
+                            <div class="col-6">
+                                <a href="javascript:void(0)" onclick="openTab(event)" id="tab_title">
+                                    <div class="w3-third tablink w3-bottombar w3-hover-light-grey w3-padding">Peel Service
+                                    </div>
+                                </a>
+                                <a href="javascript:void(0)" onclick="openTab(event)" id="tab_title">
+                                    <div class="w3-third tablink w3-bottombar w3-hover-light-grey w3-padding">Location
+                                    </div>
+                                </a>
+                                <a href="javascript:void(0)" onclick="openTab(event)" id="tab_title">
+                                    <div class="w3-third tablink w3-bottombar w3-hover-light-grey w3-padding">Disable
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col-3"></div>
+                        </div>
                     </div>
                     <br>
-                    <button onclick="checkbox(),bar_chart()">Bar Chart</button>
-                    <button onclick="pie_chart()">Pie Chart</button>
-
-
-                    <!--                    new feature-->
-                    <script>
-                        function checkbox() {
-                            let x = document.getElementById("inlineRadio1");
-                            y = document.getElementById("inlineRadio2");
-                            z = document.getElementById("inlineRadio3");
-
-                            if (x.checked === true) {
-                                console.log("PeelService")
-                            } else if (y.checked === true) {
-                                console.log("Location")
-                            } else if (z.checked === true) {
-                                console.log("Disable")
-                            } else {
-                                console.log("Please selection one")
-                            }
-
-                            console.log(x.checked)
-
-                        }
-
-
-                    </script>
-
-
+                    <input id="toggle-trigger" type="checkbox" data-on="Bar Chart" data-off="Pie Chart"
+                           checked data-toggle="toggle" data-onstyle="success" data-offstyle="danger" data-width="150"
+                           data-height="40">
                     <br>
                     <h1 style="font-size:2vw;">PeelService Report</h1>
                     <div class="container">
@@ -2123,7 +2167,6 @@ $conn->close();
                 </div>
 
                 <!--                ########################-->
-                <!--                ### Yu Report tab  start-->
 
 
             </td>

@@ -36,12 +36,12 @@ $pie = array(
     array("label" => ["Yes", "No", "NA"]),
     array("value" => [$Yescount, $Nocount, $NAcount]),
 );
-$dataPoints = array(
+$dataPeel = array(
     array("label" => "NA", "value" => ($NAcount), "color" => "#4daf4a"),
     array("label" => "No", "value" => ($Nocount), "color" => "#377eb8"),
     array("label" => "Yes", "value" => ($Yescount), "color" => "#ff7f00"),
 );
-$sum = ($NAcount + $Nocount + $Yescount);
+$sum_peel = ($NAcount + $Nocount + $Yescount);
 
 //  Query DB to get Location Count (2019-05-30 new feature)
 $location_result = $conn->query($sql);
@@ -56,6 +56,10 @@ if ($location_result->num_rows > 0) {
         }
     }
 }
+$dataLocation = array(
+    array("label" => "On", "value" => ($ON_shore), "color" => "#4daf4a"),
+    array("label" => "Off", "value" => ($OFF_shore), "color" => "#377eb8"),
+);
 $sum_location = ($OFF_shore + $ON_shore);
 
 // Close connection

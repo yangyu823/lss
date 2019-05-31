@@ -24,6 +24,11 @@
     font-weight: bold;
 
 }
-
+#tab_title{
+    text-align: center;
+}
+.toggle-handle{
+    background-color: white;
+}
 
 
