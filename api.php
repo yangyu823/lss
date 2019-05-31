@@ -2134,15 +2134,15 @@ $conn->close();
                         <div class="w3-row row">
                             <div class="col-3"></div>
                             <div class="col-6">
-                                <a href="javascript:void(0)" onclick="openTab(event)" id="tab_title">
+                                <a href="javascript:void(0)" onclick="openTab(event,0)" id="tab_title tag01">
                                     <div class="w3-third tablink w3-bottombar w3-hover-light-grey w3-padding">Peel Service
                                     </div>
                                 </a>
-                                <a href="javascript:void(0)" onclick="openTab(event)" id="tab_title">
+                                <a href="javascript:void(0)" onclick="openTab(event,1)" id="tab_title tag_02">
                                     <div class="w3-third tablink w3-bottombar w3-hover-light-grey w3-padding">Location
                                     </div>
                                 </a>
-                                <a href="javascript:void(0)" onclick="openTab(event)" id="tab_title">
+                                <a href="javascript:void(0)" onclick="openTab(event,2)" id="tab_title tag_03">
                                     <div class="w3-third tablink w3-bottombar w3-hover-light-grey w3-padding">Disable
                                     </div>
                                 </a>
@@ -2151,11 +2151,12 @@ $conn->close();
                         </div>
                     </div>
                     <br>
-                    <input id="toggle-trigger" type="checkbox" data-on="Bar Chart" data-off="Pie Chart"
+                    <input id="toggle-event" type="checkbox" data-on="Bar Chart" data-off="Pie Chart"
                            checked data-toggle="toggle" data-onstyle="success" data-offstyle="danger" data-width="150"
                            data-height="40">
+                    <div id="console-event"></div>
                     <br>
-                    <h1 style="font-size:2vw;">PeelService Report</h1>
+<!--                    <h1 style="font-size:2vw;">PeelService Report</h1>-->
                     <div class="container">
                         <div class="row">
                             <div class="col-2"></div>
