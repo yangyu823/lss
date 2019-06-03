@@ -57,8 +57,8 @@ if ($location_result->num_rows > 0) {
     }
 }
 $dataLocation = array(
-    array("label" => "On", "value" => ($ON_shore), "color" => "#4daf4a"),
-    array("label" => "Off", "value" => ($OFF_shore), "color" => "#377eb8"),
+    array("label" => "OnShore", "value" => ($ON_shore), "color" => "#4daf4a"),
+    array("label" => "OffShore", "value" => ($OFF_shore), "color" => "#377eb8"),
 );
 $sum_location = ($OFF_shore + $ON_shore);
 
