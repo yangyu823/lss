@@ -39,11 +39,17 @@ if ($profile != 1) {
         array("label" => ["Yes", "No", "NA", "Execution"]),
         array("value" => [$Yescount, $Nocount, $NAcount, $Excount]),
     );
+//    $dataPeel = array(
+//        array("label" => "Execution", "value" => ($Excount), "color" => "#4daf4a"),
+//        array("label" => "No", "value" => ($Nocount), "color" => "#377eb8"),
+//        array("label" => "Yes", "value" => ($Yescount), "color" => "#ff7f00"),
+//        array("label" => "NA", "value" => ($NAcount), "color" => "#ff134c"),
+//    );
     $dataPeel = array(
-        array("label" => "Execution", "value" => ($Excount), "color" => "#4daf4a"),
-        array("label" => "No", "value" => ($Nocount), "color" => "#377eb8"),
-        array("label" => "Yes", "value" => ($Yescount), "color" => "#ff7f00"),
-        array("label" => "NA", "value" => ($NAcount), "color" => "#ff134c"),
+        array("label" => "Execution", "value" => ($Excount)),
+        array("label" => "No", "value" => ($Nocount)),
+        array("label" => "Yes", "value" => ($Yescount)),
+        array("label" => "NA", "value" => ($NAcount)),
     );
     $sum_peel = ($Excount + $Nocount + $Yescount);
 } else {
