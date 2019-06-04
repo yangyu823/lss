@@ -2155,7 +2155,7 @@ $conn->close();
                            checked data-toggle="toggle" data-onstyle="success" data-offstyle="danger" data-width="150"
                            data-height="40">
                     <br>
-                    <div id="console-event"></div>
+                    <div id="console-event"> Slide to display the graph</div>
 <!--                    <h1 style="font-size:2vw;">PeelService Report</h1>-->
                     <div class="container">
                         <div class="row">
