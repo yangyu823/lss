@@ -17,35 +17,47 @@ if ($team_conn->num_rows > 0) {
     }
 }
 //  Query DB to get PeelService Count
-$sql = "SELECT * FROM lss_employee_profile WHERE practiceTeam = '" . $team_name . "'";
-$result = $conn->query($sql);
-if ($result->num_rows > 0) {
-    while ($row = $result->fetch_assoc()) {
-        if ($row["execution"] == "execution") {
-            $Excount += 1;
-        } elseif ($row["execution"] == "services" && $row["peelService"] == "No") {
-            $Nocount += 1;
-        } elseif ($row["execution"] == "services" && $row["peelService"] == "Yes") {
-            $Yescount += 1;
-        } elseif ($row["execution"] == "services" && $row["peelService"] == "NA") {
-            $NAcount += 1;
+if ($profile != 1) {
+    $sql = "SELECT * FROM lss_employee_profile WHERE practiceTeam = '" . $team_name . "'";
+    $result = $conn->query($sql);
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            if ($row["execution"] == "execution") {
+                $Excount += 1;
+            } elseif ($row["execution"] == "services" && $row["peelService"] == "No") {
+                $Nocount += 1;
+            } elseif ($row["execution"] == "services" && $row["peelService"] == "Yes") {
+                $Yescount += 1;
+            } elseif ($row["execution"] == "services" && $row["peelService"] == "NA") {
+                $NAcount += 1;
+            }
         }
+    } else {
+        echo "No Data for this team";
     }
+    $pie = array(
+        array("label" => ["Yes", "No", "NA", "Execution"]),
+        array("value" => [$Yescount, $Nocount, $NAcount, $Excount]),
+    );
+    $dataPeel = array(
+        array("label" => "Execution", "value" => ($Excount), "color" => "#4daf4a"),
+        array("label" => "No", "value" => ($Nocount), "color" => "#377eb8"),
+        array("label" => "Yes", "value" => ($Yescount), "color" => "#ff7f00"),
+        array("label" => "NA", "value" => ($NAcount), "color" => "#ff134c"),
+    );
+    $sum_peel = ($Excount + $Nocount + $Yescount);
 } else {
-    echo "No Data for this team";
+    $sql = "SELECT practiceTeam,COUNT(IF(execution='execution',1, NULL)) 'Execution',
+COUNT(IF(execution='services' AND peelService='Yes',1, NULL)) 'Yes',
+COUNT(IF(execution='services' AND peelService='No',1, NULL)) 'No',
+COUNT(IF(execution='services' AND peelService='NA',1, NULL)) 'NA' 
+FROM lss_employee_profile GROUP BY practiceTeam";
+    $result = $conn->query($sql);
+    $data_total = array();
+    while ($row = $result->fetch_assoc()) {
+        array_push($data_total,$row);
+    }
 }
-$pie = array(
-    array("label" => ["Yes", "No", "NA", "Execution"]),
-    array("value" => [$Yescount, $Nocount, $NAcount, $Excount]),
-);
-$dataPeel = array(
-    array("label" => "Execution", "value" => ($Excount), "color" => "#4daf4a"),
-    array("label" => "No", "value" => ($Nocount), "color" => "#377eb8"),
-    array("label" => "Yes", "value" => ($Yescount), "color" => "#ff7f00"),
-    array("label" => "NA", "value" => ($NAcount), "color" => "#ff134c"),
-);
-$sum_peel = ($Excount + $Nocount + $Yescount);
-
 //  Query DB to get Location Count (2019-05-30 new feature)
 $location_result = $conn->query($sql);
 if ($location_result->num_rows > 0) {
