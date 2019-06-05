@@ -58,17 +58,19 @@ if ($profile != 1) {
 COUNT(IF(execution='services' AND peelService='Yes',1, NULL)) 'Yes',
 COUNT(IF(execution='services' AND peelService='No',1, NULL)) 'No',
 COUNT(IF(execution='services' AND peelService='NA',1, NULL)) 'NA',
-COUNT(IF(execution='services' OR execution='execution',1, NULL)) 'Total' 
+COUNT(IF(execution='services' OR execution='execution',1, NULL)) 'total' 
 FROM lss_employee_profile GROUP BY practiceTeam";
     $data_result = $conn->query($sql);
     $data_total = array();
+    $key_peel = ["Execution", "Yes", "No", "NA"];
     while ($row = $data_result->fetch_assoc()) {
         array_push($data_total, $row);
     }
     $sql_loca = "SELECT practiceTeam,COUNT(IF(location ='Melbourne' OR location = 'Sydney',1, NULL)) 'OnShore',
 COUNT(IF(location !='Melbourne' AND location !='Sydney',1, NULL)) 'OffShore',
-COUNT(*) 'Total'
+COUNT(*) 'total'
 FROM lss_employee_profile GROUP BY practiceTeam";
+    $key_location = ["OnShore", "OffShore"];
     $data_result2 = $conn->query($sql_loca);
     $data_location = array();
     while ($row = $data_result2->fetch_assoc()) {

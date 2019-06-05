@@ -3,7 +3,7 @@
 date_default_timezone_set("Australia/Melbourne");
 //error_reporting(0);
 
-$profile = 6;
+$profile = 1;
 
 
 if ($profile == 100) {
@@ -73,6 +73,8 @@ $conn->close();
             if(pick === 1){
                 var data_total = (<?php echo json_encode($data_total, JSON_NUMERIC_CHECK); ?>);
                 var data_location = (<?php echo json_encode($data_location, JSON_NUMERIC_CHECK); ?>);
+                var key_peel = (<?php echo json_encode($key_peel, JSON_NUMERIC_CHECK); ?>);
+                var key_location = (<?php echo json_encode($key_location, JSON_NUMERIC_CHECK); ?>);
             }
             var sum_peel = (<?php echo json_encode($sum_peel, JSON_NUMERIC_CHECK); ?>);
             var data_peel = (<?php echo json_encode($dataPeel, JSON_NUMERIC_CHECK); ?>);
@@ -2167,7 +2169,9 @@ $conn->close();
                         <div class="row">
                             <div class="col-2"></div>
                             <div class="col-8" id="pie_chart" style="display: none"></div>
-                            <div class="col-8" id="bar_chart" style="display: block"></div>
+                            <div class="col-8" id="bar_chart" style="display: block">
+                                <svg id="special" width="960" height="500"></svg>
+                            </div>
                             <div class="col-2"></div>
                         </div>
                     </div>
