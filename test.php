@@ -86,9 +86,6 @@ $conn->close();
         width: 960px;
     }
 
-    .axis .domain {
-        display: none;
-    }
 </style>
 <div id="main">
     <svg width="960" height="500"></svg>
@@ -121,8 +118,6 @@ $conn->close();
     var z = d3.scaleOrdinal()
         .range(['#4daf4a', '#377eb8', '#ff7f00', '#ff134c']);
 
-
-
     // #Self
 
     var keys = key_total;
@@ -134,11 +129,9 @@ $conn->close();
     }));
     y.domain([0, d3.max(data_total, function (d) {
         // console.log(d.total)
-        return (d.total)*1.05;
+        return (d.total) * 1.01;
     })]).nice();
     z.domain(keys);
-
-    console.log(y.domain())
 
     g.append("g")
         .selectAll("g")
@@ -153,15 +146,19 @@ $conn->close();
         })
         .enter().append("rect")
         .attr("x", function (d) {
-            return x(d.data.practiceTeam);
+            return x(d.data.practiceTeam) + x.bandwidth() * 0.25;
         })
         .attr("y", function (d) {
-            return y(d[1]);
+            // console.log(d[1])
+            return y(d[0]);
+            // return y(d[1]);
         })
         .attr("height", function (d) {
-            return y(d[0]) - y(d[1]);
+            return 0;
+            // console.log(d[0]-d[1])
+            // return y(d[0]) - y(d[1])
         })
-        .attr("width", x.bandwidth())
+        .attr("width", x.bandwidth() * 0.5)
         .on("mouseover", function () {
             tooltip.style("display", null);
         })
@@ -175,6 +172,20 @@ $conn->close();
             tooltip.attr("transform", "translate(" + xPosition + "," + yPosition + ")");
             tooltip.select("text").text(d[1] - d[0]);
         });
+    {
+        svg.selectAll("rect")
+            .transition()
+            .duration(500)
+            .attr("y", function (d) {
+                return y(d[1]);
+            })
+            .attr("height", function (d) {
+                return y(d[0]) - y(d[1])
+            })
+            .delay(function (d, i) {
+                return (i * 35)
+            });
+    }
 
     g.append("g")
         .attr("class", "axis")
@@ -184,6 +195,7 @@ $conn->close();
     g.append("g")
         .attr("class", "axis")
         .call(d3.axisLeft(y).ticks(null, "s"))
+        .style("font-size", "15px")
         .append("text")
         .attr("x", 2)
         .attr("y", y(y.ticks().pop()) + 0.5)
@@ -218,7 +230,7 @@ $conn->close();
         });
 
 
-        // Original
+    // Original
 
     // d3.csv("test.csv", function (d, i, columns) {
     //     for (i = 1, t = 0; i < columns.length; ++i) t += d[columns[i]] = +d[columns[i]];
