@@ -70,7 +70,7 @@ $conn->close();
         <script>
             //  Global Variable
             var pick = (<?php echo json_encode($profile, JSON_NUMERIC_CHECK); ?>);
-            if(pick === 1){
+            if (pick === 1) {
                 var data_total = (<?php echo json_encode($data_total, JSON_NUMERIC_CHECK); ?>);
                 var data_location = (<?php echo json_encode($data_location, JSON_NUMERIC_CHECK); ?>);
                 var key_peel = (<?php echo json_encode($key_peel, JSON_NUMERIC_CHECK); ?>);
@@ -2167,12 +2167,10 @@ $conn->close();
                     <!--                    <h1 style="font-size:2vw;">PeelService Report</h1>-->
                     <div class="container">
                         <div class="row">
-                            <div class="col-2"></div>
-                            <div class="col-8" id="pie_chart" style="display: none"></div>
-                            <div class="col-8" id="bar_chart" style="display: block">
-                                <svg id="special" width="960" height="500"></svg>
-                            </div>
-                            <div class="col-2"></div>
+                            <div class="col-1"></div>
+                            <div class="col-10" id="pie_chart" style="display: none"></div>
+                            <div class="col-10" id="bar_chart" style="display: block"></div>
+                            <div class="col-1"></div>
                         </div>
                     </div>
                 </div>
