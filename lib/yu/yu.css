@@ -3,7 +3,7 @@
 /*    fontSize: 22;*/
 /*}*/
 
-.tooltip {
+#tooltip {
     position: absolute;
     text-align: center;
     min-width: 40px;
