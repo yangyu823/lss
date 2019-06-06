@@ -3,7 +3,7 @@
 date_default_timezone_set("Australia/Melbourne");
 //error_reporting(0);
 
-$profile = 6;
+$profile = 1;
 
 
 if ($profile == 100) {
@@ -69,9 +69,16 @@ $conn->close();
         <script src="lib/yu/yu.js"></script>
         <script>
             //  Global Variable
+            var pick = (<?php echo json_encode($profile, JSON_NUMERIC_CHECK); ?>);
+            if (pick === 1) {
+                var data_total = (<?php echo json_encode($data_total, JSON_NUMERIC_CHECK); ?>);
+                var data_location = (<?php echo json_encode($data_location, JSON_NUMERIC_CHECK); ?>);
+                var key_peel = (<?php echo json_encode($key_peel, JSON_NUMERIC_CHECK); ?>);
+                var key_location = (<?php echo json_encode($key_location, JSON_NUMERIC_CHECK); ?>);
+            }
             var sum_peel = (<?php echo json_encode($sum_peel, JSON_NUMERIC_CHECK); ?>);
-            var sum_loca = (<?php echo json_encode($sum_location, JSON_NUMERIC_CHECK); ?>);
             var data_peel = (<?php echo json_encode($dataPeel, JSON_NUMERIC_CHECK); ?>);
+            var sum_loca = (<?php echo json_encode($sum_location, JSON_NUMERIC_CHECK); ?>);
             var data_loca = (<?php echo json_encode($dataLocation, JSON_NUMERIC_CHECK); ?>);
         </script>
 
@@ -2135,17 +2142,18 @@ $conn->close();
                             <div class="col-3"></div>
                             <div class="col-6">
                                 <a href="javascript:void(0)" onclick="openTab(event,0)" id="tab_title tag01">
-                                    <div class="w3-third tablink w3-bottombar w3-hover-light-grey w3-padding">Peel Service
+                                    <div class="w3-third tablink w3-bottombar w3-hover-light-grey w3-padding">Peel
+                                        Service
                                     </div>
                                 </a>
                                 <a href="javascript:void(0)" onclick="openTab(event,1)" id="tab_title tag_02">
                                     <div class="w3-third tablink w3-bottombar w3-hover-light-grey w3-padding">Location
                                     </div>
                                 </a>
-                                <a href="javascript:void(0)" onclick="openTab(event,2)" id="tab_title tag_03">
-                                    <div class="w3-third tablink w3-bottombar w3-hover-light-grey w3-padding">Disable
-                                    </div>
-                                </a>
+                                <!--                                <a href="javascript:void(0)" onclick="openTab(event,2)" id="tab_title tag_03">-->
+                                <!--                                    <div class="w3-third tablink w3-bottombar w3-hover-light-grey w3-padding">Disable-->
+                                <!--                                    </div>-->
+                                <!--                                </a>-->
                             </div>
                             <div class="col-3"></div>
                         </div>
@@ -2155,14 +2163,14 @@ $conn->close();
                            checked data-toggle="toggle" data-onstyle="success" data-offstyle="danger" data-width="150"
                            data-height="40">
                     <br>
-                    <div id="console-event"></div>
+                    <div id="console-event"> Slide to display the graph</div>
                     <!--                    <h1 style="font-size:2vw;">PeelService Report</h1>-->
                     <div class="container">
                         <div class="row">
-                            <div class="col-2"></div>
-                            <div class="col-8" id="pie_chart" style="display: none"></div>
-                            <div class="col-8" id="bar_chart" style="display: block"></div>
-                            <div class="col-2"></div>
+                            <div class="col-1"></div>
+                            <div class="col-10" id="pie_chart" style="display: none"></div>
+                            <div class="col-10" id="bar_chart" style="display: block"></div>
+                            <div class="col-1"></div>
                         </div>
                     </div>
                 </div>
