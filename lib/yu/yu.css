@@ -1,8 +1,3 @@
-/*.title {*/
-/*    fill: teal;*/
-/*    fontSize: 22;*/
-/*}*/
-
 #tooltip {
     position: absolute;
     text-align: center;
@@ -38,4 +33,28 @@
     font-style: normal;
 
 }
+/*#page-wrap {*/
+/*    margin: 50px;*/
+/*}*/
 
+/*
+Generic Styling, for Desktops/Laptops
+*/
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+/* Zebra striping */
+tr:nth-of-type(odd) {
+    background: #eee;
+}
+th {
+    background: #333;
+    color: white;
+    /*font-weight: bold;*/
+}
+td, th {
+    padding: 6px;
+    border: 1px solid #ccc;
+    text-align: left;
+}

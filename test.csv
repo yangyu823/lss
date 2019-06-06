@@ -1,18 +1,6 @@
-State,Under 5 Years,5 to 13 Years,14 to 17 Years,18 to 24 Years,25 to 44 Years,45 to 64 Years,65 Years and Over
-AL   ,310504       ,552339       ,259034        ,450818        ,1231572       ,1215966       ,641667
-AZ   ,515910       ,828669       ,362642        ,601943        ,1804762       ,1523681       ,862573
-CO   ,358280       ,587154       ,261701        ,466194        ,1464939       ,1290094       ,511094
-CT   ,211637       ,403658       ,196918        ,325110        ,916955        ,968967        ,478007
-IN   ,443089       ,780199       ,361393        ,605863        ,1724528       ,1647881       ,813839
-KY   ,284601       ,493536       ,229927        ,381394        ,1179637       ,1134283       ,565867
-LA   ,310716       ,542341       ,254916        ,471275        ,1162463       ,1128771       ,540314
-MD   ,371787       ,651923       ,316873        ,543470        ,1556225       ,1513754       ,679565
-MA   ,383568       ,701752       ,341713        ,665879        ,1782449       ,1751508       ,871098
-MN   ,358471       ,606802       ,289371        ,507289        ,1416063       ,1391878       ,650519
-MO   ,399450       ,690476       ,331543        ,560463        ,1569626       ,1554812       ,805235
-OK   ,266547       ,438926       ,200562        ,369916        ,957085        ,918688        ,490637
-OR   ,243483       ,424167       ,199925        ,338162        ,1044056       ,1036269       ,503998
-SC   ,303024       ,517803       ,245400        ,438147        ,1193112       ,1186019       ,596295
-TN   ,416334       ,725948       ,336312        ,550612        ,1719433       ,1646623       ,819626
-WA   ,433119       ,750274       ,357782        ,610378        ,1850983       ,1762811       ,783877
-WI   ,362277       ,640286       ,311849        ,553914        ,1487457       ,1522038       ,750146
+First Name,Last Name,Job Title,Favorite Color,Wars or Trek?,Porn Name,Date of Birth,Dream Vacation City,GPA,Arbitrary Data
+James,Matman,Chief Sandwich Eater,Lettuce Green,Trek,Digby Green,"January 13, 1979",Gotham City,3.1,RBX-12
+The,Tick,Crimefighter Sorta,Blue,Wars,John Smith,"July 19, 1968",Athens,N/A,"Edlund, Ben (July 1996)."
+Jokey,Smurf,Giving Exploding Presents,Smurflow,Smurf,Smurflane Smurfmutt,"Smurfuary Smurfteenth, 1945",New Smurf City,4.Smurf,One
+Cindy,Beyler,Sales Representative,Red,Wars,Lori Quivey,"July 5, 1956",Paris,3.4,3451
+Captain,Cool,Tree Crusher,Blue,Wars,Steve 42nd,"December 13, 1982",Las Vegas,1.9,Under the couch

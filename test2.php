@@ -91,11 +91,12 @@ $conn->close();
     <div class="col-8" id="bar_chart" style="display: block">
         <svg width="960" height="500"></svg>
     </div>
+    <br>
     <div class="new_table" id="new_id">
+        <a>hello world</a>
     </div>
 
 </div>
-<link href="lib/yu/yu.css" rel="stylesheet">
 <script src="https://d3js.org/d3.v4.min.js"></script>
 <script>
     var data_total = (<?php echo json_encode($data_total, JSON_NUMERIC_CHECK); ?>);
@@ -278,35 +279,51 @@ $conn->close();
             }
         })
     }
+    d3.csv("test2.csv", function(error, data) {
+        if (error) throw error;
+        console.log(data)
+        var sortAscending = true;
+        var table = d3.select('#new_id').append('table');
+        var titles = d3.keys(data[0]);
+        var headers = table.append('thead').append('tr')
+            .selectAll('th')
+            .data(titles).enter()
+            .append('th')
+            .text(function (d) {
+                return d;
+            })
+            .on('click', function (d) {
+                headers.attr('class', 'header');
 
-    // ### table
-    var table = d3.select('#new_id').append('table').attr("width",width);
-    var titles = d3.keys(data_total[0])
-    var headers = table.append('thead').append('tr')
-        .selectAll('th')
-        .data(titles).enter()
-        .append('th')
-        .text(function (d) {
-            return d;
-        });
-    var rows = table.append('tbody').selectAll('tr')
-        .data(data_total).enter()
-        .append('tr');
-    rows.selectAll('td')
-        .data(function (d) {
-            return titles.map(function (k) {
-                return {'value': d[k], 'name': k};
+                if (sortAscending) {
+                    rows.sort(function(a, b) { return b[d] < a[d]; });
+                    sortAscending = false;
+                    this.className = 'aes';
+                } else {
+                    rows.sort(function(a, b) { return b[d] > a[d]; });
+                    sortAscending = true;
+                    this.className = 'des';
+                }
+
             });
-        }).enter()
-        .append('td')
-        .style("text-align","center")
-        .attr('data-th', function (d) {
-            return d.name;
-        })
-        .text(function (d) {
-            return d.value;
-        });
 
+        var rows = table.append('tbody').selectAll('tr')
+            .data(data).enter()
+            .append('tr');
+        rows.selectAll('td')
+            .data(function (d) {
+                return titles.map(function (k) {
+                    return { 'value': d[k], 'name': k};
+                });
+            }).enter()
+            .append('td')
+            .attr('data-th', function (d) {
+                return d.name;
+            })
+            .text(function (d) {
+                return d.value;
+            });
+    });
 </script>
 
 
