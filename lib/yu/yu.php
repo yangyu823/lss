@@ -54,11 +54,11 @@ if ($profile != 1) {
     );
     $sum_location = ($OFF_shore + $ON_shore);
 } else {
-    $sql = "SELECT practiceTeam,COUNT(IF(execution='execution',1, NULL)) 'Execution',
-COUNT(IF(execution='services' AND peelService='Yes',1, NULL)) 'Yes',
-COUNT(IF(execution='services' AND peelService='No',1, NULL)) 'No',
-COUNT(IF(execution='services' AND peelService='NA',1, NULL)) 'NA',
-COUNT(IF(execution='services' OR execution='execution',1, NULL)) 'total' 
+    $sql = "SELECT practiceTeam,COUNT(IF(execution like 'execution',1, NULL)) 'Execution',
+COUNT(IF(execution like 'services' AND peelService like 'Yes',1, NULL)) 'Yes',
+COUNT(IF(execution like 'services' AND peelService like 'No',1, NULL)) 'No',
+COUNT(IF(execution like 'services' AND peelService like 'NA',1, NULL)) 'NA',
+COUNT(IF(execution like 'services' OR execution like 'execution',1, NULL)) 'total' 
 FROM lss_employee_profile GROUP BY practiceTeam";
     $data_result = $conn->query($sql);
     $data_total = array();
@@ -66,7 +66,7 @@ FROM lss_employee_profile GROUP BY practiceTeam";
     while ($row = $data_result->fetch_assoc()) {
         array_push($data_total, $row);
     }
-    $sql_loca = "SELECT practiceTeam,COUNT(IF(location ='Melbourne' OR location = 'Sydney',1, NULL)) 'OnShore',
+    $sql_loca = "SELECT practiceTeam,COUNT(IF(location like 'Melbourne' OR location like 'Sydney',1, NULL)) 'OnShore',
 COUNT(IF(location !='Melbourne' AND location !='Sydney',1, NULL)) 'OffShore',
 COUNT(*) 'total'
 FROM lss_employee_profile GROUP BY practiceTeam";

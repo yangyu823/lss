@@ -125,9 +125,9 @@ $conn->close();
     // #Self
 
     var keys = key_total;
-    data_total.sort(function (a, b) {
-        return b.total - a.total;
-    });
+    // data_total.sort(function (a, b) {
+    //     return b.total - a.total;
+    // });
     x.domain(data_total.map(function (d) {
         return d.practiceTeam;
     }));
@@ -159,8 +159,7 @@ $conn->close();
         })
         .attr("height", function (d) {
             return 0;
-            // console.log(d[0]-d[1])
-            // return y(d[0]) - y(d[1])
+
         })
         .attr("width", x.bandwidth() * 0.5)
         .on("mouseover", function () {
@@ -279,9 +278,34 @@ $conn->close();
         })
     }
 
-    // ### table
-    var table = d3.select('#new_id').append('table').attr("width",width);
+    // Data Reformat
+    var n = 1, o = 0;
     var titles = d3.keys(data_total[0])
+    // console.log(titles)
+    // console.log(d3.values(data_total[0]))
+    var new_data = []
+    // while (m < data_total.length) {
+    // while (n < titles.length) {
+    while (n < titles.length) {
+        var m = 0;
+        var index = data_total[m][titles[0]]
+        var element = {};
+        while (m < data_total.length) {
+            if (m === 0) {
+                element.Team = titles[n]
+            }
+            element[data_total[m][titles[0]]] = data_total[m][titles[n]]
+            m++
+        }
+        // console.log(titles[n])
+        new_data.push(element)
+        // console.log("New Record !!!!!!!-------------!!!!");
+        n++
+    }
+
+    // ### table
+    var table = d3.select('#new_id').append('table').attr("width", width);
+    var titles = d3.keys(new_data[0])
     var headers = table.append('thead').append('tr')
         .selectAll('th')
         .data(titles).enter()
@@ -290,7 +314,7 @@ $conn->close();
             return d;
         });
     var rows = table.append('tbody').selectAll('tr')
-        .data(data_total).enter()
+        .data(new_data).enter()
         .append('tr');
     rows.selectAll('td')
         .data(function (d) {
@@ -299,7 +323,7 @@ $conn->close();
             });
         }).enter()
         .append('td')
-        .style("text-align","center")
+        .style("text-align", "center")
         .attr('data-th', function (d) {
             return d.name;
         })

@@ -126,9 +126,9 @@ $conn->close();
     // #Self
 
     var keys = key_total;
-    data_total.sort(function (a, b) {
-        return b.total - a.total;
-    });
+    // data_total.sort(function (a, b) {
+    //     return b.total - a.total;
+    // });
     x.domain(data_total.map(function (d) {
         return d.practiceTeam;
     }));
@@ -281,10 +281,11 @@ $conn->close();
     }
     d3.csv("test2.csv", function(error, data) {
         if (error) throw error;
-        console.log(data)
-        var sortAscending = true;
+        // var sortAscending = true;
         var table = d3.select('#new_id').append('table');
         var titles = d3.keys(data[0]);
+        console.log(data[0])
+
         var headers = table.append('thead').append('tr')
             .selectAll('th')
             .data(titles).enter()
