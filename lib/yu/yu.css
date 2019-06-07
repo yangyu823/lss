@@ -44,14 +44,11 @@
 Generic Styling, for Desktops/Laptops
 */
 table {
-    width: 84%;
+    /*width: 83.5%;*/
     border-collapse: collapse;
 }
 
 /* Zebra striping */
-/*#bar_chart > table > tbody > tr:nth-of-type(odd) {*/
-/*    background: #feffdb;*/
-/*}*/
 #bar_chart > table > tbody > tr:last-child {
     background: #feffdb;
 
@@ -70,13 +67,14 @@ td, th {
 }
 
 td[data-th] {
-    width: 80px;
-    /*font-size: 10px;*/
+    width: 60px;
+    font-size: 14px;
 }
 
 td[data-th="Team"] {
-    width: 20px !important;
-    font-size: 16px !important;
+    width: 80px !important;
+    font-size: 14px !important;
+    font-weight: bold !important;
     color: #ff134c;
 }
 
