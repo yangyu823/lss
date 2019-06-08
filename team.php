@@ -2136,7 +2136,7 @@ $conn->close();
                 <!--                ########################-->
                 <!--                ### Yu Report tab  start-->
 
-                <div id="report" name="report" style="display:none; padding-top:60px">
+                <div id="report" name="report" style="display:none; padding-top:40px">
                     <div class="w3-container">
                         <div class="w3-row row">
                             <div class="col-3"></div>
@@ -2158,7 +2158,6 @@ $conn->close();
                             <div class="col-3"></div>
                         </div>
                     </div>
-                    <br>
                     <input id="toggle-event" type="checkbox" data-on="Bar Chart" data-off="Pie Chart"
                            checked data-toggle="toggle" data-onstyle="success" data-offstyle="danger" data-width="150"
                            data-height="40">
