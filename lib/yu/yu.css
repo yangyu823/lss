@@ -44,7 +44,6 @@
 Generic Styling, for Desktops/Laptops
 */
 table {
-    /*width: 83.5%;*/
     border-collapse: collapse;
 }
 
@@ -57,7 +56,8 @@ table {
 th {
     background: #333;
     color: white;
-    /*font-weight: bold;*/
+    font-size: 10px;
+    font-weight: normal;
 }
 
 td, th {
@@ -68,7 +68,7 @@ td, th {
 
 td[data-th] {
     width: 8%;
-    font-size: 14px;
+    font-size: 12px;
 }
 
 td[data-th="Team"] {
