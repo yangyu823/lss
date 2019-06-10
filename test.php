@@ -306,13 +306,13 @@ $conn->close();
     // ### table
     var table = d3.select('#new_id').append('table').attr("width", width);
     var titles = d3.keys(new_data[0])
-    var headers = table.append('thead').append('tr')
-        .selectAll('th')
-        .data(titles).enter()
-        .append('th')
-        .text(function (d) {
-            return d;
-        });
+    // var headers = table.append('thead').append('tr')
+    //     .selectAll('th')
+    //     .data(titles).enter()
+    //     .append('th')
+    //     .text(function (d) {
+    //         return d;
+    //     });
     var rows = table.append('tbody').selectAll('tr')
         .data(new_data).enter()
         .append('tr');

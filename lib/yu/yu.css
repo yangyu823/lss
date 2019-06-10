@@ -67,12 +67,12 @@ td, th {
 }
 
 td[data-th] {
-    width: 60px;
+    width: 8%;
     font-size: 14px;
 }
 
 td[data-th="Team"] {
-    width: 80px !important;
+    width: 25px !important;
     font-size: 14px !important;
     font-weight: bold !important;
     color: #ff134c;
