@@ -3,7 +3,7 @@
 date_default_timezone_set("Australia/Melbourne");
 //error_reporting(0);
 
-$profile = 1;
+$profile = 7;
 
 
 if ($profile == 100) {
