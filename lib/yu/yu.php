@@ -9,26 +9,19 @@ if ($conn->connect_error) {
 echo "Connected successfully";
 //  Query DB to get team name
 $objid = $profile;
-//$team = "SELECT * FROM lov WHERE objid = '" . $objid . "'";
-//$team_conn = $conn->query($team);
-//if ($team_conn->num_rows > 0) {
-//    while ($row = $team_conn->fetch_assoc()) {
-//        $team_name = $row["value"];
-//    }
-//}
 //  Query DB to get PeelService Count
 if ($profile != 1) {
     $sql = "SELECT * FROM lss_employee_profile where practiceTeam = (select value from lov WHERE splvalue = '" . $objid . "' and type='team') AND releaseDate >" . date("Ymd") . " "; // add date condition
     $result = $conn->query($sql);
     if ($result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
-            if ($row["execution"] == "execution") {
+            if ($row["execution"] == "No") {
                 $Excount += 1;
-            } elseif ($row["execution"] == "services" && $row["peelService"] == "No") {
+            } elseif ($row["execution"] == "Yes" && $row["peelService"] == "No") {
                 $Nocount += 1;
-            } elseif ($row["execution"] == "services" && $row["peelService"] == "Yes") {
+            } elseif ($row["execution"] == "Yes" && $row["peelService"] == "Yes") {
                 $Yescount += 1;
-            } elseif ($row["execution"] == "services" && $row["peelService"] == "NA") {
+            } elseif ($row["execution"] == "Yes" && $row["peelService"] == "NA") {
                 $NAcount += 1;
             }
         }
@@ -54,11 +47,11 @@ if ($profile != 1) {
     );
     $sum_location = ($OFF_shore + $ON_shore);
 } else {
-    $sql = "SELECT practiceTeam,COUNT(IF(execution like 'execution',1, NULL)) 'Execution',
-COUNT(IF(execution like 'services' AND peelService like 'Yes',1, NULL)) 'Yes',
-COUNT(IF(execution like 'services' AND peelService like 'No',1, NULL)) 'No',
-COUNT(IF(execution like 'services' AND peelService like 'NA',1, NULL)) 'NA',
-COUNT(IF(execution like 'services' OR execution like 'execution',1, NULL)) 'Total' 
+    $sql = "SELECT practiceTeam,COUNT(IF(execution like 'No',1, NULL)) 'Execution',
+COUNT(IF(execution like 'Yes' AND peelService like 'Yes',1, NULL)) 'Yes',
+COUNT(IF(execution like 'Yes' AND peelService like 'No',1, NULL)) 'No',
+COUNT(IF(execution like 'Yes' AND peelService like 'NA',1, NULL)) 'NA',
+COUNT(IF(execution like 'Yes' OR execution like 'No',1, NULL)) 'Total' 
 FROM lss_employee_profile  WHERE releaseDate >" . date("Ymd") . " GROUP BY practiceTeam";
     $data_result = $conn->query($sql);
     $data_total = array();
@@ -99,13 +92,13 @@ FROM lss_employee_profile WHERE releaseDate >" . date("Ymd") . " GROUP BY practi
     $result = $conn->query($location_sql);
     if ($result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
-            if ($row["execution"] == "execution") {
+            if ($row["execution"] == "No") {
                 $Excount += 1;
-            } elseif ($row["execution"] == "services" && $row["peelService"] == "No") {
+            } elseif ($row["execution"] == "Yes" && $row["peelService"] == "No") {
                 $Nocount += 1;
-            } elseif ($row["execution"] == "services" && $row["peelService"] == "Yes") {
+            } elseif ($row["execution"] == "Yes" && $row["peelService"] == "Yes") {
                 $Yescount += 1;
-            } elseif ($row["execution"] == "services" && $row["peelService"] == "NA") {
+            } elseif ($row["execution"] == "Yes" && $row["peelService"] == "NA") {
                 $NAcount += 1;
             }
         }

@@ -53,21 +53,21 @@ table {
 
 }
 
-th {
+#bar_chart > table > thead > tr > th {
     background: #333;
     color: white;
     font-size: 8px;
     font-weight: normal;
 }
 
-td, th {
+#bar_chart > table > tbody > tr > td, th {
     padding: 4px;
     border: 2px solid #ccc;
-    text-align: left;
+    text-align: center;
 }
 
 td[data-th] {
-    width: 7.5%;
+    width: 8% !important;;
     font-size: 12px;
 }
 

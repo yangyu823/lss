@@ -3,7 +3,7 @@
 date_default_timezone_set("Australia/Melbourne");
 //error_reporting(0);
 
-$profile = 1;
+$profile = 7;
 
 
 if ($profile == 100) {
@@ -2166,10 +2166,8 @@ $conn->close();
                     <!--                    <h1 style="font-size:2vw;">PeelService Report</h1>-->
                     <div class="container">
                         <div class="row">
-                            <div class="col-2"></div>
-                            <div class="col-8" id="pie_chart" style="display: none"></div>
-                            <div class="col-8" id="bar_chart" style="display: block"></div>
-                            <div class="col-2"></div>
+                            <div class="col-12" id="pie_chart" style="display: none"></div>
+                            <div class="col-12" id="bar_chart" style="display: block"></div>
                         </div>
                     </div>
                 </div>
