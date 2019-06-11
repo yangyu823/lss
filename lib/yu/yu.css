@@ -56,7 +56,7 @@ table {
 th {
     background: #333;
     color: white;
-    font-size: 10px;
+    font-size: 8px;
     font-weight: normal;
 }
 
@@ -67,13 +67,13 @@ td, th {
 }
 
 td[data-th] {
-    width: 8%;
+    width: 7.5%;
     font-size: 12px;
 }
 
 td[data-th="Team"] {
-    width: 25px !important;
-    font-size: 14px !important;
+    width: 15px !important;
+    font-size: 10px !important;
     font-weight: bold !important;
     color: #ff134c;
 }
