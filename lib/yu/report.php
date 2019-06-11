@@ -11,7 +11,7 @@ $objid = $profile;
 $date = date("Ymd");
 
 
-if ($profile = 1) {
+if ($profile == 1) {
     $sql = "SELECT * FROM lss_employee_profile where releaseDate <" . date("Ymd") . " "; // add date condition
 } else {
     $sql = "SELECT * FROM lss_employee_profile where practiceTeam = (select value from lov WHERE splvalue = '" . $objid . "' and type='team') AND releaseDate <" . date("Ymd") . " "; // add date condition

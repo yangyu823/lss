@@ -8,17 +8,17 @@ if ($conn->connect_error) {
 }
 echo "Connected successfully";
 //  Query DB to get team name
-$objid = $profile + 9;
-$team = "SELECT * FROM lov WHERE objid = '" . $objid . "'";
-$team_conn = $conn->query($team);
-if ($team_conn->num_rows > 0) {
-    while ($row = $team_conn->fetch_assoc()) {
-        $team_name = $row["value"];
-    }
-}
+$objid = $profile;
+//$team = "SELECT * FROM lov WHERE objid = '" . $objid . "'";
+//$team_conn = $conn->query($team);
+//if ($team_conn->num_rows > 0) {
+//    while ($row = $team_conn->fetch_assoc()) {
+//        $team_name = $row["value"];
+//    }
+//}
 //  Query DB to get PeelService Count
 if ($profile != 1) {
-    $sql = "SELECT * FROM lss_employee_profile WHERE practiceTeam = '" . $team_name . "'";
+    $sql = "SELECT * FROM lss_employee_profile where practiceTeam = (select value from lov WHERE splvalue = '" . $objid . "' and type='team') AND releaseDate >" . date("Ymd") . " "; // add date condition
     $result = $conn->query($sql);
     if ($result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
