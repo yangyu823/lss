@@ -59,7 +59,7 @@ COUNT(IF(execution like 'services' AND peelService like 'Yes',1, NULL)) 'Yes',
 COUNT(IF(execution like 'services' AND peelService like 'No',1, NULL)) 'No',
 COUNT(IF(execution like 'services' AND peelService like 'NA',1, NULL)) 'NA',
 COUNT(IF(execution like 'services' OR execution like 'execution',1, NULL)) 'Total' 
-FROM lss_employee_profile GROUP BY practiceTeam";
+FROM lss_employee_profile  WHERE releaseDate >" . date("Ymd") . " GROUP BY practiceTeam";
     $data_result = $conn->query($sql);
     $data_total = array();
     $key_peel = ["Execution", "Yes", "No", "NA"];
@@ -69,7 +69,7 @@ FROM lss_employee_profile GROUP BY practiceTeam";
     $sql_loca = "SELECT practiceTeam,COUNT(IF(location like 'Melbourne' OR location like 'Sydney',1, NULL)) 'OnShore',
 COUNT(IF(location !='Melbourne' AND location !='Sydney',1, NULL)) 'OffShore',
 COUNT(*) 'Total'
-FROM lss_employee_profile GROUP BY practiceTeam";
+FROM lss_employee_profile WHERE releaseDate >" . date("Ymd") . " GROUP BY practiceTeam";
     $key_location = ["OnShore", "OffShore"];
     $data_result2 = $conn->query($sql_loca);
     $data_location = array();
@@ -77,7 +77,7 @@ FROM lss_employee_profile GROUP BY practiceTeam";
         array_push($data_location, $row);
     }
 
-    $location_sql = "SELECT * FROM lss_employee_profile";
+    $location_sql = "SELECT * FROM lss_employee_profile WHERE releaseDate >" . date("Ymd") . " ";
     //  Query DB to get Location Count (2019-05-30 new feature)
     $location_result = $conn->query($location_sql);
     if ($location_result->num_rows > 0) {
