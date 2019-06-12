@@ -1,45 +1,121 @@
 <?php
-include('conn.php');
+//  Create connection
+$conn = new mysqli($yu_hostname, $yu_username, $yu_password, $yu_dbname, $yu_port);
 
-$connect = mysqli_connect($hostname, $uname, $pwd, $dbname);
-if ($connect->connect_error) {
-    die("Connection failed: " . $connect->connect_error);
+//  Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
 }
-
+echo "Connected successfully";
 //  Query DB to get team name
 $objid = $profile;
-$date = date("Ymd");
-
-
-if ($profile == 1) {
-    $sql = "SELECT * FROM lss_employee_profile where releaseDate <" . date("Ymd") . " "; // add date condition
+//  Query DB to get PeelService Count
+if ($profile != 1) {
+    $sql = "SELECT * FROM lss_employee_profile where practiceTeam = (select value from lov WHERE splvalue = '" . $objid . "' and type='team') AND releaseDate >" . date("Ymd") . " "; // add date condition
+    $result = $conn->query($sql);
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            if ($row["execution"] == "No") {
+                $Excount += 1;
+            } elseif ($row["execution"] == "Yes" && $row["peelService"] == "No") {
+                $Nocount += 1;
+            } elseif ($row["execution"] == "Yes" && $row["peelService"] == "Yes") {
+                $Yescount += 1;
+            } elseif ($row["execution"] == "Yes" && $row["peelService"] == "NA") {
+                $NAcount += 1;
+            }
+        }
+    } else {
+        echo "No Data for this team";
+    }
+    //  Query DB to get Location Count (2019-05-30 new feature)
+    $location_result = $conn->query($sql);
+    if ($location_result->num_rows > 0) {
+        while ($row = $location_result->fetch_assoc()) {
+            if (strcasecmp($row["location"], "sydney") == 0) {
+                $ON_shore += 1;
+            } elseif (strcasecmp($row["location"], "melbourne") == 0) {
+                $ON_shore += 1;
+            } else {
+                $OFF_shore += 1;
+            }
+        }
+    }
+    $dataLocation = array(
+        array("label" => "OnShore", "value" => ($ON_shore), "color" => "#4daf4a"),
+        array("label" => "OffShore", "value" => ($OFF_shore), "color" => "#377eb8"),
+    );
+    $sum_location = ($OFF_shore + $ON_shore);
 } else {
-    $sql = "SELECT * FROM lss_employee_profile where practiceTeam = (select value from lov WHERE splvalue = '" . $objid . "' and type='team') AND releaseDate <" . date("Ymd") . " "; // add date condition
-}
-$result = $connect->query($sql);
+    $sql = "SELECT practiceTeam,COUNT(IF(execution like 'No',1, NULL)) 'Execution',
+COUNT(IF(execution like 'Yes' AND peelService like 'Yes',1, NULL)) 'Yes',
+COUNT(IF(execution like 'Yes' AND peelService like 'No',1, NULL)) 'No',
+COUNT(IF(execution like 'Yes' AND peelService like 'NA',1, NULL)) 'NA',
+COUNT(IF(execution like 'Yes' OR execution like 'No',1, NULL)) 'Total' 
+FROM lss_employee_profile  WHERE releaseDate >" . date("Ymd") . " GROUP BY practiceTeam";
+    $data_result = $conn->query($sql);
+    $data_total = array();
+    $key_peel = ["Execution", "Yes", "No", "NA"];
+    while ($row = $data_result->fetch_assoc()) {
+        array_push($data_total, $row);
+    }
+    $sql_loca = "SELECT practiceTeam,COUNT(IF(location like 'Melbourne' OR location like 'Sydney',1, NULL)) 'OnShore',
+COUNT(IF(location !='Melbourne' AND location !='Sydney',1, NULL)) 'OffShore',
+COUNT(*) 'Total'
+FROM lss_employee_profile WHERE releaseDate >" . date("Ymd") . " GROUP BY practiceTeam";
+    $key_location = ["OnShore", "OffShore"];
+    $data_result2 = $conn->query($sql_loca);
+    $data_location = array();
+    while ($row = $data_result2->fetch_assoc()) {
+        array_push($data_location, $row);
+    }
 
-$NAcount = 0;
-$Nocount = 0;
-$Yescount = 0;
-
-while ($row = $result->fetch_assoc()) {
-    if ($row["peelService"] == "NA") {
-        $NAcount += 1;
-    } elseif ($row["peelService"] == "No") {
-        $Nocount += 1;
-    } elseif ($row["peelService"] == "Yes") {
-        $Yescount += 1;
+    $location_sql = "SELECT * FROM lss_employee_profile WHERE releaseDate >" . date("Ymd") . " ";
+    //  Query DB to get Location Count (2019-05-30 new feature)
+    $location_result = $conn->query($location_sql);
+    if ($location_result->num_rows > 0) {
+        while ($row = $location_result->fetch_assoc()) {
+            if (strcasecmp($row["location"], "sydney") == 0) {
+                $ON_shore += 1;
+            } elseif (strcasecmp($row["location"], "melbourne") == 0) {
+                $ON_shore += 1;
+            } else {
+                $OFF_shore += 1;
+            }
+        }
+    }
+    $dataLocation = array(
+        array("label" => "OnShore", "value" => ($ON_shore), "color" => "#4daf4a"),
+        array("label" => "OffShore", "value" => ($OFF_shore), "color" => "#377eb8"),
+    );
+    $sum_location = ($OFF_shore + $ON_shore);
+    $result = $conn->query($location_sql);
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            if ($row["execution"] == "No") {
+                $Excount += 1;
+            } elseif ($row["execution"] == "Yes" && $row["peelService"] == "No") {
+                $Nocount += 1;
+            } elseif ($row["execution"] == "Yes" && $row["peelService"] == "Yes") {
+                $Yescount += 1;
+            } elseif ($row["execution"] == "Yes" && $row["peelService"] == "NA") {
+                $NAcount += 1;
+            }
+        }
+    } else {
+        echo "No Data for this team";
     }
 }
 
-$pie = array(
-    array("label" => ["Yes", "No", "NA"]),
-    array("value" => [$Yescount, $Nocount, $NAcount]),
-);
-$dataPoints = array(
-    array("label" => "NA", "value" => ($NAcount), "color" => "#4daf4a"),
+$dataPeel = array(
+    array("label" => "Execution", "value" => ($Excount), "color" => "#4daf4a"),
     array("label" => "No", "value" => ($Nocount), "color" => "#377eb8"),
     array("label" => "Yes", "value" => ($Yescount), "color" => "#ff7f00"),
+    array("label" => "NA", "value" => ($NAcount), "color" => "#ff134c"),
 );
-$sum = ($NAcount + $Nocount + $Yescount);
-?>
+
+$sum_peel = ($Excount + $Nocount + $Yescount + $NAcount);
+
+
+// Close connection
+$conn->close();

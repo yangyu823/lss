@@ -82,6 +82,11 @@ $conn->close();
             var data_loca = (<?php echo json_encode($dataLocation, JSON_NUMERIC_CHECK); ?>);
         </script>
 
+        <?php
+        include "lib/yu/yu.php";
+
+        ?>
+
         <!--        ### Yu Source Script report function finished-->
         <!--        #############################################-->
 
@@ -1461,7 +1466,7 @@ $conn->close();
                             &nbsp;<span style='font-size: 1rem; padding-bottom:8px;'><a class='leftpanea' href="#"
                                                                                         id="Managealloclink"> &nbsp;&nbsp;Manage Allocations &nbsp;  </a></span></br>
                             &nbsp;<span style='font-size: 1rem; padding-bottom:8px;'><a class='leftpanea' href="#"
-                                                                                        id="reportlink"> &nbsp;&nbsp;Report Resource &nbsp; </a></span></br>
+                                                                                        id="reportlink" > &nbsp;&nbsp;Report Resource &nbsp; </a></span></br>
 
                         </td>
                     </tr>
@@ -2136,7 +2141,7 @@ $conn->close();
                 <!--                ########################-->
                 <!--                ### Yu Report tab  start-->
 
-                <div id="report" name="report" style="display:none; padding-top:40px">
+                <div id="report" name="report" style="display:none; padding-top:60px" onload="pureTest()">
                     <div class="container">
                         <div class="w3-row row">
                             <div class="col-2"></div>
@@ -2160,14 +2165,16 @@ $conn->close();
                     </div>
                     <input id="toggle-event" type="checkbox" data-on="Bar Chart" data-off="Pie Chart"
                            checked data-toggle="toggle" data-onstyle="success" data-offstyle="danger" data-width="150"
-                           data-height="40">
+                           data-height="34">
                     <br>
                     <div id="console-event"> Slide to display the graph</div>
                     <!--                    <h1 style="font-size:2vw;">PeelService Report</h1>-->
-                    <div class="container">
+                    <div class="container" id="chart_style">
                         <div class="row">
                             <div class="col-12" id="pie_chart" style="display: none"></div>
-                            <div class="col-12" id="bar_chart" style="display: block"></div>
+                            <div class="col-12" id="bar_chart" style="display: block">
+                                <script> initial()</script>
+                            </div>
                         </div>
                     </div>
                 </div>
