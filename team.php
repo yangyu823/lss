@@ -2137,10 +2137,10 @@ $conn->close();
                 <!--                ### Yu Report tab  start-->
 
                 <div id="report" name="report" style="display:none; padding-top:40px">
-                    <div class="w3-container">
+                    <div class="container">
                         <div class="w3-row row">
-                            <div class="col-3"></div>
-                            <div class="col-6">
+                            <div class="col-2"></div>
+                            <div class="col-8">
                                 <a href="javascript:void(0)" onclick="openTab(event,0)" id="tab_title tag01">
                                     <div class="w3-third tablink w3-bottombar w3-hover-light-grey w3-padding">Peel
                                         Service
@@ -2150,12 +2150,12 @@ $conn->close();
                                     <div class="w3-third tablink w3-bottombar w3-hover-light-grey w3-padding">Location
                                     </div>
                                 </a>
-                                <!--                                <a href="javascript:void(0)" onclick="openTab(event,2)" id="tab_title tag_03">-->
-                                <!--                                    <div class="w3-third tablink w3-bottombar w3-hover-light-grey w3-padding">Disable-->
-                                <!--                                    </div>-->
-                                <!--                                </a>-->
+                                <a href="javascript:void(0)" onclick="openTab(event,2)" id="tab_title tag_03">
+                                    <div class="w3-third tablink w3-bottombar w3-hover-light-grey w3-padding">Disable
+                                    </div>
+                                </a>
                             </div>
-                            <div class="col-3"></div>
+                            <div class="col-2"></div>
                         </div>
                     </div>
                     <input id="toggle-event" type="checkbox" data-on="Bar Chart" data-off="Pie Chart"
@@ -2166,10 +2166,8 @@ $conn->close();
                     <!--                    <h1 style="font-size:2vw;">PeelService Report</h1>-->
                     <div class="container">
                         <div class="row">
-                            <div class="col-1"></div>
-                            <div class="col-10" id="pie_chart" style="display: none"></div>
-                            <div class="col-10" id="bar_chart" style="display: block"></div>
-                            <div class="col-1"></div>
+                            <div class="col-12" id="pie_chart" style="display: none"></div>
+                            <div class="col-12" id="bar_chart" style="display: block"></div>
                         </div>
                     </div>
                 </div>
