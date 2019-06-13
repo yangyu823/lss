@@ -3,7 +3,7 @@
 date_default_timezone_set("Australia/Melbourne");
 //error_reporting(0);
 
-$profile = 7;
+$profile = 1;
 
 
 if ($profile == 100) {
@@ -464,6 +464,7 @@ $conn->close();
                     $('#Requestreslink').removeClass('active');
                     $('#addresourlink').removeClass('active');
                     $('#reportlink').addClass('active');
+                    initial();
                 });
 
 
@@ -1433,7 +1434,14 @@ $conn->close();
             </div>
         </nav>
     </header>
-
+    <?php
+    $pcount = 20;
+    $ecount = 30;
+    $ccount = 70;
+    $etcount = 80;
+    $bocount = 90;
+    $available = 10;
+    ?>
 
     <table class="tncellspace"
            style=" width:100%; height:100%; background-color: transparent ; border: none !important; border-radius:10px; border-spacing: 0px; table-layout:fixed">
@@ -1466,7 +1474,7 @@ $conn->close();
                             &nbsp;<span style='font-size: 1rem; padding-bottom:8px;'><a class='leftpanea' href="#"
                                                                                         id="Managealloclink"> &nbsp;&nbsp;Manage Allocations &nbsp;  </a></span></br>
                             &nbsp;<span style='font-size: 1rem; padding-bottom:8px;'><a class='leftpanea' href="#"
-                                                                                        id="reportlink" > &nbsp;&nbsp;Report Resource &nbsp; </a></span></br>
+                                                                                        id="reportlink"> &nbsp;&nbsp;Report Resource &nbsp; </a></span></br>
 
                         </td>
                     </tr>
@@ -2140,6 +2148,45 @@ $conn->close();
 
                 <!--                ########################-->
                 <!--                ### Yu Report tab  start-->
+                <!--                # New Feature from 12.06.2019-->
+                <?php
+                if ($profile == 1) {
+                    $pName = "L&SS";
+                    $eName = "Capability Teams";
+                    $cName = "Practices Teams";
+                    $etName = "S&O";
+                    $boName = "Bus Ops";
+                    $aName = "Available";
+                } else if ($profile == 2 or $profile == 3 or $profile == 4 or $profile == 5) {
+                    $pName = "Engine";
+                    $eName = "FP";
+                    $cName = "NFP";
+                    $etName = "Release Orch";
+                    $boName = "Others";
+                    $aName = "Available";
+                } else if ($profile == 6 or $profile == 7 or $profile == 8 or $profile == 9 or $profile == 10) {
+                    $pName = "Practice";
+                    $eName = "C&SB";
+                    $cName = "Enterprise";
+                    $etName = "InfraCo";
+                    $boName = "ALM";
+                    $aName = "Available";
+                }
+                $tab3 = array(
+                    array("label" => $pName, "value" => ($pcount), "color" => "#4daf4a"),
+                    array("label" => "$eName", "value" => ($ecount), "color" => "#377eb8"),
+                    array("label" => "$cName", "value" => ($ccount), "color" => "#ff7f00"),
+                    array("label" => "$etName", "value" => ($ecount), "color" => "#ff134c"),
+                    array("label" => "$boName", "value" => ($bocount), "color" => "#e7ba52"),
+                    array("label" => "$aName", "value" => ($available), "color" => "#f781bf"),
+                );
+                $sum_tab3 = ($pcount + $ecount + $ccount + $ecount + $bocount + $available);
+                ?>
+                <script>
+                    var newTab = (<?php echo json_encode($tab3, JSON_NUMERIC_CHECK); ?>);
+                    var sum_tab3 = (<?php echo json_encode($sum_tab3, JSON_NUMERIC_CHECK); ?>);
+                </script>
+                <!--                # New Feature End 12.06.2019-->
 
                 <div id="report" name="report" style="display:none; padding-top:60px" onload="pureTest()">
                     <div class="container">
@@ -2147,7 +2194,8 @@ $conn->close();
                             <div class="col-2"></div>
                             <div class="col-8">
                                 <a href="javascript:void(0)" onclick="openTab(event,0)" id="tab_title tag01">
-                                    <div class="w3-third tablink w3-bottombar w3-hover-light-grey w3-padding">Peel
+                                    <div class="w3-third tablink w3-bottombar w3-hover-light-grey w3-padding w3-border-red">
+                                        Peel
                                         Service
                                     </div>
                                 </a>
@@ -2172,14 +2220,12 @@ $conn->close();
                     <div class="container" id="chart_style">
                         <div class="row">
                             <div class="col-12" id="pie_chart" style="display: none"></div>
-                            <div class="col-12" id="bar_chart" style="display: block">
-                                <script> initial()</script>
-                            </div>
+                            <div class="col-12" id="bar_chart" style="display: block"></div>
+                            <div class="col-12" id="new_chart" style="display: none"></div>
                         </div>
                     </div>
-                </div>
 
-                <!--                ########################-->
+                    <!--                ########################-->
 
 
             </td>
