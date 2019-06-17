@@ -73,6 +73,10 @@ table {
     text-align: center;
 }
 
+#bar_label {
+    text-anchor: middle !important;
+}
+
 td[data-th] {
     width: 8% !important;;
     font-size: 12px;

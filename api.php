@@ -1436,7 +1436,7 @@ $conn->close();
     </header>
     <?php
     $pcount = 20;
-    $ecount = 30;
+    $ecount = 80;
     $ccount = 70;
     $etcount = 80;
     $bocount = 90;
@@ -2157,6 +2157,17 @@ $conn->close();
                     $etName = "S&O";
                     $boName = "Bus Ops";
                     $aName = "Available";
+//                    #####Special
+                    {
+                        $ecount1 = 20;
+                        $ecount2 = 20;
+                        $ecount3 = 20;
+                        $ecount4 = 20;
+                        $ccount1 = 20;
+                        $ccount2 = 20;
+                        $ccount3 = 30;
+
+                    }
                 } else if ($profile == 2 or $profile == 3 or $profile == 4 or $profile == 5) {
                     $pName = "Engine";
                     $eName = "FP";
@@ -2180,9 +2191,46 @@ $conn->close();
                     array("label" => "$boName", "value" => ($bocount), "color" => "#e7ba52"),
                     array("label" => "$aName", "value" => ($available), "color" => "#f781bf"),
                 );
+                $lss_tab = array(
+                    array("practiceTeam" => $pName, "Others" => ($pcount), "C&SB" => 0, "Enterprise" => 0, "Infra Co" => 0,
+                        "ALM" => 0, "Functional" => 0, "Non Functional" => 0, "Orchestration" => 0, "Total" => ($pcount)),
+                    array("practiceTeam" => "$eName", "Others" => 0, "C&SB" => $ecount1, "Enterprise" => $ecount2,
+                        "Infra Co" => $ecount3, "ALM" => $ecount4, "Functional" => 0, "Non Functional" => 0, "Orchestration" => 0, "Total" => ($ecount)),
+                    array("practiceTeam" => "$cName", "Others" => 0, "C&SB" => 0, "Enterprise" => 0, "Infra Co" => 0,
+                        "ALM" => 0, "Functional" => $ccount1, "Non Functional" => $ccount2, "Orchestration" => $ccount3, "Total" => ($ccount)),
+                    array("practiceTeam" => "$etName", "Others" => ($ecount), "C&SB" => 0, "Enterprise" => 0, "Infra Co" => 0,
+                        "ALM" => 0, "Functional" => 0, "Non Functional" => 0, "Orchestration" => 0, "Total" => ($ecount)),
+                    array("practiceTeam" => "$boName", "Others" => ($bocount), "C&SB" => 0, "Enterprise" => 0, "Infra Co" => 0,
+                        "ALM" => 0, "Functional" => 0, "Non Functional" => 0, "Orchestration" => 0, "Total" => ($bocount)),
+                    array("practiceTeam" => "$aName", "Others" => ($available), "C&SB" => 0, "Enterprise" => 0, "Infra Co" => 0,
+                        "ALM" => 0, "Functional" => 0, "Non Functional" => 0, "Orchestration" => 0, "Total" => ($available)),
+                );
+                $lss_pie = array(
+                    array("label" => $pName, "value" => ($pcount), "color" => "#4daf4a"),
+                    array("label" => "$eName - C&SB", "value" => ($ecount1), "color" => "#377eb8"),
+                    array("label" => "$eName - Enterprise", "value" => ($ecount2), "color" => "#377eb8"),
+                    array("label" => "$eName - Infra Co", "value" => ($ecount3), "color" => "#377eb8"),
+                    array("label" => "$eName - ALM", "value" => ($ecount4), "color" => "#377eb8"),
+                    array("label" => "$cName - Functional", "value" => ($ccount1), "color" => "#ff7f00"),
+                    array("label" => "$cName - Non Functional", "value" => ($ccount2), "color" => "#ff7f00"),
+                    array("label" => "$cName - Orchestration", "value" => ($ccount3), "color" => "#ff7f00"),
+                    array("label" => "$etName", "value" => ($ecount), "color" => "#ff134c"),
+                    array("label" => "$boName", "value" => ($bocount), "color" => "#e7ba52"),
+                    array("label" => "$aName", "value" => ($available), "color" => "#f781bf"),
+                );
+
+                $new_key = ["Others", "C&SB", "Enterprise", "Infra Co", "ALM", "Functional", "Non Functional", "Orchestration",];
+
+
                 $sum_tab3 = ($pcount + $ecount + $ccount + $ecount + $bocount + $available);
                 ?>
                 <script>
+                    if (pick === 1) {
+                        var lss_tab = (<?php echo json_encode($lss_tab, JSON_NUMERIC_CHECK); ?>);
+                        var lss_pie = (<?php echo json_encode($lss_pie, JSON_NUMERIC_CHECK); ?>);
+                        var new_key = (<?php echo json_encode($new_key, JSON_NUMERIC_CHECK); ?>);
+
+                    }
                     var newTab = (<?php echo json_encode($tab3, JSON_NUMERIC_CHECK); ?>);
                     var sum_tab3 = (<?php echo json_encode($sum_tab3, JSON_NUMERIC_CHECK); ?>);
                 </script>
@@ -2224,8 +2272,9 @@ $conn->close();
                             <div class="col-12" id="new_chart" style="display: none"></div>
                         </div>
                     </div>
+                </div>
 
-                    <!--                ########################-->
+                <!--                ########################-->
 
 
             </td>

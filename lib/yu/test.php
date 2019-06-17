@@ -14,63 +14,113 @@ if ($conn->connect_error) {
 }
 echo "Connected successfully";
 //  Query DB to get team name
-$objid = $profile + 9;
-$team = "SELECT * FROM lov WHERE objid = '" . $objid . "'";
-$team_conn = $conn->query($team);
-if ($team_conn->num_rows > 0) {
-    while ($row = $team_conn->fetch_assoc()) {
-        $team_name = $row["value"];
-    }
-}
-echo $team_name;
+$objid = $profile;
 //  Query DB to get PeelService Count
 if ($profile != 1) {
-    $sql = "SELECT * FROM lss_employee_profile WHERE practiceTeam = '" . $team_name . "'";
+    $sql = "SELECT * FROM lss_employee_profile where practiceTeam = (select value from lov WHERE splvalue = '" . $objid . "' and type='team') AND releaseDate >" . date("Ymd") . " "; // add date condition
     $result = $conn->query($sql);
     if ($result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
-            if ($row["execution"] == "execution") {
+            if ($row["execution"] == "No") {
                 $Excount += 1;
-            } elseif ($row["execution"] == "services" && $row["peelService"] == "No") {
+            } elseif ($row["execution"] == "Yes" && $row["peelService"] == "No") {
                 $Nocount += 1;
-            } elseif ($row["execution"] == "services" && $row["peelService"] == "Yes") {
+            } elseif ($row["execution"] == "Yes" && $row["peelService"] == "Yes") {
                 $Yescount += 1;
-            } elseif ($row["execution"] == "services" && $row["peelService"] == "NA") {
+            } elseif ($row["execution"] == "Yes" && $row["peelService"] == "NA") {
                 $NAcount += 1;
             }
         }
     } else {
         echo "No Data for this team";
     }
-    $pie = array(
-        array("label" => ["Yes", "No", "NA", "Execution"]),
-        array("value" => [$Yescount, $Nocount, $NAcount, $Excount]),
+    //  Query DB to get Location Count (2019-05-30 new feature)
+    $location_result = $conn->query($sql);
+    if ($location_result->num_rows > 0) {
+        while ($row = $location_result->fetch_assoc()) {
+            if (strcasecmp($row["location"], "sydney") == 0) {
+                $ON_shore += 1;
+            } elseif (strcasecmp($row["location"], "melbourne") == 0) {
+                $ON_shore += 1;
+            } else {
+                $OFF_shore += 1;
+            }
+        }
+    }
+    $dataLocation = array(
+        array("label" => "OnShore", "value" => ($ON_shore), "color" => "#4daf4a"),
+        array("label" => "OffShore", "value" => ($OFF_shore), "color" => "#377eb8"),
     );
-    $dataPeel = array(
-        array("label" => "Execution", "value" => ($Excount), "color" => "#4daf4a"),
-        array("label" => "No", "value" => ($Nocount), "color" => "#377eb8"),
-        array("label" => "Yes", "value" => ($Yescount), "color" => "#ff7f00"),
-        array("label" => "NA", "value" => ($NAcount), "color" => "#ff134c"),
-    );
-    $sum_peel = ($Excount + $Nocount + $Yescount);
-    echo "Profile is 1";
-
-
+    $sum_location = ($OFF_shore + $ON_shore);
 } else {
-    $sql = "SELECT practiceTeam,COUNT(IF(execution='execution',1, NULL)) 'Execution',
-COUNT(IF(execution='services' AND peelService='Yes',1, NULL)) 'Yes',
-COUNT(IF(execution='services' AND peelService='No',1, NULL)) 'No',
-COUNT(IF(execution='services' AND peelService='NA',1, NULL)) 'NA',
-COUNT(IF(execution='services' OR execution='execution',1, NULL)) 'total' 
-FROM lss_employee_profile GROUP BY practiceTeam";
-    $result = $conn->query($sql);
+    $sql = "SELECT practiceTeam,COUNT(IF(execution like 'No',1, NULL)) 'Execution',
+COUNT(IF(execution like 'Yes' AND peelService like 'Yes',1, NULL)) 'Yes',
+COUNT(IF(execution like 'Yes' AND peelService like 'No',1, NULL)) 'No',
+COUNT(IF(execution like 'Yes' AND peelService like 'NA',1, NULL)) 'NA',
+COUNT(IF(execution like 'Yes' OR execution like 'No',1, NULL)) 'Total' 
+FROM lss_employee_profile  WHERE releaseDate >" . date("Ymd") . " GROUP BY practiceTeam";
+    $data_result = $conn->query($sql);
     $data_total = array();
-    $key = ["Execution", "Yes", "No", "NA"];
-    while ($row = $result->fetch_assoc()) {
-//        echo $row['Yes'];
+    $key_peel = ["Execution", "Yes", "No", "NA"];
+    while ($row = $data_result->fetch_assoc()) {
         array_push($data_total, $row);
     }
+    $sql_loca = "SELECT practiceTeam,COUNT(IF(location like 'Melbourne' OR location like 'Sydney',1, NULL)) 'OnShore',
+COUNT(IF(location !='Melbourne' AND location !='Sydney',1, NULL)) 'OffShore',
+COUNT(*) 'Total'
+FROM lss_employee_profile WHERE releaseDate >" . date("Ymd") . " GROUP BY practiceTeam";
+    $key_location = ["OnShore", "OffShore"];
+    $data_result2 = $conn->query($sql_loca);
+    $data_location = array();
+    while ($row = $data_result2->fetch_assoc()) {
+        array_push($data_location, $row);
+    }
+
+    $location_sql = "SELECT * FROM lss_employee_profile WHERE releaseDate >" . date("Ymd") . " ";
+    //  Query DB to get Location Count (2019-05-30 new feature)
+    $location_result = $conn->query($location_sql);
+    if ($location_result->num_rows > 0) {
+        while ($row = $location_result->fetch_assoc()) {
+            if (strcasecmp($row["location"], "sydney") == 0) {
+                $ON_shore += 1;
+            } elseif (strcasecmp($row["location"], "melbourne") == 0) {
+                $ON_shore += 1;
+            } else {
+                $OFF_shore += 1;
+            }
+        }
+    }
+    $dataLocation = array(
+        array("label" => "OnShore", "value" => ($ON_shore), "color" => "#4daf4a"),
+        array("label" => "OffShore", "value" => ($OFF_shore), "color" => "#377eb8"),
+    );
+    $sum_location = ($OFF_shore + $ON_shore);
+    $result = $conn->query($location_sql);
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            if ($row["execution"] == "No") {
+                $Excount += 1;
+            } elseif ($row["execution"] == "Yes" && $row["peelService"] == "No") {
+                $Nocount += 1;
+            } elseif ($row["execution"] == "Yes" && $row["peelService"] == "Yes") {
+                $Yescount += 1;
+            } elseif ($row["execution"] == "Yes" && $row["peelService"] == "NA") {
+                $NAcount += 1;
+            }
+        }
+    } else {
+        echo "No Data for this team";
+    }
 }
+
+$dataPeel = array(
+    array("label" => "Execution", "value" => ($Excount), "color" => "#4daf4a"),
+    array("label" => "No", "value" => ($Nocount), "color" => "#377eb8"),
+    array("label" => "Yes", "value" => ($Yescount), "color" => "#ff7f00"),
+    array("label" => "NA", "value" => ($NAcount), "color" => "#ff134c"),
+);
+
+$sum_peel = ($Excount + $Nocount + $Yescount + $NAcount);
 
 
 // Close connection
@@ -95,18 +145,27 @@ $conn->close();
 </div>
 <script src="https://d3js.org/d3.v4.min.js"></script>
 <script>
-    var data_total = (<?php echo json_encode($data_total, JSON_NUMERIC_CHECK); ?>);
-    var key_total = (<?php echo json_encode($key, JSON_NUMERIC_CHECK); ?>);
+    // set the dimensions and margins of the graph
+    var margin = {top: 10, right: 30, bottom: 60, left: 40};
+    height = (parseInt(d3.select("tr").style('height')) * 8 / 15) - 2 * margin.bottom
+    if ((parseInt(d3.select("tr").style('width'))) * 4 / 5 <= 1140) {
+        width = ((parseInt(d3.select("tr").style('width')) * 4 / 5) - margin.left - margin.right)
+    } else {
+        width = 1140 - margin.left - margin.right
+    }
 
-    console.log(data_total);
-    // console.log(key_total);
-    // create the svg
+
+    var temp = d3.select("#bar_chart")
+        .append("svg")
+        .attr("width", width)
+        .attr("height", height + margin.top + margin.bottom)
+        .attr("id", "svg_bar")
+
+    width = width * 0.9;
     var svg = d3.select("svg"),
-        // .append("svg"),
         margin = {top: 20, right: 20, bottom: 30, left: 40},
-        width = +svg.attr("width") - margin.left - margin.right,
-        height = +svg.attr("height") - margin.top - margin.bottom,
-        g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+        g = svg.append("g")
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
     // set x scale
     var x = d3.scaleBand()
@@ -117,29 +176,26 @@ $conn->close();
     // set y scale
     var y = d3.scaleLinear()
         .rangeRound([height, 0]);
-    console.log(height)
+
     // set the colors
     var z = d3.scaleOrdinal()
-        .range(['#4daf4a', '#377eb8', '#ff7f00', '#ff134c']);
+        .range(['#4daf4a', '#ff7f00', '#377eb8', '#ff134c', '#e7ba52', '#f781bf']);
 
-    // #Self
-
-    var keys = key_total;
-    data_total.sort(function (a, b) {
-        return b.total - a.total;
+    // # sorting
+    data_lss.sort(function (a, b) {
+        return b.Total - a.Total;
     });
-    x.domain(data_total.map(function (d) {
+    x.domain(data_lss.map(function (d) {
         return d.practiceTeam;
     }));
-    y.domain([0, d3.max(data_total, function (d) {
-        // console.log(d.total)
-        return (d.total) * 1.01;
+    y.domain([0, d3.max(data_lss, function (d) {
+        return (d.Total) * 1.01;
     })]).nice();
     z.domain(keys);
 
     g.append("g")
         .selectAll("g")
-        .data(d3.stack().keys(keys)(data_total))
+        .data(d3.stack().keys(keys)(data_lss))
         .enter().append("g")
         .attr("fill", function (d) {
             return z(d.key);
@@ -155,7 +211,6 @@ $conn->close();
         .attr("y", function (d) {
             // console.log(d[1])
             return y(d[0]);
-            // return y(d[1]);
         })
         .attr("height", function (d) {
             return 0;
@@ -170,10 +225,11 @@ $conn->close();
             tooltip.style("display", "none");
         })
         .on("mousemove", function (d) {
-            // console.log(d);
-            var xPosition = d3.mouse(this)[0] - 5;
-            var yPosition = d3.mouse(this)[1] - 5;
-            tooltip.attr("transform", "translate(" + xPosition + "," + yPosition + ")");
+            var xPosition = d3.mouse(this)[0];
+            var yPosition = d3.mouse(this)[1] - 10;
+            tooltip.attr("transform", "translate(" + xPosition + "," + yPosition + ")")
+                .style("opacity", 1)
+                .style("display", "inline-block");
             tooltip.select("text").text(d[1] - d[0]);
         });
     {
@@ -194,10 +250,10 @@ $conn->close();
     g.append("g")
         .attr("class", "axis")
         .attr("transform", "translate(0," + height + ")")
+        .attr("id", "anchor")
         .call(d3.axisBottom(x))
-        .selectAll("text")
-        .call(wrap, x.bandwidth())
-
+        .selectAll(".tick text")
+        .call(wrap, x.bandwidth());
 
     g.append("g")
         .attr("class", "axis")
@@ -239,24 +295,24 @@ $conn->close();
     // Prep the tooltip bits, initial display is hidden
     var tooltip = svg.append("g")
         .attr("class", "tooltip")
+        .attr("id", "tooltip")
         .style("display", "none");
 
     tooltip.append("rect")
         .attr("width", 60)
-        .attr("height", 20)
-        .attr("fill", "white")
-        .style("opacity", 0.5);
+        .attr("height", 30)
+        .attr("fill", "#feffdb")
+        .style("opacity", 0.8);
 
     tooltip.append("text")
         .attr("x", 30)
         .attr("dy", "1.2em")
         .style("text-anchor", "middle")
-        .attr("font-size", "12px")
+        .attr("font-size", "16px")
         .attr("font-weight", "bold");
 
-
     function wrap(text, width) {
-        text.each(function() {
+        text.each(function () {
             var text = d3.select(this),
                 words = text.text().split(/\s+/).reverse(),
                 word,
@@ -278,6 +334,61 @@ $conn->close();
             }
         })
     }
+
+    // Data Reformat
+    var n = 1;
+    var titles = d3.keys(data_lss[0])
+    var new_data = []
+    while (n < titles.length) {
+        var m = 0;
+        var element = {};
+        while (m < data_lss.length) {
+            if (m === 0) {
+                element.Team = titles[n]
+            }
+            element[data_lss[m][titles[0]]] = data_lss[m][titles[n]]
+            m++
+        }
+        new_data.push(element)
+        n++
+    }
+
+    width = width + 95
+    // ### table
+    var table = d3.select('#bar_chart')
+        .append('table')
+        .attr("width", width - 40)
+        .attr("id", "stats_tb");
+    var titles = d3.keys(new_data[0])
+
+    // ##########Header########
+    var headers = table.append('thead').append('tr')
+        .selectAll('th')
+        .data(titles).enter()
+        .append('th')
+        .text(function (d) {
+            return d;
+        });
+
+
+    var rows = table.append('tbody').selectAll('tr')
+        .data(new_data).enter()
+        .append('tr');
+    rows.selectAll('td')
+        .data(function (d) {
+            return titles.map(function (k) {
+                return {'value': d[k], 'name': k};
+            });
+        }).enter()
+        .append('td')
+        .style("text-align", "center")
+        .attr('data-th', function (d) {
+            return d.name;
+        })
+        .text(function (d) {
+            return d.value;
+        });
+
 
 </script>
 
