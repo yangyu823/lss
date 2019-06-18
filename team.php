@@ -1436,7 +1436,7 @@ $conn->close();
     </header>
     <?php
     $pcount = 20;
-    $ecount = 30;
+    $ecount = 80;
     $ccount = 70;
     $etcount = 80;
     $bocount = 90;
@@ -2157,6 +2157,17 @@ $conn->close();
                     $etName = "S&O";
                     $boName = "Bus Ops";
                     $aName = "Available";
+//                    #####Special
+                    {
+                        $ecount1 = 20;
+                        $ecount2 = 20;
+                        $ecount3 = 20;
+                        $ecount4 = 20;
+                        $ccount1 = 20;
+                        $ccount2 = 20;
+                        $ccount3 = 30;
+
+                    }
                 } else if ($profile == 2 or $profile == 3 or $profile == 4 or $profile == 5) {
                     $pName = "Engine";
                     $eName = "FP";
@@ -2178,11 +2189,48 @@ $conn->close();
                     array("label" => "$cName", "value" => ($ccount), "color" => "#ff7f00"),
                     array("label" => "$etName", "value" => ($ecount), "color" => "#ff134c"),
                     array("label" => "$boName", "value" => ($bocount), "color" => "#e7ba52"),
-                    array("label" => "$aName", "value" => ($available), "color" => "#f781bf"),
+//                    array("label" => "$aName", "value" => ($available), "color" => "#f781bf"),
                 );
-                $sum_tab3 = ($pcount + $ecount + $ccount + $ecount + $bocount + $available);
+                $lss_tab = array(
+                    array("practiceTeam" => $pName, "Others" => ($pcount), "C&SB" => 0, "Enterprise" => 0, "Infra Co" => 0,
+                        "ALM" => 0, "Functional" => 0, "Non Functional" => 0, "Orchestration" => 0, "Total" => ($pcount)),
+                    array("practiceTeam" => "$eName", "Others" => 0, "C&SB" => $ecount1, "Enterprise" => $ecount2,
+                        "Infra Co" => $ecount3, "ALM" => $ecount4, "Functional" => 0, "Non Functional" => 0, "Orchestration" => 0, "Total" => ($ecount)),
+                    array("practiceTeam" => "$cName", "Others" => 0, "C&SB" => 0, "Enterprise" => 0, "Infra Co" => 0,
+                        "ALM" => 0, "Functional" => $ccount1, "Non Functional" => $ccount2, "Orchestration" => $ccount3, "Total" => ($ccount)),
+                    array("practiceTeam" => "$etName", "Others" => ($ecount), "C&SB" => 0, "Enterprise" => 0, "Infra Co" => 0,
+                        "ALM" => 0, "Functional" => 0, "Non Functional" => 0, "Orchestration" => 0, "Total" => ($ecount)),
+                    array("practiceTeam" => "$boName", "Others" => ($bocount), "C&SB" => 0, "Enterprise" => 0, "Infra Co" => 0,
+                        "ALM" => 0, "Functional" => 0, "Non Functional" => 0, "Orchestration" => 0, "Total" => ($bocount)),
+//                    array("practiceTeam" => "$aName", "Others" => ($available), "C&SB" => 0, "Enterprise" => 0, "Infra Co" => 0,
+//                        "ALM" => 0, "Functional" => 0, "Non Functional" => 0, "Orchestration" => 0, "Total" => ($available)),
+                );
+                $lss_pie = array(
+                    array("label" => $pName, "value" => ($pcount), "color" => "#4daf4a"),
+                    array("label" => "C&SB($eName)", "value" => ($ecount1), "color" => "#377eb8"),
+                    array("label" => "Enterprise($eName)", "value" => ($ecount2), "color" => "#377eb8"),
+                    array("label" => "Infra Co($eName)", "value" => ($ecount3), "color" => "#377eb8"),
+                    array("label" => "ALM($eName)", "value" => ($ecount4), "color" => "#377eb8"),
+                    array("label" => "Functional($cName)", "value" => ($ccount1), "color" => "#ff7f00"),
+                    array("label" => "Non Functional($cName)", "value" => ($ccount2), "color" => "#ff7f00"),
+                    array("label" => "Orchestration($cName)", "value" => ($ccount3), "color" => "#ff7f00"),
+                    array("label" => "$etName", "value" => ($ecount), "color" => "#ff134c"),
+                    array("label" => "$boName", "value" => ($bocount), "color" => "#e7ba52"),
+//                    array("label" => "$aName", "value" => ($available), "color" => "#f781bf"),
+                );
+
+                $new_key = ["Others", "C&SB", "Enterprise", "Infra Co", "ALM", "Functional", "Non Functional", "Orchestration",];
+
+
+                $sum_tab3 = ($pcount + $ecount + $ccount + $ecount + $bocount);
                 ?>
                 <script>
+                    if (pick === 1) {
+                        var lss_tab = (<?php echo json_encode($lss_tab, JSON_NUMERIC_CHECK); ?>);
+                        var lss_pie = (<?php echo json_encode($lss_pie, JSON_NUMERIC_CHECK); ?>);
+                        var new_key = (<?php echo json_encode($new_key, JSON_NUMERIC_CHECK); ?>);
+
+                    }
                     var newTab = (<?php echo json_encode($tab3, JSON_NUMERIC_CHECK); ?>);
                     var sum_tab3 = (<?php echo json_encode($sum_tab3, JSON_NUMERIC_CHECK); ?>);
                 </script>
@@ -2192,7 +2240,7 @@ $conn->close();
                     <div class="container">
                         <div class="w3-row row">
                             <div class="col-2"></div>
-                            <div class="col-8">
+                            <div class="col-8" id="title_three" style="display: none">
                                 <a href="javascript:void(0)" onclick="openTab(event,0)" id="tab_title tag01">
                                     <div class="w3-third tablink w3-bottombar w3-hover-light-grey w3-padding w3-border-red">
                                         Peel
@@ -2205,6 +2253,18 @@ $conn->close();
                                 </a>
                                 <a href="javascript:void(0)" onclick="openTab(event,2)" id="tab_title tag_03">
                                     <div class="w3-third tablink w3-bottombar w3-hover-light-grey w3-padding">Disable
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col-8" id="title_two" style="display: none">
+                                <a href="javascript:void(0)" onclick="openTab(event,0)" id="tab_title tag01">
+                                    <div class="w3-half tablink w3-bottombar w3-hover-light-grey w3-padding w3-border-red">
+                                        Peel
+                                        Service
+                                    </div>
+                                </a>
+                                <a href="javascript:void(0)" onclick="openTab(event,1)" id="tab_title tag_02">
+                                    <div class="w3-half tablink w3-bottombar w3-hover-light-grey w3-padding">Location
                                     </div>
                                 </a>
                             </div>

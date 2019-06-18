@@ -2205,7 +2205,7 @@ $conn->close();
                     array("practiceTeam" => "$aName", "init" => ($available), "C&SB" => 0, "Enterprise" => 0, "Infra Co" => 0,
                         "ALM" => 0, "Functional" => 0, "Non Functional" => 0, "Orchestration" => 0, "Total" => ($available)),
                 );
-                $new_key = ["init" , "C&SB", "Enterprise", "Infra Co","ALM", "Functional", "Non Functional", "Orchestration",];
+                $new_key = ["init", "C&SB", "Enterprise", "Infra Co", "ALM", "Functional", "Non Functional", "Orchestration",];
 
 
                 $sum_tab3 = ($pcount + $ecount + $ccount + $ecount + $bocount + $available);

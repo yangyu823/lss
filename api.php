@@ -2189,7 +2189,7 @@ $conn->close();
                     array("label" => "$cName", "value" => ($ccount), "color" => "#ff7f00"),
                     array("label" => "$etName", "value" => ($ecount), "color" => "#ff134c"),
                     array("label" => "$boName", "value" => ($bocount), "color" => "#e7ba52"),
-                    array("label" => "$aName", "value" => ($available), "color" => "#f781bf"),
+//                    array("label" => "$aName", "value" => ($available), "color" => "#f781bf"),
                 );
                 $lss_tab = array(
                     array("practiceTeam" => $pName, "Others" => ($pcount), "C&SB" => 0, "Enterprise" => 0, "Infra Co" => 0,
@@ -2202,27 +2202,27 @@ $conn->close();
                         "ALM" => 0, "Functional" => 0, "Non Functional" => 0, "Orchestration" => 0, "Total" => ($ecount)),
                     array("practiceTeam" => "$boName", "Others" => ($bocount), "C&SB" => 0, "Enterprise" => 0, "Infra Co" => 0,
                         "ALM" => 0, "Functional" => 0, "Non Functional" => 0, "Orchestration" => 0, "Total" => ($bocount)),
-                    array("practiceTeam" => "$aName", "Others" => ($available), "C&SB" => 0, "Enterprise" => 0, "Infra Co" => 0,
-                        "ALM" => 0, "Functional" => 0, "Non Functional" => 0, "Orchestration" => 0, "Total" => ($available)),
+//                    array("practiceTeam" => "$aName", "Others" => ($available), "C&SB" => 0, "Enterprise" => 0, "Infra Co" => 0,
+//                        "ALM" => 0, "Functional" => 0, "Non Functional" => 0, "Orchestration" => 0, "Total" => ($available)),
                 );
                 $lss_pie = array(
                     array("label" => $pName, "value" => ($pcount), "color" => "#4daf4a"),
-                    array("label" => "$eName - C&SB", "value" => ($ecount1), "color" => "#377eb8"),
-                    array("label" => "$eName - Enterprise", "value" => ($ecount2), "color" => "#377eb8"),
-                    array("label" => "$eName - Infra Co", "value" => ($ecount3), "color" => "#377eb8"),
-                    array("label" => "$eName - ALM", "value" => ($ecount4), "color" => "#377eb8"),
-                    array("label" => "$cName - Functional", "value" => ($ccount1), "color" => "#ff7f00"),
-                    array("label" => "$cName - Non Functional", "value" => ($ccount2), "color" => "#ff7f00"),
-                    array("label" => "$cName - Orchestration", "value" => ($ccount3), "color" => "#ff7f00"),
+                    array("label" => "C&SB($eName)", "value" => ($ecount1), "color" => "#377eb8"),
+                    array("label" => "Enterprise($eName)", "value" => ($ecount2), "color" => "#377eb8"),
+                    array("label" => "Infra Co($eName)", "value" => ($ecount3), "color" => "#377eb8"),
+                    array("label" => "ALM($eName)", "value" => ($ecount4), "color" => "#377eb8"),
+                    array("label" => "Functional($cName)", "value" => ($ccount1), "color" => "#ff7f00"),
+                    array("label" => "Non Functional($cName)", "value" => ($ccount2), "color" => "#ff7f00"),
+                    array("label" => "Orchestration($cName)", "value" => ($ccount3), "color" => "#ff7f00"),
                     array("label" => "$etName", "value" => ($ecount), "color" => "#ff134c"),
                     array("label" => "$boName", "value" => ($bocount), "color" => "#e7ba52"),
-                    array("label" => "$aName", "value" => ($available), "color" => "#f781bf"),
+//                    array("label" => "$aName", "value" => ($available), "color" => "#f781bf"),
                 );
 
                 $new_key = ["Others", "C&SB", "Enterprise", "Infra Co", "ALM", "Functional", "Non Functional", "Orchestration",];
 
 
-                $sum_tab3 = ($pcount + $ecount + $ccount + $ecount + $bocount + $available);
+                $sum_tab3 = ($pcount + $ecount + $ccount + $ecount + $bocount);
                 ?>
                 <script>
                     if (pick === 1) {
@@ -2240,7 +2240,7 @@ $conn->close();
                     <div class="container">
                         <div class="w3-row row">
                             <div class="col-2"></div>
-                            <div class="col-8">
+                            <div class="col-8" id="title_three" style="display: none">
                                 <a href="javascript:void(0)" onclick="openTab(event,0)" id="tab_title tag01">
                                     <div class="w3-third tablink w3-bottombar w3-hover-light-grey w3-padding w3-border-red">
                                         Peel
@@ -2253,6 +2253,18 @@ $conn->close();
                                 </a>
                                 <a href="javascript:void(0)" onclick="openTab(event,2)" id="tab_title tag_03">
                                     <div class="w3-third tablink w3-bottombar w3-hover-light-grey w3-padding">Disable
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col-8" id="title_two" style="display: none">
+                                <a href="javascript:void(0)" onclick="openTab(event,0)" id="tab_title tag01">
+                                    <div class="w3-half tablink w3-bottombar w3-hover-light-grey w3-padding w3-border-red">
+                                        Peel
+                                        Service
+                                    </div>
+                                </a>
+                                <a href="javascript:void(0)" onclick="openTab(event,1)" id="tab_title tag_02">
+                                    <div class="w3-half tablink w3-bottombar w3-hover-light-grey w3-padding">Location
                                     </div>
                                 </a>
                             </div>
